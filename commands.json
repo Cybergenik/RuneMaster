@@ -1,0 +1,34 @@
+{   
+   "hello":{
+        "value": "RuneMaster greets you!",
+        "usage": "**>hello**"
+    },
+    "info":{
+        "value": "Returns detailed information on a Champion, including description, stats, image ex: \n ` >info Aatrox `",
+        "usage": "**>info**"
+    },
+    "summon":{
+        "value": "Returns information on a Summoner like they're level, rank, and most played champ ex: \n `>summon KR Faker`",
+        "usage": "**>summon**"
+    },
+    "runes":{
+        "value": "Returns an image of the highest win-rate Runes on that champion ex: \n ` >runes Aatrox `",
+        "usage": "**>runes**"
+    },
+    "build":{
+        "value": "Returns an image of the highest win-rate Build on that champion ex: \n ` >build Aatrox `",
+        "usage": "**>build**"
+    },
+    "skills":{
+        "value": "Returns an image of the highest win-rate Skill order on that champion ex: \n ` >skills Aatrox `",
+        "usage": "**>skills**"
+    },
+    "stats":{
+        "value": "Returns an image of all the stats for that champion ex: \n ` >stats Aatrox `",
+        "usage": "**>stats**"
+    },
+    "sums":{
+        "value": "Returns an image of the highest win-rate Summoner Spells on that champion ex: \n ` >sums Aatrox `",
+        "usage": "**>sums**"
+    }
+}

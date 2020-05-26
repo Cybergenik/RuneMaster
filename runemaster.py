@@ -4,6 +4,7 @@ import re
 from dotenv import load_dotenv
 from champs import Champ
 from screenshots import Screenshots
+import json
 
 load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -31,13 +32,10 @@ async def on_message(message):
             description = "All commands start with a `>` and most commands will require an argument, usually this will be the name of a champion. ",
             footer = "RuneMaster 2020"
         )
-        response.add_field(name="**hello**", value="RuneMaster greets you!", inline=False)
-        response.add_field(name="**info**", value="Returns detailed information on a Champion, including description, stats, image ex: \n ` >info Aatrox `", inline=True)
-        response.add_field(name="**runes**", value="Returns an image of the highest win-rate Runes on that champion ex: \n ` >runes Aatrox `", inline=False)
-        response.add_field(name="**build**", value="Returns an image of the highest win-rate Build on that champion ex: \n ` >build Aatrox `", inline=True)
-        response.add_field(name="**skills**", value="Returns an image of the highest win-rate Skill order on that champion ex: \n ` >skills Aatrox `", inline=False)
-        response.add_field(name="**stats**", value="Returns an image of all the stats for that champion ex: \n ` >stats Aatrox `", inline=False)
-        response.add_field(name="**sums**", value="Returns an image of the highest win-rate Summoner Spells on that champion ex: \n ` >sums Aatrox `", inline=False)
+        with open('commands.json') as f:
+            commands = json.load(f)
+        for command in commands:
+            response.add_field(name=commands[command]['usage'], value=commands[command]['value'], inline=False)
         await message.channel.send(embed=response)
         return
 
