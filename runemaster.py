@@ -1,12 +1,10 @@
 import os
 import discord
 import re
-from dotenv import load_dotenv
 from champs import Champ
 from screenshots import Screenshots
 import json
 
-load_dotenv()
 TOKEN = os.getenv('DISCORD_TOKEN')
 client = discord.Client()
 

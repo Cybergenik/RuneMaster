@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 
 class Summon:
     def __init__(self, name):
-        load_dotenv()
         cass.set_riot_api_key(os.getenv('RIOT_API_KEY'))
         cass.set_default_region('NA')
         self.real = True
