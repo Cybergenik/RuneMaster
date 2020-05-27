@@ -20,6 +20,7 @@ class Screenshots:
                 self.driver.get(URL)
                 self.real = True
                 break
+
     def get_real(self) -> bool:
         return self.real 
     def runes(self):
