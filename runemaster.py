@@ -124,6 +124,7 @@ async def on_message(message):
                     description = info.get_level(),
                     footer = "RuneMaster 2020"
                 )
+                response.add_field(name="Icon", value="placeholder", inline=False)
                 await message.channel.send(embed=response)
             else:
                 await message.channel.send("That Summoner does not exist")
