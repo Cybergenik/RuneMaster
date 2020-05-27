@@ -1,4 +1,4 @@
-python-3.8.1
+python-3.8.3
 discord.py
 python-dotenv
 selenium
