@@ -17,8 +17,8 @@ class Screenshots:
                 options.headless = True
                 options.add_argument('--no-sandbox')
                 print(os.getenv("FIREFOX_BIN"))
-                #options.binary_location(os.getenv("FIREFOX_BIN"))
-                self.driver = webdriver.Firefox(executable_path=os.getenv("GECKODRIVER_PATH"),options=options)
+                #options.binary_location(os.getenv("FIREFOX_BIN")) executable_path=os.getenv("GECKODRIVER_PATH")
+                self.driver = webdriver.Firefox(options=options)
                 self.driver.get(URL)
                 self.real = True
                 break
