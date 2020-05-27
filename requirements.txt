@@ -1,4 +1,8 @@
 discord.py
 python-dotenv
 selenium
+os
+random
+re
+json
 requests
