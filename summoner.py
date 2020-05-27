@@ -12,8 +12,8 @@ class Summon:
         except:
             self.real = False
         self.match_history = {}
-        for match in self.summoner.match_history(begin_index=0, end_index=9):
-            self.match_history.append(match.)
+        #for match in self.summoner.match_history(begin_index=0, end_index=9):
+        #    self.match_history.append(match.)
 
 
     def get_real(self):
