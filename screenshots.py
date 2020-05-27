@@ -15,6 +15,7 @@ class Screenshots:
                 URL = 'https://champion.gg/champion/'+self.champ
                 options = webdriver.FirefoxOptions()
                 options.headless = True
+                options.add_argument('--no-sandbox')
                 self.driver = webdriver.Firefox(executable_path="geckodriver",options=options)
                 self.driver.get(URL)
                 self.real = True
