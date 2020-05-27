@@ -4,6 +4,7 @@ import re
 from champs import Champ
 from screenshots import Screenshots
 import json
+import sys
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 client = discord.Client()
@@ -62,6 +63,7 @@ async def on_message(message):
         elif command == '>runes':
             info = Screenshots(champ)
             if info.get_real():
+                await message.channel.send("Fetching Rune Data...") 
                 seed = info.runes()
                 file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
                 await message.channel.send("__"+champ.capitalize()+" Runes__",file=file)
@@ -72,6 +74,7 @@ async def on_message(message):
         elif command == '>build':
             info = Screenshots(champ)
             if info.get_real():
+                await message.channel.send("Fetching Build Data...") 
                 seed = info.build()
                 file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
                 await message.channel.send("__"+champ.capitalize()+" Build__",file=file)
@@ -82,6 +85,7 @@ async def on_message(message):
         elif command == '>skills':
             info = Screenshots(champ)
             if info.get_real():
+                await message.channel.send("Fetching Skills Data...") 
                 seed = info.skills()
                 file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
                 await message.channel.send("__"+champ.capitalize()+" Skill Order__",file=file)
@@ -92,6 +96,7 @@ async def on_message(message):
         elif command == '>stats':
             info = Screenshots(champ)
             if info.get_real():
+                await message.channel.send("Fetching Stats Data...") 
                 seed = info.stats()
                 file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
                 await message.channel.send("__"+champ.capitalize()+" Stats__",file=file)
@@ -102,6 +107,7 @@ async def on_message(message):
         elif command == '>sums':
             info = Screenshots(champ)
             if info.get_real():
+                await message.channel.send("Fetching Summoner Spell data...") 
                 seed = info.sums()
                 file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
                 await message.channel.send("__"+champ.capitalize()+" Summoners__",file=file)
