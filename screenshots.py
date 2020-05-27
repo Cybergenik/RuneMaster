@@ -19,8 +19,8 @@ class Screenshots:
                 self.driver.get(URL)
                 self.real = True
                 break
-    async def get_real(self) -> bool:
-        return await self.real 
+    def get_real(self) -> bool:
+        return self.real 
     def runes(self):
         S = lambda X: self.driver.execute_script('return document.querySelector("#perks-app > div").scroll'+X)
         self.driver.set_window_size(S('Width'),S('Height')) # May need manual adjustment        

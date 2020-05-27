@@ -20,3 +20,29 @@ JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't fin
 JavaScript error: https://champion.gg/js/master.min.js?v=undefined, line 1: TypeError: t.tooltipster is not a function
 JavaScript error: https://champion.gg/js/master.min.js?v=undefined, line 1: TypeError: t.tooltipster is not a function
 1590542540931	Marionette	INFO	Stopped listening on port 55028
+1590542814445	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-headless" "-foreground" "-no-remote" "-profile" "C:\\Users\\cyber\\AppData\\Local\\Temp\\rust_mozprofileimO920"
+*** You are running in headless mode.
+1590542814862	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1590542814876	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1590542814876	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1590542814876	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1590542814876	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1590542816270	Marionette	INFO	Listening on port 55309
+1590542816452	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://champion.gg/js/master.min.js?v=undefined, line 1: TypeError: t.tooltipster is not a function
+JavaScript error: https://champion.gg/js/master.min.js?v=undefined, line 1: TypeError: t.tooltipster is not a function
+1590542828500	Marionette	INFO	Stopped listening on port 55309
+1590542855053	mozrunner::runner	INFO	Running command: "C:\\Program Files\\Mozilla Firefox\\firefox.exe" "-marionette" "-headless" "-foreground" "-no-remote" "-profile" "C:\\Users\\cyber\\AppData\\Local\\Temp\\rust_mozprofileQXUOCQ"
+*** You are running in headless mode.
+1590542855421	addons.webextension.doh-rollout@mozilla.org	WARN	Loading extension 'doh-rollout@mozilla.org': Reading manifest: Invalid extension permission: networkStatus
+1590542855436	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: mozillaAddons
+1590542855436	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: telemetry
+1590542855436	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: resource://pdf.js/
+1590542855436	addons.webextension.screenshots@mozilla.org	WARN	Loading extension 'screenshots@mozilla.org': Reading manifest: Invalid extension permission: about:reader*
+JavaScript error: resource://gre/modules/XULStore.jsm, line 66: Error: Can't find profile directory.
+1590542856934	Marionette	INFO	Listening on port 55573
+1590542857058	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript error: https://champion.gg/js/master.min.js?v=undefined, line 1: TypeError: t.tooltipster is not a function
+JavaScript error: https://champion.gg/js/master.min.js?v=undefined, line 1: TypeError: t.tooltipster is not a function
+1590542866452	Marionette	INFO	Stopped listening on port 55573
