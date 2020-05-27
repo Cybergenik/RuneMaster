@@ -46,6 +46,7 @@ async def on_message(message):
             _args = _in[1].replace(" ", "").lower()
         except:
             await message.channel.send('Type `>help` for a list of commands and how to use them.')
+            return
         if command == '>info':
             info = Champ(_args)
             if info.get_real():
@@ -60,6 +61,7 @@ async def on_message(message):
                 await message.channel.send(embed=response)
             else:
                 await message.channel.send("That champ does not exist")
+            return
 
         elif command == '>runes':
             info = Screenshots(_args)
@@ -71,6 +73,7 @@ async def on_message(message):
                 info.kill_seed(seed)
             else:
                 await message.channel.send("That champ does not exist")
+            return
 
         elif command == '>build':
             info = Screenshots(_args)
@@ -82,6 +85,7 @@ async def on_message(message):
                 info.kill_seed(seed)
             else:
                 await message.channel.send("That champ does not exist")
+            return
 
         elif command == '>skills':
             info = Screenshots(_args)
@@ -93,6 +97,7 @@ async def on_message(message):
                 info.kill_seed(seed)
             else:
                 await message.channel.send("That champ does not exist")
+            return
 
         elif command == '>stats':
             info = Screenshots(_args)
@@ -104,6 +109,7 @@ async def on_message(message):
                 info.kill_seed(seed)
             else:
                 await message.channel.send("That champ does not exist")
+            return
 
         elif command == '>sums':
             info = Screenshots(_args)
@@ -115,6 +121,7 @@ async def on_message(message):
                 info.kill_seed(seed)
             else:
                 await message.channel.send("That champ does not exist")
+            return
 
         elif command == '>summon':
             info = Summon(_args)
@@ -128,5 +135,6 @@ async def on_message(message):
                 await message.channel.send(embed=response)
             else:
                 await message.channel.send("That Summoner does not exist")
+            return
 
 client.run(TOKEN)
