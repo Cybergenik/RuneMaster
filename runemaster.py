@@ -63,7 +63,7 @@ async def on_message(message):
             info = Screenshots(champ)
             if info.get_real():
                 seed = info.runes()
-                file = discord.File('./Dyslexicon/images/vape'+seed+'.png', filename='runes'+seed+'.png')
+                file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
                 await message.channel.send("__"+champ.capitalize()+" Runes__",file=file)
                 info.kill_seed(seed)
             else:
@@ -73,7 +73,7 @@ async def on_message(message):
             info = Screenshots(champ)
             if info.get_real():
                 seed = info.build()
-                file = discord.File('./Dyslexicon/images/vape'+seed+'.png', filename='runes'+seed+'.png')
+                file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
                 await message.channel.send("__"+champ.capitalize()+" Build__",file=file)
                 info.kill_seed(seed)
             else:
@@ -83,7 +83,7 @@ async def on_message(message):
             info = Screenshots(champ)
             if info.get_real():
                 seed = info.skills()
-                file = discord.File('./Dyslexicon/images/vape'+seed+'.png', filename='runes'+seed+'.png')
+                file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
                 await message.channel.send("__"+champ.capitalize()+" Skill Order__",file=file)
                 info.kill_seed(seed)
             else:
@@ -93,7 +93,7 @@ async def on_message(message):
             info = Screenshots(champ)
             if info.get_real():
                 seed = info.stats()
-                file = discord.File('./Dyslexicon/images/vape'+seed+'.png', filename='runes'+seed+'.png')
+                file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
                 await message.channel.send("__"+champ.capitalize()+" Stats__",file=file)
                 info.kill_seed(seed)
             else:
@@ -103,7 +103,7 @@ async def on_message(message):
             info = Screenshots(champ)
             if info.get_real():
                 seed = info.sums()
-                file = discord.File('./Dyslexicon/images/vape'+seed+'.png', filename='runes'+seed+'.png')
+                file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
                 await message.channel.send("__"+champ.capitalize()+" Summoners__",file=file)
                 info.kill_seed(seed)
             else:
