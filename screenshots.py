@@ -15,7 +15,7 @@ class Screenshots:
                 URL = 'https://champion.gg/champion/'+self.champ
                 options = webdriver.FirefoxOptions()
                 options.headless = True
-                self.driver = webdriver.Firefox(".",options=options)
+                self.driver = webdriver.Firefox(executable_path="geckodriver",options=options)
                 self.driver.get(URL)
                 self.real = True
                 break
