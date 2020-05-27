@@ -14,6 +14,8 @@ class Summon:
 
     def get_real(self):
         return self.real
+    def get_name(self) -> str:
+        return self.summoner.name
     def get_icon(self):
         return self.summoner.profile_icon
     def get_shit(self):

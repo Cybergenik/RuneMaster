@@ -5,6 +5,7 @@ from champs import Champ
 from screenshots import Screenshots
 import json
 import sys
+from summoner import Summon
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 client = discord.Client()
@@ -42,11 +43,11 @@ async def on_message(message):
         _in = message.content.split(' ', 1)
         command = _in[0].lower()
         try:
-            champ = _in[1].replace(" ", "").lower()
+            _args = _in[1].replace(" ", "").lower()
         except:
             await message.channel.send('Type `>help` for a list of commands and how to use them.')
         if command == '>info':
-            info = Champ(champ)
+            info = Champ(_args)
             if info.get_real():
                 response = discord.Embed(
                     title =  "__"+info.get_champ()+" | "+info.get_title()+"__",
@@ -61,58 +62,70 @@ async def on_message(message):
                 await message.channel.send("That champ does not exist")
 
         elif command == '>runes':
-            info = Screenshots(champ)
+            info = Screenshots(_args)
             if info.get_real():
                 await message.channel.send("Fetching Rune Data...") 
                 seed = info.runes()
                 file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
-                await message.channel.send("__"+champ.capitalize()+" Runes__",file=file)
+                await message.channel.send("__"+_args.capitalize()+" Runes__",file=file)
                 info.kill_seed(seed)
             else:
                 await message.channel.send("That champ does not exist")
 
         elif command == '>build':
-            info = Screenshots(champ)
+            info = Screenshots(_args)
             if info.get_real():
                 await message.channel.send("Fetching Build Data...") 
                 seed = info.build()
                 file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
-                await message.channel.send("__"+champ.capitalize()+" Build__",file=file)
+                await message.channel.send("__"+_args.capitalize()+" Build__",file=file)
                 info.kill_seed(seed)
             else:
                 await message.channel.send("That champ does not exist")
 
         elif command == '>skills':
-            info = Screenshots(champ)
+            info = Screenshots(_args)
             if info.get_real():
                 await message.channel.send("Fetching Skills Data...") 
                 seed = info.skills()
                 file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
-                await message.channel.send("__"+champ.capitalize()+" Skill Order__",file=file)
+                await message.channel.send("__"+_args.capitalize()+" Skill Order__",file=file)
                 info.kill_seed(seed)
             else:
                 await message.channel.send("That champ does not exist")
 
         elif command == '>stats':
-            info = Screenshots(champ)
+            info = Screenshots(_args)
             if info.get_real():
                 await message.channel.send("Fetching Stats Data...") 
                 seed = info.stats()
                 file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
-                await message.channel.send("__"+champ.capitalize()+" Stats__",file=file)
+                await message.channel.send("__"+_args.capitalize()+" Stats__",file=file)
                 info.kill_seed(seed)
             else:
                 await message.channel.send("That champ does not exist")
 
         elif command == '>sums':
-            info = Screenshots(champ)
+            info = Screenshots(_args)
             if info.get_real():
                 await message.channel.send("Fetching Summoner Spell data...") 
                 seed = info.sums()
                 file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
-                await message.channel.send("__"+champ.capitalize()+" Summoners__",file=file)
+                await message.channel.send("__"+_args.capitalize()+" Summoners__",file=file)
                 info.kill_seed(seed)
             else:
                 await message.channel.send("That champ does not exist")
+
+        elif command == '>summon':
+            info = Summon(_args)
+            if info.get_real():
+                response = discord.Embed(
+                    title =  "__"+info.get_name()+"__",
+                    description = info.get_level(),
+                    footer = "RuneMaster 2020"
+                )
+                await message.channel.send(embed=response)
+            else:
+                await message.channel.send("That Summoner does not exist")
 
 client.run(TOKEN)
