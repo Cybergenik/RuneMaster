@@ -70,6 +70,8 @@ class Screenshots:
         return seed
 
     def matchups(self):
+        S = lambda X: self.driver.execute_script('return document.querySelector("body > div > div.main-container > div.page-content > div.ng-scope > div.matchups > div > div.row.counter-row").scroll'+X)
+        self.driver.set_window_size(S('Width')+200,S('Height')+200)
         seed = str(random.randint(0,99999))
         self.driver.find_element_by_xpath('/html/body/div/div[2]/div[3]/div[2]/div[3]/div/div[2]').screenshot('./images/vape'+seed+'.png')
         self.driver.close()
