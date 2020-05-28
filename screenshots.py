@@ -15,7 +15,8 @@ class Screenshots:
                 URL = 'https://champion.gg/champion/'+self.champ
                 options = webdriver.FirefoxOptions()
                 options.add_argument('--headless')
-                #options.add_argument('--no-sandbox')
+                options.add_argument('--no-sandbox')
+                options.add_argument('--disable-dev-shm-usage')
                 #print(os.getenv("FIREFOX_BIN"))
                 #print(os.getenv("GECKODRIVER_PATH"))
                 #options.binary_location = os.getenv("FIREFOX_BIN") firefox_binary=os.getenv("FIREFOX_BIN")
