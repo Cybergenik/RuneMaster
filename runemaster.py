@@ -123,6 +123,18 @@ async def on_message(message):
                 await message.channel.send("That champ does not exist")
             return
 
+        elif command == '>matchups':
+            info = Screenshots(_args)
+            if info.get_real():
+                await message.channel.send("Fetching Matchup data...") 
+                seed = info.matchups()
+                file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
+                await message.channel.send("__"+_args.capitalize()+" Summoners__",file=file)
+                info.kill_seed(seed)
+            else:
+                await message.channel.send("That champ does not exist")
+            return
+
         elif command == '>summon':
             info = Summon(_args)
             if info.get_real():

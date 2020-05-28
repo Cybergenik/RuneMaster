@@ -69,6 +69,12 @@ class Screenshots:
         self.driver.close()
         return seed
 
+    def matchups(self):
+        seed = str(random.randint(0,99999))
+        self.driver.find_element_by_xpath('/html/body/div/div[2]/div[3]/div[2]/div[3]/div/div[2]').screenshot('./images/vape'+seed+'.png')
+        self.driver.close()
+        return seed
+
     def kill_seed(self, seed):
         '''
         Deletes temporary png files.
