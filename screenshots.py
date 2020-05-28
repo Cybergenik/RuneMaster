@@ -19,7 +19,7 @@ class Screenshots:
                 print(os.getenv("FIREFOX_BIN"))
                 print(os.getenv("GECKODRIVER_PATH"))
                 #options.binary_location = os.getenv("FIREFOX_BIN")
-                self.driver = webdriver.Firefox(firefox_binary=os.getenv("FIREFOX_BIN"),executable_path=os.getenv("GECKODRIVER_PATH"),options=options)
+                self.driver = webdriver.Firefox(executable_path=os.getenv("GECKODRIVER_PATH"),options=options)
                 self.driver.get(URL)
                 self.real = True
                 break
