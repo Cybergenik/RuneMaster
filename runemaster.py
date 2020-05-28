@@ -8,7 +8,8 @@ from champs import Champ
 from screenshots import Screenshots
 import json
 import sys
-#from summoner import Summon
+from summoner import Summon
+
 print(os.getenv('DISCORD_TOKEN'))
 TOKEN = os.getenv('DISCORD_TOKEN')
 client = discord.Client()
@@ -138,7 +139,7 @@ async def on_message(message):
                 await message.channel.send("That champ does not exist")
             return
             
-        '''
+
         elif command == '>summon':
             info = Summon(_args)
             if info.get_real():
@@ -152,5 +153,5 @@ async def on_message(message):
             else:
                 await message.channel.send("That Summoner does not exist")
             return
-        '''
+
 client.run(TOKEN)

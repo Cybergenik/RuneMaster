@@ -1,3 +1,5 @@
+import dotenv
+dotenv.load_dotenv()
 
 from riotwatcher import LolWatcher, ApiError
 import os
@@ -31,7 +33,7 @@ except ApiError as err:
         print('Summoner with that ridiculous name not found.')
     else:
         raise
-'''
+
 import cassiopeia as cass
 import os
 from dotenv import load_dotenv
@@ -59,4 +61,3 @@ class Summon:
         return self.summoner.match_history(begin_index=0, end_index=9)
     def get_level(self) -> str:
         return self.summoner.level
-'''
