@@ -13,14 +13,24 @@ class Screenshots:
             if champ == name.lower():
                 self.champ = response.json()['data'][name]['name']
                 URL = 'https://champion.gg/champion/'+self.champ
-                options = webdriver.FirefoxOptions()
-                options.add_argument('--headless')
-                options.add_argument('--no-sandbox')
-                options.add_argument('--disable-dev-shm-usage')
-                #print(os.getenv("FIREFOX_BIN"))
-                #print(os.getenv("GECKODRIVER_PATH"))
-                options.binary_location = "/app/firefox/firefox" #firefox_binary=os.getenv("FIREFOX_BIN")
-                self.driver = webdriver.Firefox(executable_path="./geckodriver",options=options)
+                if os.name == "nt":
+                    options = webdriver.FirefoxOptions()
+                    options.add_argument('--headless')
+                    options.add_argument('--no-sandbox')
+                    options.add_argument('--disable-dev-shm-usage')
+                    #print(os.getenv("FIREFOX_BIN"))
+                    #print(os.getenv("GECKODRIVER_PATH"))
+                    self.driver = webdriver.Firefox(executable_path="./geckodriver.exe",options=options)
+                elif os.name == "posix":
+                    options = webdriver.ChromeOptions()
+                    options.binary_location = os.getenv("GOOGLE_CHROME_BIN")
+                    options.add_argument('--headless')
+                    options.add_argument('--disable-dev-shm-usage')
+                    options.add_argument('--no-sandbox')
+                    self.driver = webdriver.Chrome(executable_path=os.getenv("CHROMEDRIVER_PATH"), chrome_options=options)
+                else:
+                    raise Exception('Unknown Operating System, please use either a UNIX based OS or Windows')
+
                 self.driver.get(URL)
                 self.real = True
                 break
