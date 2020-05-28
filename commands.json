@@ -34,5 +34,9 @@
     "matchups":{
         "value": "Returns an image of the best and worst matchups on that champion ex: \n ` >matchups Aatrox `",
         "usage": "**>matchups**"
+    },
+    "history":{
+        "value": "Returns an image of the last 5 games in the players match history ex: \n ` >history Aatrox `",
+        "usage": "**>history**"
     }
 }

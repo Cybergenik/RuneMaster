@@ -2,7 +2,7 @@ import os
 import discord
 import re
 from champs import Champ
-from screenshots import Screenshots
+from champs import Screenshots
 import json
 import sys
 from summoner import Summon
