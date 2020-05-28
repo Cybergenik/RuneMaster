@@ -7,6 +7,7 @@ import json
 import sys
 #from summoner import Summon
 
+
 TOKEN = os.getenv('DISCORD_TOKEN')
 client = discord.Client()
 
@@ -134,6 +135,7 @@ async def on_message(message):
             else:
                 await message.channel.send("That champ does not exist")
             return
+            
         '''
         elif command == '>summon':
             info = Summon(_args)
