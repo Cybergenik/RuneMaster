@@ -32,7 +32,7 @@
         "usage": "**>sums**"
     },
     "matchups":{
-        "value": "Returns an image of the highest win-rate Summoner Spells on that champion ex: \n ` >sums Aatrox `",
-        "usage": "**>sums**"
+        "value": "Returns an image of the best and worst matchups on that champion ex: \n ` >matchups Aatrox `",
+        "usage": "**>matchups**"
     }
 }
