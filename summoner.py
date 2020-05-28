@@ -11,7 +11,7 @@ class Summon:
             self.summoner = cass.Summoner(name=name)
         except:
             self.real = False
-        self.match_history = {}
+        #self.match_history = {}
         #for match in self.summoner.match_history(begin_index=0, end_index=9):
         #    self.match_history.append(match.)
 

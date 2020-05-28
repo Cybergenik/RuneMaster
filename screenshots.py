@@ -18,8 +18,6 @@ class Screenshots:
                     options.add_argument('--headless')
                     options.add_argument('--no-sandbox')
                     options.add_argument('--disable-dev-shm-usage')
-                    #print(os.getenv("FIREFOX_BIN"))
-                    #print(os.getenv("GECKODRIVER_PATH"))
                     self.driver = webdriver.Firefox(executable_path="./geckodriver.exe",options=options)
                 elif os.name == "posix":
                     options = webdriver.ChromeOptions()
