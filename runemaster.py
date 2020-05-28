@@ -137,7 +137,6 @@ async def on_message(message):
             else:
                 await message.channel.send("That champ does not exist")
             return
-            
 
         elif command == '>summon':
             info = Summon(_args)
@@ -148,6 +147,7 @@ async def on_message(message):
                 response.add_field(name="Rank:", value=f"{info.get_player_stats()[0]['tier'].lower().capitalize()} {info.get_player_stats()[0]['rank']}", inline=False)
                 response.add_field(name="Win %:", value=f"{round((info.get_player_stats()[0]['wins'] / (info.get_player_stats()[0]['wins']+info.get_player_stats()[0]['losses'])) * 100)}%", inline=False)
                 response.set_footer(text="RuneMaster 2020")
+
                 await message.channel.send(embed=response)
             else:
                 await message.channel.send("That Summoner does not exist")

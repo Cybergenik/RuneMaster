@@ -8,7 +8,7 @@
         "usage": "**>info**"
     },
     "summon":{
-        "value": "Returns information on a Summoner like they're level, rank, and most played champ ex: \n `>summon KR Faker`",
+        "value": "Returns information on a Summoner like they're level, rank, player icon ex: \n `>summon KR Faker`",
         "usage": "**>summon**"
     },
     "runes":{
@@ -32,7 +32,7 @@
         "usage": "**>sums**"
     },
     "matchups":{
-        "value": "Returns an image of the highest win-rate Summoner Spells on that champion ex: \n ` >sums Aatrox `",
-        "usage": "**>sums**"
+        "value": "Returns an image of the best and worst matchups on that champion ex: \n ` >matchups Aatrox `",
+        "usage": "**>matchups**"
     }
 }
