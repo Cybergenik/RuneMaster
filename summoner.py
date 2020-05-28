@@ -1,3 +1,4 @@
+'''
 from riotwatcher import LolWatcher, ApiError
 import os
 
@@ -30,7 +31,6 @@ except ApiError as err:
         print('Summoner with that ridiculous name not found.')
     else:
         raise
-'''
 import cassiopeia as cass
 import os
 from dotenv import load_dotenv
