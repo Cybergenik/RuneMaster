@@ -6,7 +6,7 @@ from screenshots import Screenshots
 import json
 import sys
 #from summoner import Summon
-print(os.getenv('DISCORD_TOKEN'))
+
 TOKEN = os.getenv('DISCORD_TOKEN')
 client = discord.Client()
 
