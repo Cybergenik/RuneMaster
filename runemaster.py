@@ -2,7 +2,6 @@ import os
 import discord
 import re
 import json
-import sys
 from champs import Champ
 from champs import Screenshots
 from summoner import Summon
