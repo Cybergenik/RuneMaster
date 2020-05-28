@@ -14,6 +14,7 @@ class Summon:
         try:
             self.player_info = lol_watcher.summoner.by_name(my_region, name)
             self.player_stats = lol_watcher.league.by_summoner(my_region, self.player_info['id'])
+            self.real_player = True
 
         except ApiError as err:
             if err.response.status_code == 429:
@@ -24,7 +25,8 @@ class Summon:
                 print('Summoner with that ridiculous name not found.')
             else:
                 raise
-
+    def get_real_player(self):
+        return self.real_player
     def get_player_info(self):
         return self.player_info
     def get_player_stats(self):

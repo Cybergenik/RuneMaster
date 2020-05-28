@@ -10,7 +10,6 @@ import json
 import sys
 from summoner import Summon
 
-print(os.getenv('DISCORD_TOKEN'))
 TOKEN = os.getenv('DISCORD_TOKEN')
 client = discord.Client()
 
@@ -141,11 +140,11 @@ async def on_message(message):
             
 
         elif command == '>summon':
-            info = Summon(_args)
-            if info.get_real():
+            player_data = Summon(_args)
+            if player_data.get_real_player():
                 response = discord.Embed(
-                    title =  "__"+info.get_name()+"__",
-                    description = info.get_level(),
+                    title =  "__"+player_data.get_player_info()['name']+"__",
+                    description = player_data.get_player_info()['summonerLevel'],
                     footer = "RuneMaster 2020"
                 )
                 response.add_field(name="Icon", value="placeholder", inline=False)
