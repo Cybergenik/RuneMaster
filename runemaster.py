@@ -164,14 +164,9 @@ async def on_message(message):
                     title =  f"__{info.get_player_info()['name']}__" , 
                     url=f"https://na.op.gg/summoner/userName={info.get_player_info()['name']}"
                     )
-                response.set_thumbnail(url=f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/{info.get_player_info()['profileIconId']}.png")
-                response.add_field(name="Level:", value=f"{info.get_player_info()['summonerLevel']}", inline=False)
-                response.add_field(name="Rank:", value=f"{info.get_player_stats()[0]['tier'].lower().capitalize()} {info.get_player_stats()[0]['rank']}", inline=False)
-                response.add_field(name="Win %:", value=f"{round((info.get_player_stats()[0]['wins'] / (info.get_player_stats()[0]['wins']+info.get_player_stats()[0]['losses'])) * 100)}%", inline=False)
-                response.set_footer(text="RuneMaster 2020")
 
                 seed = info.get_ranked_info()
-                img = discord.Attachment('./images/vape'+seed+'.png')
+                img = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png') 
 
                 await message.channel.send(embed=response)
                 await message.channel.send(img)
