@@ -6,7 +6,6 @@ import sys
 from champs import Champ
 from champs import Screenshots
 from summoner import Summon
-from summoner import Summon_SS
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 client = discord.Client()
@@ -137,7 +136,7 @@ async def on_message(message):
             return
 
         elif command == '>summon':
-            info = Summon_SS(_args)
+            info = Summon(_args)
             if info.get_real_player():
                 response = discord.Embed(
                     title =  f"__{info.get_player_info()['name']}__" , 
@@ -160,7 +159,7 @@ async def on_message(message):
             return
 
         elif command == '>history':
-            info = Summon_SS(_args)
+            info = Summon(_args)
             if info.get_real_player():
                 response = discord.Embed(
                     title =  f"__{info.get_player_info()['name']}__" , 
