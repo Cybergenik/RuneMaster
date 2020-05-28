@@ -1,3 +1,6 @@
+from dotenv import load_dotenv
+load_dotenv()
+
 import os
 import discord
 import re
@@ -134,18 +137,17 @@ async def on_message(message):
             else:
                 await message.channel.send("That champ does not exist")
             return
-            
+
         elif command == '>summon':
             info = Summon(_args)
-            if info.get_real():
-                response = discord.Embed(
-                    title =  "__"+info.get_name()+"__",
-                    description = info.get_level(),
-                    footer = "RuneMaster 2020"
-                )
-                #response.add_field(name="Rank:", value="https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/"+info.get+".png", inline=False)
-                #response.add_field(name="Most played Champion:", value="https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/"+info.get_champ()+".png", inline=False)
-                #response.add_field(name="Player Icon:", value="https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/"+info.get+".png", inline=False)
+            if info.get_real_player():
+                response = discord.Embed(title =  f"__{info.get_player_info()['name']}__" , url=f"https://lolprofile.net/summoner/na/{info.get_player_info()['name']}")
+                response.set_thumbnail(url=f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/{info.get_player_info()['profileIconId']}.png")
+                response.add_field(name="Level:", value=f"{info.get_player_info()['summonerLevel']}", inline=False)
+                response.add_field(name="Rank:", value=f"{info.get_player_stats()[0]['tier'].lower().capitalize()} {info.get_player_stats()[0]['rank']}", inline=False)
+                response.add_field(name="Win %:", value=f"{round((info.get_player_stats()[0]['wins'] / (info.get_player_stats()[0]['wins']+info.get_player_stats()[0]['losses'])) * 100)}%", inline=False)
+                response.set_footer(text="RuneMaster 2020")
+
                 await message.channel.send(embed=response)
             else:
                 await message.channel.send("That Summoner does not exist")

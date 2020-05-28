@@ -1,3 +1,6 @@
+import dotenv
+dotenv.load_dotenv()
+
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import os
