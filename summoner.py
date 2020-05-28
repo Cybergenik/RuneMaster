@@ -25,6 +25,7 @@ class Summon:
                 print('Summoner with that ridiculous name not found.')
             else:
                 raise
+
     def get_real_player(self):
         return self.real_player
     def get_player_info(self):

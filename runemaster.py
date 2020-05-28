@@ -140,14 +140,14 @@ async def on_message(message):
             
 
         elif command == '>summon':
-            player_data = Summon(_args)
-            if player_data.get_real_player():
-                response = discord.Embed(
-                    title =  "__"+player_data.get_player_info()['name']+"__",
-                    description = player_data.get_player_info()['summonerLevel'],
-                    footer = "RuneMaster 2020"
-                )
-                response.add_field(name="Icon", value="placeholder", inline=False)
+            info = Summon(_args)
+            if info.get_real_player():
+                response = discord.Embed(title =  f"__{info.get_player_info()['name']}__" , url=f"https://lolprofile.net/summoner/na/{info.get_player_info()['name']}")
+                response.set_thumbnail(url=f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/{info.get_player_info()['profileIconId']}.png")
+                response.add_field(name="Level:", value=f"{info.get_player_info()['summonerLevel']}", inline=False)
+                response.add_field(name="Rank:", value=f"{info.get_player_stats()[0]['tier'].lower().capitalize()} {info.get_player_stats()[0]['rank']}", inline=False)
+                response.add_field(name="Win %:", value=f"{round((info.get_player_stats()[0]['wins'] / (info.get_player_stats()[0]['wins']+info.get_player_stats()[0]['losses'])) * 100)}%", inline=False)
+                response.set_footer(text="RuneMaster 2020")
                 await message.channel.send(embed=response)
             else:
                 await message.channel.send("That Summoner does not exist")
