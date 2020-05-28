@@ -19,7 +19,7 @@ class Screenshots:
                 options.add_argument('--disable-dev-shm-usage')
                 #print(os.getenv("FIREFOX_BIN"))
                 #print(os.getenv("GECKODRIVER_PATH"))
-                #options.binary_location = os.getenv("FIREFOX_BIN") firefox_binary=os.getenv("FIREFOX_BIN")
+                options.binary_location = "/app/firefox/firefox" #firefox_binary=os.getenv("FIREFOX_BIN")
                 self.driver = webdriver.Firefox(executable_path="./geckodriver",options=options)
                 self.driver.get(URL)
                 self.real = True
