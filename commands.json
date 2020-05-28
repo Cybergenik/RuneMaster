@@ -8,7 +8,7 @@
         "usage": "**>info**"
     },
     "summon":{
-        "value": "Returns information on a Summoner like they're level, rank, and most played champ ex: \n `>summon KR Faker`",
+        "value": "Returns information on a Summoner like they're level, rank, player icon ex: \n `>summon KR Faker`",
         "usage": "**>summon**"
     },
     "runes":{

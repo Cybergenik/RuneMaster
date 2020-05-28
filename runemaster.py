@@ -5,7 +5,7 @@ from champs import Champ
 from screenshots import Screenshots
 import json
 import sys
-#from summoner import Summon
+from summoner import Summon
 
 TOKEN = os.getenv('DISCORD_TOKEN')
 client = discord.Client()
@@ -135,7 +135,6 @@ async def on_message(message):
                 await message.channel.send("That champ does not exist")
             return
             
-        '''
         elif command == '>summon':
             info = Summon(_args)
             if info.get_real():
@@ -144,10 +143,12 @@ async def on_message(message):
                     description = info.get_level(),
                     footer = "RuneMaster 2020"
                 )
-                response.add_field(name="Icon", value="placeholder", inline=False)
+                #response.add_field(name="Rank:", value="https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/"+info.get+".png", inline=False)
+                #response.add_field(name="Most played Champion:", value="https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/"+info.get_champ()+".png", inline=False)
+                #response.add_field(name="Player Icon:", value="https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/"+info.get+".png", inline=False)
                 await message.channel.send(embed=response)
             else:
                 await message.channel.send("That Summoner does not exist")
             return
-        '''
+
 client.run(TOKEN)
