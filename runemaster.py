@@ -147,7 +147,7 @@ async def on_message(message):
                 response.set_thumbnail(url=f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/{info.get_icon()}.png")
                 response.add_field(name="Level:", value=info.get_level(), inline=False)
                 response.add_field(name="Rank:", value=info.get_rank(), inline=False)
-                response.add_field(name="Win %:", value=info.get_win(), inline=False)
+                response.add_field(name="Overall Win %:", value=info.get_win(), inline=False)
                 response.set_footer(text="RuneMaster 2020")
 
                 await message.channel.send(embed=response)
