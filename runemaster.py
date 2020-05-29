@@ -168,9 +168,9 @@ async def on_message(message):
         elif command == '>history':
             _in = _args.split(' ', 1)
             if len(_in) == 1:
-                info = Summon(name=_in[0])
+                info = Summon(name=_in[0], ss=True)
             elif len(_in) == 2:
-                info = Summon(region=_in[0], name=_in[1])
+                info = Summon(region=_in[0], name=_in[1], ss=True)
             if info.get_real_player():
                 seed = info.get_matches()
                 file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png') 

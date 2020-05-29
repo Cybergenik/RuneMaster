@@ -9,7 +9,7 @@ RIOT_API_KEY = os.getenv("RIOT_API_KEY")
 lol_watcher = LolWatcher(RIOT_API_KEY)
 
 class Summon:
-    def __init__(self, region="na1", name="jareco"):
+    def __init__(self, region="na1", name="jareco", ss=False):
         try:
             player_info = lol_watcher.summoner.by_name(region, name)
             player_stats = lol_watcher.league.by_summoner(region, player_info['id'])
@@ -29,22 +29,23 @@ class Summon:
                 if regions[prefix] == region.lower(): 
                     self.url = 'https://'+prefix+'.op.gg/summoner/userName='+self.player_name
                     break
-            if os.name == "nt":
-                options = webdriver.FirefoxOptions()
-                options.add_argument('--headless')
-                options.add_argument('--no-sandbox')
-                options.add_argument('--disable-dev-shm-usage')
-                self.driver = webdriver.Firefox(executable_path="./geckodriver.exe",options=options)
-            elif os.name == "posix":
-                options = webdriver.ChromeOptions()
-                options.binary_location = os.getenv("GOOGLE_CHROME_BIN")
-                options.add_argument('--headless')
-                options.add_argument('--disable-dev-shm-usage')
-                options.add_argument('--no-sandbox')
-                self.driver = webdriver.Chrome(executable_path=os.getenv("CHROMEDRIVER_PATH"), chrome_options=options)
-            else:
-                raise Exception('Unknown Operating System, please use either a UNIX based OS or Windows')
-            self.driver.get(self.url)
+            if ss == True:
+                if os.name == "nt":
+                    options = webdriver.FirefoxOptions()
+                    options.add_argument('--headless')
+                    options.add_argument('--no-sandbox')
+                    options.add_argument('--disable-dev-shm-usage')
+                    self.driver = webdriver.Firefox(executable_path="./geckodriver.exe",options=options)
+                elif os.name == "posix":
+                    options = webdriver.ChromeOptions()
+                    options.binary_location = os.getenv("GOOGLE_CHROME_BIN")
+                    options.add_argument('--headless')
+                    options.add_argument('--disable-dev-shm-usage')
+                    options.add_argument('--no-sandbox')
+                    self.driver = webdriver.Chrome(executable_path=os.getenv("CHROMEDRIVER_PATH"), chrome_options=options)
+                else:
+                    raise Exception('Unknown Operating System, please use either a UNIX based OS or Windows')
+                self.driver.get(self.url)
 
     def get_real_player(self):
         return self.real_player
