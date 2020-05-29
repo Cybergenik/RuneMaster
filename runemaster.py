@@ -53,7 +53,7 @@ async def on_message(message):
         await message.channel.send(embed=response)
         return
     elif re.search('^>tierlist', message.content, flags=re.IGNORECASE): 
-        file = discord.File('./images/tierlist.png', filename='tierlist.png')
+        file = discord.File('./images/tierlist.png', filename='tierlist.jpg')
         await message.channel.send(f"__Ranked Tier List__",file=file)
         return
     elif re.search('^>old_tierlist', message.content, flags=re.IGNORECASE):
