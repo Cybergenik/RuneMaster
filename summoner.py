@@ -104,10 +104,8 @@ class Summon:
 
     def get_matches(self):
         seed = str(random.randint(0,99999))
-        #self.driver.set_window_size(1080,1920) # May need manual adjustment
-        #self.driver.find_element_by_xpath('//*[@id="SummonerLayoutContent"]/div[2]/div[2]/div').screenshot('./images/vape'+seed+'.png')
         self.driver.set_window_size(1080,1920) # May need manual adjustment
-        self.driver.find_element_by_xpath('//*[@id="SummonerLayoutContent"]/div[2]/div[2]/div/div[2]').screenshot('./images/vape'+seed+'.png')
+        self.driver.find_element_by_xpath('//*[@id="SummonerLayoutContent"]/div[2]/div[2]/div').screenshot('./images/vape'+seed+'.png')
         return seed
 
     def kill_seed(self, seed):
