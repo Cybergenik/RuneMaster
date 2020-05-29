@@ -9,6 +9,13 @@ from summoner import Summon
 TOKEN = os.getenv('DISCORD_TOKEN')
 client = discord.Client()
 
+with open('tiers.json') as f:
+    TIERS = json.load(f)
+with open('regions.json') as f:
+    REGIONS = json.load(f)
+with open('commands.json') as f:
+    COMMANDS = json.load(f)
+
 @client.event
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
@@ -31,23 +38,27 @@ async def on_message(message):
             description = "All commands start with a `>` and most commands will require an argument, usually this will be the name of a champion. ",
             footer = "RuneMaster 2020"
         )
-        with open('commands.json') as f:
-            commands = json.load(f)
-        for command in commands:
-            response.add_field(name=commands[command]['usage'], value=commands[command]['value'], inline=False)
+        for command in COMMANDS:
+            response.add_field(name=COMMANDS[command]['usage'], value=COMMANDS[command]['value'], inline=False)
         await message.channel.send(embed=response)
         return
     elif re.search('^>regions', message.content, flags=re.IGNORECASE):
         desc = ''
-        with open('regions.json') as f:
-            regions = json.load(f)
-        for region in regions:
-            desc = f'{desc} {regions[region].upper()} \n '
+        for region in REGIONS:
+            desc = f'{desc} {REGIONS[region].upper()} \n '
         response = discord.Embed(
             title =  "__Regions__",
             description = desc
         )
         await message.channel.send(embed=response)
+        return
+    elif re.search('^>tierlist', message.content, flags=re.IGNORECASE): 
+        file = discord.File('./images/tierlist.png', filename='tierlist.png')
+        await message.channel.send(f"__Ranked Tier List__",file=file)
+        return
+    elif re.search('^>old_tierlist', message.content, flags=re.IGNORECASE):
+        file = discord.File('./images/old_tierlist.png', filename='old_tierlist.png')
+        await message.channel.send(f"__Old Ranked Tier List__",file=file)
         return
 
     if re.search('^>', message.content):
@@ -191,5 +202,12 @@ async def on_message(message):
             else:
                 await message.channel.send("That Summoner does not exist or the region is incorrect!")
             return
+        elif command == '>tier':
+            if _args in TIERS:
+                file = discord.File(TIERS[_args], filename=f'_args.png')
+                await message.channel.send(f"__{_args.capitalize()}__",file=file)
+            else:
+                await message.channel.send("That ranked tier does not exist")
+            return 
 
 client.run(TOKEN)

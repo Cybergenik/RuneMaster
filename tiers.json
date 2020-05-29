@@ -1,0 +1,11 @@
+{
+    "iron":"./images/iron.png",
+    "bronze":"./images/bronze.png",
+    "silver":"./images/silver.png",
+    "gold":"./images/gold.png",
+    "platinum":"./images/platinum.png",
+    "diamond":"./images/diamond.png",
+    "master":"./images/master.png",
+    "grandmaster":"./images/grandmaster.png",
+    "challenger":"./images/challenger.png"
+}
