@@ -39,6 +39,8 @@ class Summon:
                 elif os.name == "posix":
                     options = webdriver.ChromeOptions()
                     options.binary_location = os.getenv("GOOGLE_CHROME_BIN")
+                    options.add_argument('--hide-scrollbars')
+                    options.add_argument('--site-per-process')
                     options.add_argument('--headless')
                     options.add_argument('--disable-dev-shm-usage')
                     options.add_argument('--no-sandbox')
