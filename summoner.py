@@ -79,7 +79,7 @@ class Summon:
         return seed
 
     def get_matches(self):
-        self.driver.set_window_size(690,1350) # May need manual adjustment
+        self.driver.set_window_size(690,1350 + 200) # May need manual adjustment
         seed = str(random.randint(0,99999))
         self.driver.find_element_by_xpath('//*[@id="SummonerLayoutContent"]/div[2]/div[2]/div').screenshot('./images/vape'+seed+'.png')
         return seed
