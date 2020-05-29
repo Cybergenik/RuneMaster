@@ -20,6 +20,7 @@ class Summon:
             self.player_name = player_info['name']
             self.player_icon = player_info['profileIconId']
             self.player_level = player_info['summonerLevel']
+            self.player_rank_img = f'./images/{player_stats[0]["tier"].lower()}.png'
             self.player_rank = f'{player_stats[0]["tier"].lower().capitalize()} {player_stats[0]["rank"]}'
             self.player_win = f'{round((player_stats[0]["wins"] / (player_stats[0]["wins"] + player_stats[0]["losses"])) * 100)}%'
             
@@ -62,6 +63,9 @@ class Summon:
     
     def get_level(self):
         return self.player_level
+    
+    def get_rank_img(self):
+        return self.player_rank_img
 
     def get_rank(self):
         return self.player_rank
@@ -75,8 +79,8 @@ class Summon:
         return seed
 
     def get_matches(self):
-        #S = lambda X: self.driver.execute_script('return document.querySelector("#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.RealContent > div").scroll'+X)
-        #self.driver.set_window_size(S('Width'),S('Height')) # May need manual adjustment
+        S = lambda X: self.driver.execute_script('return document.querySelector("#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.RealContent > div").scroll'+X)
+        self.driver.set_window_size(S('Width'),S('Height')) # May need manual adjustment
         seed = str(random.randint(0,99999))
         self.driver.find_element_by_xpath('//*[@id="SummonerLayoutContent"]/div[2]/div[2]/div/div[2]').screenshot('./images/vape'+seed+'.png')
         return seed

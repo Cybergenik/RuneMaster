@@ -175,6 +175,7 @@ async def on_message(message):
                     url= info.get_url()
                     )
                 response.set_thumbnail(url=f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/{info.get_icon()}.png")
+                response.set_image(url=info.get_rank_img())
                 response.add_field(name="Level:", value=info.get_level(), inline=False)
                 response.add_field(name="Rank:", value=info.get_rank(), inline=False)
                 response.add_field(name="Overall Win %:", value=info.get_win(), inline=False)
