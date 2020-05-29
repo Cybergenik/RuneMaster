@@ -152,8 +152,6 @@ async def on_message(message):
             elif len(_in) == 2:
                 info = Summon(region=_in[0], name=_in[1])
             if info.get_real_player():
-                seed = info.get_match_info()
-                file = discord.File(f'./images/vape{seed}.png', filename=f'runes{seed}.png')
                 response = discord.Embed(
                     title =  f"__{info.get_name()}__" , 
                     url= info.get_url()
@@ -162,10 +160,7 @@ async def on_message(message):
                 response.add_field(name="Level:", value=info.get_level(), inline=False)
                 response.add_field(name="Rank:", value=info.get_rank(), inline=False)
                 response.add_field(name="Overall Win %:", value=info.get_win(), inline=False)
-
                 await message.channel.send(embed=response)
-                await message.channel.send(file=file)
-                info.kill_seed(seed)
             else:
                 await message.channel.send("That Summoner does not exist or the region is incorrect")
             return
