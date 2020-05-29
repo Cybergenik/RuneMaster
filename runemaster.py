@@ -175,10 +175,12 @@ async def on_message(message):
                     url= info.get_url()
                     )
                 response.set_thumbnail(url=f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/{info.get_icon()}.png")
-                response.set_image(url=info.get_rank_img())
                 response.add_field(name="Level:", value=info.get_level(), inline=False)
-                response.add_field(name="Rank:", value=info.get_rank(), inline=False)
-                response.add_field(name="Overall Win %:", value=info.get_win(), inline=False)
+                response.add_field(name="Solo/Duo Rank:", value=info.get_rank(), inline=False)
+                response.add_field(name="Ranked Season Win %:", value=f'{info.get_win()}', inline=True)
+                if info.get_na():
+                    response.add_field(name="Highest Mastery :", value=info.get_champ(), inline=False)
+                    response.set_image(url=info.get_img())
                 await message.channel.send(embed=response)
             else:
                 await message.channel.send("That Summoner does not exist or the region is incorrect")
