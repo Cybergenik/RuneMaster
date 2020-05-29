@@ -45,7 +45,7 @@ async def on_message(message):
             desc = f'{desc} {regions[region].upper()} \n '
         response = discord.Embed(
             title =  "__Regions__",
-            description = desc,
+            description = desc
         )
         await message.channel.send(embed=response)
         return
