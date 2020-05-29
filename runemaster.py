@@ -137,18 +137,18 @@ async def on_message(message):
         elif command == '>summon':
             info = Summon(_args)
             if info.get_real_player():
-                response = discord.Embed(
-                    title =  f"__{info.get_player_info()['name']}__" , 
-                    url=f"https://na.op.gg/summoner/userName={info.get_player_info()['name']}"
-                    )
-                response.set_thumbnail(url=f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/{info.get_player_info()['profileIconId']}.png")
-                response.add_field(name="Level:", value=f"{info.get_player_info()['summonerLevel']}", inline=False)
-                response.add_field(name="Rank:", value=f"{info.get_player_stats()[0]['tier'].lower().capitalize()} {info.get_player_stats()[0]['rank']}", inline=False)
-                response.add_field(name="Win %:", value=f"{round((info.get_player_stats()[0]['wins'] / (info.get_player_stats()[0]['wins']+info.get_player_stats()[0]['losses'])) * 100)}%", inline=False)
-                response.set_footer(text="RuneMaster 2020")
-
-                seed = info.get_ranked_info()
+                seed = info.get_match_info()
                 img = discord.Attachment('./images/vape'+seed+'.png')
+
+                response = discord.Embed(
+                    title =  f"__{info.get_name()['name']}__" , 
+                    url=f"https://na.op.gg/summoner/userName={info.get_name}"
+                    )
+                response.set_thumbnail(url=f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/{info.get_icon}.png")
+                response.add_field(name="Level:", value=info.get_level, inline=False)
+                response.add_field(name="Rank:", value=info.get_rank, inline=False)
+                response.add_field(name="Win %:", value=info.get_win, inline=False)
+                response.set_footer(text="RuneMaster 2020")
 
                 await message.channel.send(embed=response)
                 await message.channel.send(img)
@@ -161,11 +161,10 @@ async def on_message(message):
             info = Summon(_args)
             if info.get_real_player():
                 response = discord.Embed(
-                    title =  f"__{info.get_player_info()['name']}__" , 
-                    url=f"https://na.op.gg/summoner/userName={info.get_player_info()['name']}"
+                    title =  f"__{info.get_name}__" , 
+                    url=f"https://na.op.gg/summoner/userName={info.get_name}"
                     )
-
-                seed = info.get_ranked_info()
+                seed = info.get_matches()
                 img = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png') 
 
                 await message.channel.send(embed=response)

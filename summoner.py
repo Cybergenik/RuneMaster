@@ -11,13 +11,18 @@ my_region = 'NA1'
 class Summon:
     def __init__(self, name):
         try:
-            self.player_info = lol_watcher.summoner.by_name(my_region, name)
-            self.player_stats = lol_watcher.league.by_summoner(my_region, self.player_info['id'])
+            player_info = lol_watcher.summoner.by_name(my_region, name)
+            player_stats = lol_watcher.league.by_summoner(my_region, player_info['id'])
             self.real_player = True
         except:
             self.real_player = False
         if self.real_player:
-            URL = 'https://na.op.gg/summoner/userName='+self.name
+            self.player_name = player_info['name']
+            self.player_icon = player_info['profileIconId']
+            self.player_level = player_info['summonerLevel']
+            self.player_rank = f'{player_stats[0]["tier"].lower().capitalize()} {player_stats[0]["rank"]}'
+            self.player_win = f'{round((player_stats()[0]["wins"] / (player_stats()[0]["wins"] + player_stats()[0]["losses"])) * 100)}%'
+            URL = 'https://na.op.gg/summoner/userName='+self.player_name
             if os.name == "nt":
                 options = webdriver.FirefoxOptions()
                 options.add_argument('--headless')
@@ -38,13 +43,22 @@ class Summon:
     def get_real_player(self):
         return self.real_player
 
-    def get_player_info(self):
-        return self.player_info
+    def get_name(self):
+        return self.player_name
         
-    def get_player_stats(self):
-        return self.player_stats
-        
-    def get_ranked_info(self):
+    def get_icon(self):
+        return self.player_icon
+    
+    def get_level(self):
+        return self.player_level
+
+    def get_rank(self):
+        return self.player_rank
+
+    def get_win(self):
+        return self.player_win
+
+    def get_match_info(self):
         seed = str(random.randint(0,99999))
         self.driver.find_element_by_xpath('//*[@id="GameAverageStatsBox-matches"]').screenshot('./images/vape'+seed+'.png')
         self.driver.close()
