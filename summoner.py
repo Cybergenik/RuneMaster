@@ -60,7 +60,7 @@ class Summon:
 
     def get_match_info(self):
         seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('//*[@id="GameAverageStatsBox-matches"]').screenshot('./images/vape'+seed+'.png')
+        self.driver.find_element_by_xpath('//*[@id="GameAverageStatsBox-summary"]/div[1]').screenshot('./images/vape'+seed+'.png')
         self.driver.close()
         return seed
 
