@@ -38,15 +38,17 @@ async def on_message(message):
         await message.channel.send(embed=response)
         return
     elif re.search('^>regions', message.content, flags=re.IGNORECASE):
-        info = Summon()
-        desc = []
-        for region in info.get_regions():
-            desc.append(f'{region} \n ')
+        desc = ''
+        with open('regions.json') as f:
+            regions = json.load(f)
+        for region in regions:
+            desc = f'{desc} {regions[region].upper()} \n '
         response = discord.Embed(
             title =  "__Regions__",
             description = desc,
         )
         await message.channel.send(embed=response)
+        return
 
     if re.search('^>', message.content):
         _in = message.content.split(' ', 1)
@@ -151,11 +153,10 @@ async def on_message(message):
                 info = Summon(_in[0], _in[1])
             else:
                 await message.channel.send('Type `>help` for a list of commands and how to use them.')
-
+                return
             if info.get_real_player():
                 seed = info.get_match_info()
                 file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
-
                 response = discord.Embed(
                     title =  f"__{info.get_name()}__" , 
                     url=f"https://na.op.gg/summoner/userName={info.get_name()}"
@@ -180,7 +181,7 @@ async def on_message(message):
                 info = Summon(_in[0], _in[1])
             else:
                 await message.channel.send('Type `>help` for a list of commands and how to use them.')
-
+                return
             if info.get_real_player():
                 seed = info.get_matches()
                 file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png') 

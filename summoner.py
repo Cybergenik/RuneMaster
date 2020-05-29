@@ -10,7 +10,6 @@ REGIONS=['na1', 'br1', 'eun1', 'euw1', 'jp1', 'kr', 'la1', 'la2', 'oc1', 'ru', '
 
 class Summon:
     def __init__(self, name="jareco", region="na1"):
-        self.regions = REGIONS
         try:
             player_info = lol_watcher.summoner.by_name(region, name)
             player_stats = lol_watcher.league.by_summoner(region, player_info['id'])
@@ -43,9 +42,6 @@ class Summon:
 
     def get_real_player(self):
         return self.real_player
-        
-    def get_regions(self):
-        return self.regions
 
     def get_name(self):
         return self.player_name
