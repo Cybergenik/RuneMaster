@@ -78,6 +78,8 @@ class Summon:
     def get_matches(self):
         #S = lambda X: self.driver.execute_script('return document.querySelector("#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.RealContent > div > div.Content").scroll'+X)
         self.driver.set_window_size(690,1052) # May need manual adjustment
+        self.driver.execute_script('document.body.style.zoom = 1.0')
+        self.driver.execute_script('document.body.style.zoom = 100%')
         seed = str(random.randint(0,99999))
         self.driver.find_element_by_xpath('//*[@id="SummonerLayoutContent"]/div[2]/div[2]/div/div[2]/div[3]').screenshot('./images/vape'+seed+'.png')
         return seed
