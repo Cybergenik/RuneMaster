@@ -138,7 +138,7 @@ async def on_message(message):
             info = Summon(_args)
             if info.get_real_player():
                 seed = info.get_match_info()
-                img = discord.Attachment('./images/vape'+seed+'.png')
+                file = discord.Attachment('./images/vape'+seed+'.png')
 
                 response = discord.Embed(
                     title =  f"__{info.get_name()['name']}__" , 
@@ -151,7 +151,7 @@ async def on_message(message):
                 response.set_footer(text="RuneMaster 2020")
 
                 await message.channel.send(embed=response)
-                await message.channel.send(img)
+                await message.channel.send(file=file)
                 info.kill_seed(seed)
             else:
                 await message.channel.send("That Summoner does not exist")
@@ -160,15 +160,9 @@ async def on_message(message):
         elif command == '>history':
             info = Summon(_args)
             if info.get_real_player():
-                response = discord.Embed(
-                    title =  f"__{info.get_name}__" , 
-                    url=f"https://na.op.gg/summoner/userName={info.get_name}"
-                    )
                 seed = info.get_matches()
-                img = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png') 
-
-                await message.channel.send(embed=response)
-                await message.channel.send(img)
+                file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png') 
+                await message.channel.send(f'__{info.get_name} Match History__',file=file)
                 info.kill_seed(seed)
             else:
                 await message.channel.send("That Summoner does not exist")
