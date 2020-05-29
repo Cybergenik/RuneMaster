@@ -147,9 +147,9 @@ async def on_message(message):
 
         elif command == '>summon':
             _in = _args.split(' ', 1)
-            if _in.length() == 1:
+            if len(_in) == 1:
                 info = Summon(_in[0])
-            elif _in.length() == 2:
+            elif len(_in) == 2:
                 info = Summon(_in[0], _in[1])
             else:
                 await message.channel.send('Type `>help` for a list of commands and how to use them.')
@@ -159,7 +159,7 @@ async def on_message(message):
                 file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
                 response = discord.Embed(
                     title =  f"__{info.get_name()}__" , 
-                    url=f"https://na.op.gg/summoner/userName={info.get_name()}"
+                    url= info.get_url()
                     )
                 response.set_thumbnail(url=f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/{info.get_icon()}.png")
                 response.add_field(name="Level:", value=info.get_level(), inline=False)
@@ -175,9 +175,9 @@ async def on_message(message):
 
         elif command == '>history':
             _in = _args.split(' ', 1)
-            if _in.length() == 1:
+            if len(_in) == 1:
                 info = Summon(_in[0])
-            elif _in.length() == 2:
+            elif len(_in) == 2:
                 info = Summon(_in[0], _in[1])
             else:
                 await message.channel.send('Type `>help` for a list of commands and how to use them.')

@@ -1,5 +1,7 @@
-test = "word"
-test2 = "two words"
-
-print(test.split(' ', 1), type(test.split(' ', 1)))
-print(test2.split(' ', 1))
+import os
+import json
+with open('regions.json') as f:
+    regions = json.load(f)
+for region in regions:
+    print(region)
+    print(region)

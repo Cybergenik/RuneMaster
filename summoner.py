@@ -2,11 +2,11 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import random
 import os
+import json
 from riotwatcher import LolWatcher, ApiError
 
 RIOT_API_KEY = os.getenv("RIOT_API_KEY")
 lol_watcher = LolWatcher(RIOT_API_KEY)
-REGIONS=['na1', 'br1', 'eun1', 'euw1', 'jp1', 'kr', 'la1', 'la2', 'oc1', 'ru', 'tr1']
 
 class Summon:
     def __init__(self, name="jareco", region="na1"):
@@ -22,7 +22,13 @@ class Summon:
             self.player_level = player_info['summonerLevel']
             self.player_rank = f'{player_stats[0]["tier"].lower().capitalize()} {player_stats[0]["rank"]}'
             self.player_win = f'{round((player_stats[0]["wins"] / (player_stats[0]["wins"] + player_stats[0]["losses"])) * 100)}%'
-            URL = 'https://na.op.gg/summoner/userName='+self.player_name
+            
+            with open('regions.json') as f:
+                regions = json.load(f)
+            for prefix in regions:
+                if regions[prefix] == region: 
+                    self.url = 'https://'+prefix+'.op.gg/summoner/userName='+self.player_name
+                    break
             if os.name == "nt":
                 options = webdriver.FirefoxOptions()
                 options.add_argument('--headless')
@@ -38,13 +44,16 @@ class Summon:
                 self.driver = webdriver.Chrome(executable_path=os.getenv("CHROMEDRIVER_PATH"), chrome_options=options)
             else:
                 raise Exception('Unknown Operating System, please use either a UNIX based OS or Windows')
-            self.driver.get(URL)
+            self.driver.get(self.url)
 
     def get_real_player(self):
         return self.real_player
 
     def get_name(self):
         return self.player_name
+    
+    def get_url(self):
+        return self.url
         
     def get_icon(self):
         return self.player_icon
@@ -65,10 +74,10 @@ class Summon:
         return seed
 
     def get_matches(self):
-        S = lambda X: self.driver.execute_script('return document.querySelector("#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.RealContent > div > div.Content > div.GameItemList").scroll'+X)
-        self.driver.set_window_size(S('Width'),S('Height')) # May need manual adjustment
+        S = lambda X: self.driver.execute_script('return document.querySelector("#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.RealContent > div > div.Content").scroll'+X)
+        self.driver.set_window_size(S('Width'),S('Height')+200) # May need manual adjustment
         seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('//*[@id="SummonerLayoutContent"]/div[2]/div[2]/div/div[2]/div[3]').screenshot('./images/vape'+seed+'.png')
+        self.driver.find_element_by_xpath('//*[@id="SummonerLayoutContent"]/div[2]/div[2]/div/div[2]').screenshot('./images/vape'+seed+'.png')
         self.driver.close()
         return seed
 
