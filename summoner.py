@@ -78,7 +78,7 @@ class Summon:
         #S = lambda X: self.driver.execute_script('return document.querySelector("#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.RealContent > div").scroll'+X)
         #self.driver.set_window_size(S('Width'),S('Height')) # May need manual adjustment
         seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('//*[@id="SummonerLayoutContent"]/div[2]/div[2]/div').screenshot('./images/vape'+seed+'.png')
+        self.driver.find_element_by_xpath('//*[@id="SummonerLayoutContent"]/div[2]/div[2]/div/div[2]').screenshot('./images/vape'+seed+'.png')
         return seed
 
     def kill_seed(self, seed):
