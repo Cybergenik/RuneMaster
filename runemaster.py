@@ -62,7 +62,7 @@ async def on_message(message):
             info = Champ(_args)
             if info.get_real():
                 response = discord.Embed(
-                    title =  "__"+info.get_champ()+" | "+info.get_title()+"__",
+                    title =  f"__{info.get_champ()} | {info.get_title()}__",
                     description = info.get_desc(),
                 )
                 response.set_image(url=info.get_img())
@@ -78,8 +78,8 @@ async def on_message(message):
             if info.get_real():
                 await message.channel.send("Fetching Rune Data...") 
                 seed = info.runes()
-                file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
-                await message.channel.send("__"+_args.capitalize()+" Runes__",file=file)
+                file = discord.File(f'./images/vape{seed}.png', filename=f'runes{seed}.png')
+                await message.channel.send(f"__{_args.capitalize()} Runes__",file=file)
                 info.kill_seed(seed)
             else:
                 await message.channel.send("That champ does not exist")
@@ -90,8 +90,8 @@ async def on_message(message):
             if info.get_real():
                 await message.channel.send("Fetching Build Data...") 
                 seed = info.build()
-                file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
-                await message.channel.send("__"+_args.capitalize()+" Build__",file=file)
+                file = discord.File(f'./images/vape{seed}.png', filename=f'runes{seed}.png')
+                await message.channel.send(f"__{_args.capitalize()} Build__",file=file)
                 info.kill_seed(seed)
             else:
                 await message.channel.send("That champ does not exist")
@@ -102,8 +102,8 @@ async def on_message(message):
             if info.get_real():
                 await message.channel.send("Fetching Skills Data...") 
                 seed = info.skills()
-                file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
-                await message.channel.send("__"+_args.capitalize()+" Skill Order__",file=file)
+                file = discord.File(f'./images/vape{seed}.png', filename='runes{seed}.png')
+                await message.channel.send(f"__{_args.capitalize()} Skill Order__",file=file)
                 info.kill_seed(seed)
             else:
                 await message.channel.send("That champ does not exist")
@@ -114,8 +114,8 @@ async def on_message(message):
             if info.get_real():
                 await message.channel.send("Fetching Stats Data...") 
                 seed = info.stats()
-                file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
-                await message.channel.send("__"+_args.capitalize()+" Stats__",file=file)
+                file = discord.File(f'./images/vape{seed}.png', filename=f'runes{seed}.png')
+                await message.channel.send(f"__{_args.capitalize()} Stats__",file=file)
                 info.kill_seed(seed)
             else:
                 await message.channel.send("That champ does not exist")
@@ -126,8 +126,8 @@ async def on_message(message):
             if info.get_real():
                 await message.channel.send("Fetching Summoner Spell data...") 
                 seed = info.sums()
-                file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
-                await message.channel.send("__"+_args.capitalize()+" Summoners__",file=file)
+                file = discord.File(f'./images/vape{seed}.png', filename=f'runes{seed}.png')
+                await message.channel.send(f"__{_args.capitalize()} Summoners__",file=file)
                 info.kill_seed(seed)
             else:
                 await message.channel.send("That champ does not exist")
@@ -138,8 +138,8 @@ async def on_message(message):
             if info.get_real():
                 await message.channel.send("Fetching Matchup data...") 
                 seed = info.matchups()
-                file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
-                await message.channel.send("__"+_args.capitalize()+" Summoners__",file=file)
+                file = discord.File(f'./images/vape{seed}.png', filename=f'runes{seed}.png')
+                await message.channel.send(f"__{_args.capitalize()} Summoners__",file=file)
                 info.kill_seed(seed)
             else:
                 await message.channel.send("That champ does not exist")
@@ -156,7 +156,7 @@ async def on_message(message):
                 return
             if info.get_real_player():
                 seed = info.get_match_info()
-                file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
+                file = discord.File(f'./images/vape{seed}.png', filename=f'runes{seed}.png')
                 response = discord.Embed(
                     title =  f"__{info.get_name()}__" , 
                     url= info.get_url()
@@ -170,7 +170,7 @@ async def on_message(message):
                 await message.channel.send(file=file)
                 info.kill_seed(seed)
             else:
-                await message.channel.send("That Summoner does not exist")
+                await message.channel.send("That Summoner does not exist or the region is incorrect")
             return
 
         elif command == '>history':
@@ -188,7 +188,7 @@ async def on_message(message):
                 await message.channel.send(f'__{info.get_name()} Match History__',file=file)
                 info.kill_seed(seed)
             else:
-                await message.channel.send("That Summoner does not exist")
+                await message.channel.send("That Summoner does not exist or the region is incorrect")
             return
 
 client.run(TOKEN)
