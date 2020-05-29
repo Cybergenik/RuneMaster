@@ -3,6 +3,10 @@
         "value": "RuneMaster greets you!",
         "usage": "**>hello**"
     },
+    "help":{
+        "value": "Returns this menu of available options",
+        "usage": "**>hello**"
+    },
     "info":{
         "value": "Returns detailed information on a Champion, including description, stats, image ex: \n ` >info Aatrox `",
         "usage": "**>info**"
