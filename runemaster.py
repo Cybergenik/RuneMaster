@@ -148,12 +148,9 @@ async def on_message(message):
         elif command == '>summon':
             _in = _args.split(' ', 1)
             if len(_in) == 1:
-                info = Summon(_in[0])
+                info = Summon(name=_in[0])
             elif len(_in) == 2:
-                info = Summon(_in[0], _in[1])
-            else:
-                await message.channel.send('Type `>help` for a list of commands and how to use them.')
-                return
+                info = Summon(region=_in[0], name=_in[1])
             if info.get_real_player():
                 seed = info.get_match_info()
                 file = discord.File(f'./images/vape{seed}.png', filename=f'runes{seed}.png')
@@ -176,19 +173,16 @@ async def on_message(message):
         elif command == '>history':
             _in = _args.split(' ', 1)
             if len(_in) == 1:
-                info = Summon(_in[0])
+                info = Summon(name=_in[0])
             elif len(_in) == 2:
-                info = Summon(_in[0], _in[1])
-            else:
-                await message.channel.send('Type `>help` for a list of commands and how to use them.')
-                return
+                info = Summon(region=_in[0], name=_in[1])
             if info.get_real_player():
                 seed = info.get_matches()
                 file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png') 
                 await message.channel.send(f'__{info.get_name()} Match History__',file=file)
                 info.kill_seed(seed)
             else:
-                await message.channel.send("That Summoner does not exist or the region is incorrect")
+                await message.channel.send("That Summoner does not exist or the region is incorrect!")
             return
 
 client.run(TOKEN)
