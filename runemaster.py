@@ -37,6 +37,17 @@ async def on_message(message):
             response.add_field(name=commands[command]['usage'], value=commands[command]['value'], inline=False)
         await message.channel.send(embed=response)
         return
+    elif re.search('^>regions', message.content, flags=re.IGNORECASE):
+        info = Summon()
+        desc = []
+        for region in info.get_regions():
+            desc.append(f'{region} \n ')
+        response = discord.Embed(
+            title =  "__Regions__",
+            description = desc,
+        )
+        response.set_footer("RuneMaster 2020")
+        await message.channel.send(embed=response)
 
     if re.search('^>', message.content):
         _in = message.content.split(' ', 1)
@@ -181,17 +192,5 @@ async def on_message(message):
             else:
                 await message.channel.send("That Summoner does not exist")
             return
-
-        elif command == '>regions':
-            info = Summon()
-            desc = []
-            for region in info.get_regions():
-                desc.append(f'{region} \n ')
-            response = discord.Embed(
-                title =  "__Regions__",
-                description = desc,
-            )
-            response.set_footer("RuneMaster 2020")
-            await message.channel.send(embed=response)
 
 client.run(TOKEN)
