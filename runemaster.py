@@ -46,7 +46,6 @@ async def on_message(message):
             title =  "__Regions__",
             description = desc,
         )
-        response.set_footer("RuneMaster 2020")
         await message.channel.send(embed=response)
 
     if re.search('^>', message.content):
@@ -67,7 +66,6 @@ async def on_message(message):
                 response.set_image(url=info.get_img())
                 response.add_field(name="Tags", value= info.get_tags(), inline=False)
                 response.add_field(name="Stats", value= info.get_stats(), inline=False)
-                response.set_footer("RuneMaster 2020")
                 await message.channel.send(embed=response)
             else:
                 await message.channel.send("That champ does not exist")
@@ -166,7 +164,6 @@ async def on_message(message):
                 response.add_field(name="Level:", value=info.get_level(), inline=False)
                 response.add_field(name="Rank:", value=info.get_rank(), inline=False)
                 response.add_field(name="Overall Win %:", value=info.get_win(), inline=False)
-                response.set_footer(text="RuneMaster 2020")
 
                 await message.channel.send(embed=response)
                 await message.channel.send(file=file)
