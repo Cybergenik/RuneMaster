@@ -6,13 +6,14 @@ from riotwatcher import LolWatcher, ApiError
 
 RIOT_API_KEY = os.getenv("RIOT_API_KEY")
 lol_watcher = LolWatcher(RIOT_API_KEY)
-my_region = 'NA1'
+REGIONS=['na1', 'br1', 'eun1', 'euw1', 'jp1', 'kr', 'la1', 'la2', 'oc1', 'ru', 'tr1']
 
 class Summon:
-    def __init__(self, name):
+    def __init__(self, name="jareco", region="na1"):
+        self.regions = REGIONS
         try:
-            player_info = lol_watcher.summoner.by_name(my_region, name)
-            player_stats = lol_watcher.league.by_summoner(my_region, player_info['id'])
+            player_info = lol_watcher.summoner.by_name(region, name)
+            player_stats = lol_watcher.league.by_summoner(region, player_info['id'])
             self.real_player = True
         except:
             self.real_player = False
@@ -42,6 +43,9 @@ class Summon:
 
     def get_real_player(self):
         return self.real_player
+        
+    def get_regions(self):
+        return self.regions
 
     def get_name(self):
         return self.player_name

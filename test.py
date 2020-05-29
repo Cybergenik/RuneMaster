@@ -1,3 +1,5 @@
-import os 
+test = "word"
+test2 = "two words"
 
-print(os.uname)
+print(test.split(' ', 1), type(test.split(' ', 1)))
+print(test2.split(' ', 1))

@@ -42,7 +42,7 @@ async def on_message(message):
         _in = message.content.split(' ', 1)
         command = _in[0].lower()
         try:
-            _args = _in[1].replace(" ", "").lower()
+            _args = _in[1].lower()
         except:
             await message.channel.send('Type `>help` for a list of commands and how to use them.')
             return
@@ -135,7 +135,14 @@ async def on_message(message):
             return
 
         elif command == '>summon':
-            info = Summon(_args)
+            _in = _args.split(' ', 1)
+            if _in.length() == 1:
+                info = Summon(_in[0])
+            elif _in.length() == 2:
+                info = Summon(_in[0], _in[1])
+            else:
+                await message.channel.send('Type `>help` for a list of commands and how to use them.')
+
             if info.get_real_player():
                 seed = info.get_match_info()
                 file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
@@ -158,7 +165,14 @@ async def on_message(message):
             return
 
         elif command == '>history':
-            info = Summon(_args)
+            _in = _args.split(' ', 1)
+            if _in.length() == 1:
+                info = Summon(_in[0])
+            elif _in.length() == 2:
+                info = Summon(_in[0], _in[1])
+            else:
+                await message.channel.send('Type `>help` for a list of commands and how to use them.')
+
             if info.get_real_player():
                 seed = info.get_matches()
                 file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png') 
@@ -167,5 +181,17 @@ async def on_message(message):
             else:
                 await message.channel.send("That Summoner does not exist")
             return
+
+        elif command == '>regions':
+            info = Summon()
+            desc = []
+            for region in info.get_regions():
+                desc.append(f'{region} \n ')
+            response = discord.Embed(
+                title =  "__Regions__",
+                description = desc,
+            )
+            response.set_footer("RuneMaster 2020")
+            await message.channel.send(embed=response)
 
 client.run(TOKEN)

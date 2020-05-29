@@ -8,8 +8,16 @@
         "usage": "**>info**"
     },
     "summon":{
-        "value": "Returns information on a Summoner like they're level, rank, player icon ex: \n `>summon KR Faker`",
+        "value": "Returns information on a Summoner like they're level, rank, player icon. Default region is NA, don't include a region if you just want NA ex: \n `>summon Faker | >summon KR Faker`",
         "usage": "**>summon**"
+    },
+    "history":{
+        "value": "Returns an image of the last 5 games in the players match history ex: \n ` >history Faker | >history KR Faker `",
+        "usage": "**>history**"
+    },
+    "regions":{
+        "value": "Returns a list of all regions that you can use to look up ex: \n ` >regions `",
+        "usage": "**>regions**"
     },
     "runes":{
         "value": "Returns an image of the highest win-rate Runes on that champion ex: \n ` >runes Aatrox `",
@@ -34,9 +42,5 @@
     "matchups":{
         "value": "Returns an image of the best and worst matchups on that champion ex: \n ` >matchups Aatrox `",
         "usage": "**>matchups**"
-    },
-    "history":{
-        "value": "Returns an image of the last 5 games in the players match history ex: \n ` >history Aatrox `",
-        "usage": "**>history**"
     }
 }
