@@ -141,13 +141,13 @@ async def on_message(message):
                 file = discord.Attachment('./images/vape'+seed+'.png')
 
                 response = discord.Embed(
-                    title =  f"__{info.get_name()['name']}__" , 
-                    url=f"https://na.op.gg/summoner/userName={info.get_name}"
+                    title =  f"__{info.get_name()}__" , 
+                    url=f"https://na.op.gg/summoner/userName={info.get_name()}"
                     )
-                response.set_thumbnail(url=f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/{info.get_icon}.png")
-                response.add_field(name="Level:", value=info.get_level, inline=False)
-                response.add_field(name="Rank:", value=info.get_rank, inline=False)
-                response.add_field(name="Win %:", value=info.get_win, inline=False)
+                response.set_thumbnail(url=f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/{info.get_icon()}.png")
+                response.add_field(name="Level:", value=info.get_level(), inline=False)
+                response.add_field(name="Rank:", value=info.get_rank(), inline=False)
+                response.add_field(name="Win %:", value=info.get_win(), inline=False)
                 response.set_footer(text="RuneMaster 2020")
 
                 await message.channel.send(embed=response)
@@ -162,7 +162,7 @@ async def on_message(message):
             if info.get_real_player():
                 seed = info.get_matches()
                 file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png') 
-                await message.channel.send(f'__{info.get_name} Match History__',file=file)
+                await message.channel.send(f'__{info.get_name()} Match History__',file=file)
                 info.kill_seed(seed)
             else:
                 await message.channel.send("That Summoner does not exist")
