@@ -138,7 +138,7 @@ async def on_message(message):
             info = Summon(_args)
             if info.get_real_player():
                 seed = info.get_match_info()
-                file = discord.Attachment('./images/vape'+seed+'.png')
+                file = discord.File('./images/vape'+seed+'.png', filename='runes'+seed+'.png')
 
                 response = discord.Embed(
                     title =  f"__{info.get_name()}__" , 
