@@ -190,14 +190,10 @@ async def on_message(message):
             elif len(_in) == 2:
                 info = Summon(region=_in[0], name=_in[1], ss=True)
             if info.get_real_player():
-                seed = info.get_match_info()
-                seed2 = info.get_matches()
+                seed = info.get_matches()
                 file = discord.File(f'./images/vape{seed}.png', filename=f'runes{seed}.png')
-                file2 = discord.File(f'./images/vape{seed2}.png', filename=f'runes{seed2}.png')
                 await message.channel.send(f'__{info.get_name()} Match History__',file=file)
-                await message.channel.send(file=file2)
                 info.kill_seed(seed)
-                info.kill_seed(seed2)
                 info.kill_driver()
             else:
                 await message.channel.send("That Summoner does not exist or the region is incorrect!")
