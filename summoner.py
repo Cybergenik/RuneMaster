@@ -21,7 +21,7 @@ class Summon:
             self.player_icon = player_info['profileIconId']
             self.player_level = player_info['summonerLevel']
             self.player_rank = f'{player_stats[0]["tier"].lower().capitalize()} {player_stats[0]["rank"]}'
-            self.player_win = f'{round((player_stats()[0]["wins"] / (player_stats()[0]["wins"] + player_stats()[0]["losses"])) * 100)}%'
+            self.player_win = f'{round((player_stats[0]["wins"] / (player_stats[0]["wins"] + player_stats[0]["losses"])) * 100)}%'
             URL = 'https://na.op.gg/summoner/userName='+self.player_name
             if os.name == "nt":
                 options = webdriver.FirefoxOptions()
