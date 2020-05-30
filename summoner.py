@@ -23,10 +23,14 @@ class Summon():
             self.level = player_info['summonerLevel']
             mastery = requests.get(f'https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{player_info["id"]}?api_key={RIOT_API_KEY}').json()
             response = requests.get('https://ddragon.leagueoflegends.com/cdn/10.10.3216176/data/en_US/champion.json').json()['data']
-            if region == "na1":
+            try:
+                vmastery = str(mastery[0]['championId'])
+            except:
+                vmastery = False
+            if region == "na1" and vmastery != False:
                 self.region_na = True
                 for champ in response:
-                    if response[champ]['key'] == str(mastery[0]['championId']):
+                    if response[champ]['key'] == vmastery:
                         self.champ = f"{response[champ]['name']} {mastery[0]['championPoints']}"
                         self.img = f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/champion/{response[champ]['image']['full']}"
                         break
