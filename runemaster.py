@@ -9,7 +9,6 @@ from summoner import Summon
 
 DRIVER = None
 TOKEN = os.getenv('DISCORD_TOKEN')
-print(os.getenv('DISCORD_TOKEN'))
 if TOKEN != None:
     client = discord.Client()
 else:
@@ -226,7 +225,7 @@ async def on_message(message):
         elif command == '>history':
             await message.channel.send("Fetching Player History data...") 
             info = summon_proxy(args=args,ss=True)
-            if info.real:
+            if info.real_player:
                 seed = info.get_matches()
                 file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
                 await message.channel.send(f'__{info.name} Match History__',file=file)
