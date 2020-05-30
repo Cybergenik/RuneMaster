@@ -33,7 +33,7 @@ def init_driver():
         options.add_argument('--headless')
         options.add_argument('--disable-dev-shm-usage')
         options.add_argument('--no-sandbox')
-        DRIVER = webdriver.Chrome(executable_path=os.getenv("CHROMEDRIVER_PATH"), chrome_options=options)
+        DRIVER = webdriver.Chrome(executable_path=os.getenv("CHROMEDRIVER_PATH"), options=options)
     else:
         raise Exception('Unknown Operating System, please use either a UNIX based OS or Windows')
 init_driver()
