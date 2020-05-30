@@ -68,11 +68,15 @@ async def on_message(message):
     global DRIVER
     temp = os.listdir('temp/')
     if len(temp) >= 50:
+        await message.channel.send('Self cleaning, please wait...')
         print("cleaning temp dir...")
         for f in temp:
             if f.endswith('.png'):
                 os.remove(f'temp/{f}')
         init_driver()
+        print('Finished clearing cache and driver restarted')
+        await message.channel.send('RuneMaster good to go!')
+        return
     
     if message.author == client.user:
         return
