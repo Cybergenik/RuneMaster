@@ -10,6 +10,7 @@ lol_watcher = LolWatcher(RIOT_API_KEY)
 
 class Summon():
     def __init__(self, region="na1", name="jareco", driver=None):
+        print(name, region)
         try:
             player_info = lol_watcher.summoner.by_name(region, name)
             player_stats = lol_watcher.league.by_summoner(region, player_info['id'])

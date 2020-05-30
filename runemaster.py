@@ -9,6 +9,7 @@ from summoner import Summon
 
 DRIVER = None
 TOKEN = os.getenv('DISCORD_TOKEN')
+print(os.getenv('DISCORD_TOKEN'))
 if TOKEN != None:
     client = discord.Client()
 else:
@@ -51,8 +52,6 @@ def summon_proxy(args:str, ss=False):
         return Summon(name=_in[0], driver=DRIVER)
     else:
         return Summon(region=_in[0], name=_in[1], driver=DRIVER)
-
-    
 
 @client.event
 async def on_ready():
