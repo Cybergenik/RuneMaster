@@ -71,7 +71,7 @@ async def on_ready():
 async def on_message(message):
     global DRIVER
     temp = os.listdir('temp/')
-    if len(temp) >= 50:
+    if len(temp) >= 20:
         await message.channel.send('Self cleaning, please wait...')
         print("cleaning temp dir...")
         for f in temp:
