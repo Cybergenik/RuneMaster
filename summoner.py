@@ -49,6 +49,7 @@ class Summon():
             for reg in regions:
                 if regions[reg] == region:
                     self.url = 'https://'+reg+'.op.gg/summoner/userName='+self.name
+                    print(self.url)
                     break
             if driver != None:
                self.driver = driver
