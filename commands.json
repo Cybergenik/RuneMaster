@@ -5,7 +5,7 @@
     },
     "help":{
         "value": "Returns this menu of available options",
-        "usage": "**>hello**"
+        "usage": "**>help**"
     },
     "info":{
         "value": "Returns detailed information on a Champion, including description, stats, image ex: \n ` >info Aatrox `",

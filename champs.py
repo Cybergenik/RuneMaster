@@ -1,127 +1,65 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 import os
 import random
 import json
 import requests
 
-class Champ:
-    def __init__(self, champ):
-        response = requests.get('https://ddragon.leagueoflegends.com/cdn/10.10.3216176/data/en_US/champion.json')
-
+class Champ():
+    def __init__(self, champ, driver=None):
+        response = requests.get('https://ddragon.leagueoflegends.com/cdn/10.10.3216176/data/en_US/champion.json').json()['data']
         self.real = False
-        for name in response.json()['data']:
+        for name in response:
             if champ == name.lower():
-                self.champ = response.json()['data'][name]['id']
-                self.title = response.json()['data'][self.champ]['title']
-                self.img = 'https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/champion/'+response.json()['data'][self.champ]['image']['full']
-                self.desc =  response.json()['data'][self.champ]['blurb']
-                self.tags = ''
-                for _ in response.json()['data'][self.champ]['tags']:
-                    self.tags = _+" "+self.tags
-                self.stats = f'Health: {response.json()["data"][self.champ]["stats"]["hp"]} \n \
-                            Move Speed: {response.json()["data"][self.champ]["stats"]["movespeed"]} \n \
-                            Attack Damage: {response.json()["data"][self.champ]["stats"]["attackdamage"]} \n \
-                            Attack Range: {response.json()["data"][self.champ]["stats"]["attackrange"]} \n \
-                            Attack Speed: {response.json()["data"][self.champ]["stats"]["attackspeed"]}'
-                if ' ' in response.json()['data'][self.champ]['name']:
-                    self.link = 'https://leagueoflegends.fandom.com/wiki/'+response.json()['data'][self.champ]['name'].replace(' ', '_')
-                elif '\'' in response.json()['data'][self.champ]['name']:
-                    self.link = 'https://leagueoflegends.fandom.com/wiki/'+response.json()['data'][self.champ]['name'].replace('\'','%27')
-                else:
-                    self.link = 'https://leagueoflegends.fandom.com/wiki/'+response.json()['data'][self.champ]['name']
+                self.champ = response[name]['id']
+                self.title = response[self.champ]['title']
+                self.img = f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/champion/{response[self.champ]['image']['full']}"
+                self.desc =  response[self.champ]['blurb']
+                self.tags = ' '.join(response[self.champ]['tags'])
+                self.stats = f'Health: {response[self.champ]["stats"]["hp"]} \n \
+                            Move Speed: {response[self.champ]["stats"]["movespeed"]} \n \
+                            Attack Damage: {response[self.champ]["stats"]["attackdamage"]} \n \
+                            Attack Range: {response[self.champ]["stats"]["attackrange"]} \n \
+                            Attack Speed: {response[self.champ]["stats"]["attackspeed"]}'
+                self.url = 'https://champion.gg/champion/'+self.champ
                 self.real = True 
+                self.name = response[name]['name']
+                if driver != None:
+                    self.driver = driver
+                    self.driver.get(self.url)
                 break
 
-    def get_real(self):
-        return self.real
-    def get_champ(self):
-        return self.champ
-    def get_title(self):
-        return self.title
-    def get_img(self):
-        return self.img
-    def get_desc(self):
-        return self.desc
-    def get_tags(self):
-        return self.tags
-    def get_stats(self):
-        return self.stats
-
-class Screenshots():
-    def __init__(self, champ):
-        response = requests.get('https://ddragon.leagueoflegends.com/cdn/10.10.3216176/data/en_US/champion.json')
-        self.real = False
-        for name in response.json()['data']:
-            if champ == name.lower():
-                self.champ = response.json()['data'][name]['name']
-                URL = 'https://champion.gg/champion/'+self.champ
-                if os.name == "nt":
-                    options = webdriver.FirefoxOptions()
-                    options.add_argument('--headless')
-                    options.add_argument('--no-sandbox')
-                    options.add_argument('--disable-dev-shm-usage')
-                    self.driver = webdriver.Firefox(executable_path="./geckodriver.exe",options=options)
-                elif os.name == "posix":
-                    options = webdriver.ChromeOptions()
-                    options.binary_location = os.getenv("GOOGLE_CHROME_BIN")
-                    options.add_argument('--headless')
-                    options.add_argument('--disable-dev-shm-usage')
-                    options.add_argument('--no-sandbox')
-                    self.driver = webdriver.Chrome(executable_path=os.getenv("CHROMEDRIVER_PATH"), chrome_options=options)
-                else:
-                    raise Exception('Unknown Operating System, please use either a UNIX based OS or Windows')
-
-                self.driver.get(URL)
-                self.real = True
-                break
-
-    def get_real(self) -> bool:
-        return self.real 
     def runes(self):
         S = lambda X: self.driver.execute_script('return document.querySelector("#perks-app > div").scroll'+X)
         self.driver.set_window_size(S('Width'),S('Height')) # May need manual adjustment        
         seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('//*[@id="perks-app"]/div').screenshot('./images/vape'+seed+'.png')
+        self.driver.find_element_by_xpath('//*[@id="perks-app"]/div').screenshot('./temp/'+seed+'.png')
         return seed
 
     def build(self):
         seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('/html/body/div/div[2]/div[3]/div[2]/div[2]/div/div/div[2]/div[1]/div[1]').screenshot('./images/vape'+seed+'.png')
+        self.driver.find_element_by_xpath('/html/body/div/div[2]/div[3]/div[2]/div[2]/div/div/div[2]/div[1]/div[1]').screenshot('./temp/'+seed+'.png')
         return seed
 
     def skills(self):
         seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('/html/body/div/div[2]/div[3]/div[2]/div[2]/div/div/div[1]/div[1]').screenshot('./images/vape'+seed+'.png')
+        self.driver.find_element_by_xpath('/html/body/div/div[2]/div[3]/div[2]/div[2]/div/div/div[1]/div[1]').screenshot('./temp/'+seed+'.png')
         return seed
 
-    def stats(self):
+    def champ_stats(self):
         S = lambda X: self.driver.execute_script('return document.querySelector("body > div > div.main-container > div.page-content > div.ng-scope > div.champion-area.ng-scope > div > div > div.col-xs-12.col-sm-9.col-md-4.champion-statistics").scroll'+X)
         self.driver.set_window_size(S('Width')+200,S('Height')+200)
         seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('/html/body/div/div[2]/div[3]/div[2]/div[1]/div/div/div[2]').screenshot('./images/vape'+seed+'.png')
+        self.driver.find_element_by_xpath('/html/body/div/div[2]/div[3]/div[2]/div[1]/div/div/div[2]').screenshot('./temp/'+seed+'.png')
         return seed
         
     def sums(self):
         seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('/html/body/div/div[2]/div[3]/div[2]/div[1]/div/div/div[4]/div[7]').screenshot('./images/vape'+seed+'.png')
+        self.driver.find_element_by_xpath('/html/body/div/div[2]/div[3]/div[2]/div[1]/div/div/div[4]/div[7]').screenshot('./temp/'+seed+'.png')
         return seed
 
     def matchups(self):
         S = lambda X: self.driver.execute_script('return document.querySelector("body > div > div.main-container > div.page-content > div.ng-scope > div.matchups > div > div.row.counter-row").scroll'+X)
         self.driver.set_window_size(S('Width')+200,S('Height')+200)
         seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('/html/body/div/div[2]/div[3]/div[2]/div[3]/div/div[2]').screenshot('./images/vape'+seed+'.png')
+        self.driver.find_element_by_xpath('/html/body/div/div[2]/div[3]/div[2]/div[3]/div/div[2]').screenshot('./temp/'+seed+'.png')
         return seed
-
-    def kill_seed(self, seed):
-        '''
-        Deletes temporary png files.
-        '''
-        if os.path.exists("./images/vape"+seed+".png"):
-           os.remove("./images/vape"+seed+".png")
-        else:
-           print(seed+".png does not exist")
-    
-    def kill_driver(self):
-        self.driver.quit()

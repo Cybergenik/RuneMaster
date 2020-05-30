@@ -1,13 +1,42 @@
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 import os
 import discord
 import re
 import json
 from champs import Champ
-from champs import Screenshots
 from summoner import Summon
 
+DRIVER = None
 TOKEN = os.getenv('DISCORD_TOKEN')
-client = discord.Client()
+if TOKEN != None:
+    client = discord.Client()
+else:
+    raise EnvironmentError("DISCORD_TOKEN env variable is not set")
+
+def init_driver():
+    global DRIVER
+    try:
+        DRIVER.quit()
+        print('restarting driver...')
+    except:
+        print('Starting web drive for the first time...')
+    if os.name == "nt":
+        options = webdriver.FirefoxOptions()
+        options.add_argument('--headless')
+        options.add_argument('--no-sandbox')
+        options.add_argument('--disable-dev-shm-usage')
+        DRIVER = webdriver.Firefox(executable_path="./geckodriver.exe",options=options)
+    elif os.name == "posix":
+        options = webdriver.ChromeOptions()
+        options.binary_location = os.getenv("GOOGLE_CHROME_BIN")
+        options.add_argument('--headless')
+        options.add_argument('--disable-dev-shm-usage')
+        options.add_argument('--no-sandbox')
+        DRIVER = webdriver.Chrome(executable_path=os.getenv("CHROMEDRIVER_PATH"), chrome_options=options)
+    else:
+        raise Exception('Unknown Operating System, please use either a UNIX based OS or Windows')
+init_driver()
 
 with open('tiers.json') as f:
     TIERS = json.load(f)
@@ -15,6 +44,15 @@ with open('regions.json') as f:
     REGIONS = json.load(f)
 with open('commands.json') as f:
     COMMANDS = json.load(f)
+
+def summon_proxy(args:str, ss=False):
+    _in = args.split(' ', 1)
+    if len(_in) == 1:
+        return Summon(name=_in[0], driver=DRIVER)
+    else:
+        return Summon(region=_in[0], name=_in[1], driver=DRIVER)
+
+    
 
 @client.event
 async def on_ready():
@@ -27,36 +65,47 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
+    global DRIVER
+    temp = os.listdir('temp/')
+    if len(temp) >= 50:
+        print("cleaning temp dir...")
+        for f in temp:
+            if f.endswith('.png'):
+                os.remove(f'temp/{f}')
+        init_driver()
+    
     if message.author == client.user:
         return
-    elif re.search('^>hello', message.content, flags=re.IGNORECASE):
+        
+    if re.search('^>hello', message.content, flags=re.IGNORECASE):
         await message.channel.send('Hello Summoner')
         return
-    elif re.search('^>help', message.content, flags=re.IGNORECASE):
+        
+    if re.search('^>help', message.content, flags=re.IGNORECASE):
         response = discord.Embed(
             title =  "__Runemaster | Help__",
             description = "All commands start with a `>` and most commands will require an argument, usually this will be the name of a champion. ",
-            footer = "RuneMaster 2020"
         )
-        for command in COMMANDS:
-            response.add_field(name=COMMANDS[command]['usage'], value=COMMANDS[command]['value'], inline=False)
+        for command in COMMANDS.values():
+            response.add_field(name=command['usage'], value=command['value'], inline=False)
         await message.channel.send(embed=response)
         return
-    elif re.search('^>regions', message.content, flags=re.IGNORECASE):
-        desc = ''
-        for region in REGIONS:
-            desc = f'{desc} {REGIONS[region].upper()} \n '
+
+    if re.search('^>regions', message.content, flags=re.IGNORECASE):
+        desc = '\n'.join(REGIONS.values())
         response = discord.Embed(
             title =  "__Regions__",
             description = desc
         )
         await message.channel.send(embed=response)
         return
-    elif re.search('^>tierlist', message.content, flags=re.IGNORECASE): 
+        
+    if re.search('^>tierlist', message.content, flags=re.IGNORECASE): 
         file = discord.File('./images/tierlist.png', filename='tierlist.png')
         await message.channel.send(f"__Ranked Tier List__",file=file)
         return
-    elif re.search('^>old_tierlist', message.content, flags=re.IGNORECASE):
+
+    if re.search('^>old_tierlist', message.content, flags=re.IGNORECASE):
         file = discord.File('./images/old_tierlist.png', filename='old_tierlist.png')
         await message.channel.send(f"__Old Ranked Tier List__",file=file)
         return
@@ -64,149 +113,122 @@ async def on_message(message):
     if re.search('^>', message.content):
         _in = message.content.split(' ', 1)
         command = _in[0].lower()
-        try:
-            _args = _in[1].lower()
-        except:
+        if len(_in) == 1:
             await message.channel.send('Type `>help` for a list of commands and how to use them.')
             return
+        else:
+            args = _in[1].lower()
+
         if command == '>info':
-            info = Champ(_args)
-            if info.get_real():
+            info = Champ(args)
+            if info.real:
                 response = discord.Embed(
-                    title =  f"__{info.get_champ()} | {info.get_title()}__",
-                    description = info.get_desc(),
+                    title =  f"__{info.champ} | {info.title}__",
+                    description = info.desc,
+                    url=info.url
                 )
-                response.set_image(url=info.get_img())
-                response.add_field(name="Tags", value= info.get_tags(), inline=False)
-                response.add_field(name="Stats", value= info.get_stats(), inline=False)
-                response.image
+                response.set_image(url=info.img)
+                response.add_field(name="Tags", value= info.tags, inline=False)
+                response.add_field(name="Stats", value= info.stats, inline=False)
                 await message.channel.send(embed=response)
             else:
                 await message.channel.send("That champ does not exist")
-            return
 
         elif command == '>runes':
-            info = Screenshots(_args)
-            if info.get_real():
-                await message.channel.send("Fetching Rune Data...") 
+            await message.channel.send("Fetching Rune Data...") 
+            info = Champ(args, driver=DRIVER)
+            if info.real:
                 seed = info.runes()
-                file = discord.File(f'./images/vape{seed}.png', filename=f'runes{seed}.png')
-                await message.channel.send(f"__{_args.capitalize()} Runes__",file=file)
-                info.kill_seed(seed)
-                info.kill_driver()
+                file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
+                await message.channel.send(f"__{args.capitalize()} Runes__",file=file)
             else:
                 await message.channel.send("That champ does not exist")
-            return
 
         elif command == '>build':
-            info = Screenshots(_args)
-            if info.get_real():
-                await message.channel.send("Fetching Build Data...") 
+            await message.channel.send("Fetching Build Data...") 
+            info = Champ(args, driver=DRIVER)
+            if info.real:
                 seed = info.build()
-                file = discord.File(f'./images/vape{seed}.png', filename=f'runes{seed}.png')
-                await message.channel.send(f"__{_args.capitalize()} Build__",file=file)
-                info.kill_seed(seed)
-                info.kill_driver()
+                file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
+                await message.channel.send(f"__{args.capitalize()} Build__",file=file)
             else:
                 await message.channel.send("That champ does not exist")
-            return
 
         elif command == '>skills':
-            info = Screenshots(_args)
-            if info.get_real():
-                await message.channel.send("Fetching Skills Data...") 
+            await message.channel.send("Fetching Skills Data...") 
+            info = Champ(args, driver=DRIVER)
+            if info.real:
                 seed = info.skills()
-                file = discord.File(f'./images/vape{seed}.png', filename='runes{seed}.png')
-                await message.channel.send(f"__{_args.capitalize()} Skill Order__",file=file)
-                info.kill_seed(seed)
-                info.kill_driver()
+                file = discord.File(f'./temp/{seed}.png', filename='runes{seed}.png')
+                await message.channel.send(f"__{args.capitalize()} Skill Order__",file=file)
             else:
                 await message.channel.send("That champ does not exist")
-            return
 
         elif command == '>stats':
-            info = Screenshots(_args)
-            if info.get_real():
-                await message.channel.send("Fetching Stats Data...") 
-                seed = info.stats()
-                file = discord.File(f'./images/vape{seed}.png', filename=f'runes{seed}.png')
-                await message.channel.send(f"__{_args.capitalize()} Stats__",file=file)
-                info.kill_seed(seed)
-                info.kill_driver()
+            await message.channel.send("Fetching Stats Data...") 
+            info = Champ(args, driver=DRIVER)
+            if info.real:
+                seed = info.champ_stats()
+                file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
+                await message.channel.send(f"__{args.capitalize()} Stats__",file=file)
             else:
                 await message.channel.send("That champ does not exist")
-            return
 
         elif command == '>sums':
-            info = Screenshots(_args)
-            if info.get_real():
-                await message.channel.send("Fetching Summoner Spell data...") 
+            await message.channel.send("Fetching Summoner Spell data...") 
+            info = Champ(args, driver=DRIVER)
+            if info.real:
                 seed = info.sums()
-                file = discord.File(f'./images/vape{seed}.png', filename=f'runes{seed}.png')
-                await message.channel.send(f"__{_args.capitalize()} Summoners__",file=file)
-                info.kill_seed(seed)
-                info.kill_driver()
+                file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
+                await message.channel.send(f"__{args.capitalize()} Summoners__",file=file)
             else:
                 await message.channel.send("That champ does not exist")
-            return
 
         elif command == '>matchups':
-            info = Screenshots(_args)
+            await message.channel.send("Fetching Matchup data...") 
+            info = Champ(args, driver=DRIVER)
             if info.get_real():
-                await message.channel.send("Fetching Matchup data...") 
                 seed = info.matchups()
-                file = discord.File(f'./images/vape{seed}.png', filename=f'runes{seed}.png')
-                await message.channel.send(f"__{_args.capitalize()} Summoners__",file=file)
-                info.kill_seed(seed)
-                info.kill_driver()
+                file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
+                await message.channel.send(f"__{args.capitalize()} Summoners__",file=file)
             else:
                 await message.channel.send("That champ does not exist")
-            return
+
+        elif command == '>tier':
+            if args in TIERS:
+                file = discord.File(TIERS[args], filename=f'args.png')
+                await message.channel.send(f"__{args.capitalize()}__",file=file)
+            else:
+                await message.channel.send("That ranked tier does not exist")
 
         elif command == '>summon':
-            _in = _args.split(' ', 1)
-            if len(_in) == 1:
-                info = Summon(name=_in[0])
-            elif len(_in) == 2:
-                info = Summon(region=_in[0], name=_in[1])
-            if info.get_real_player():
+            await message.channel.send("Fetching Summoner data...") 
+            info = summon_proxy(args=args)
+            if info.real_player:
                 response = discord.Embed(
-                    title =  f"__{info.get_name()}__" , 
-                    url= info.get_url()
+                    title =  f"__{info.name}__" , 
+                    url= info.url
                     )
-                response.set_thumbnail(url=f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/{info.get_icon()}.png")
-                response.add_field(name="Level:", value=info.get_level(), inline=False)
-                response.add_field(name="Solo/Duo Rank:", value=info.get_rank(), inline=False)
-                response.add_field(name="Ranked Season Win %:", value=f'{info.get_win()}', inline=True)
-                if info.get_na():
-                    response.add_field(name="Highest Mastery :", value=info.get_champ(), inline=False)
-                    response.set_image(url=info.get_img())
+                response.set_thumbnail(url=f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/{info.icon}.png")
+                response.add_field(name="Level:", value=info.level, inline=False)
+                response.add_field(name="Solo/Duo Rank:", value=info.rank, inline=False)
+                response.add_field(name="Ranked Season Win %:", value=f'{info.win}', inline=True)
+                if info.region_na:
+                    response.add_field(name="Highest Mastery :", value=info.champ, inline=False)
+                    response.set_image(url=info.img)
                 await message.channel.send(embed=response)
             else:
                 await message.channel.send("That Summoner does not exist or the region is incorrect")
-            return
 
         elif command == '>history':
-            _in = _args.split(' ', 1)
-            if len(_in) == 1:
-                info = Summon(name=_in[0], ss=True)
-            elif len(_in) == 2:
-                info = Summon(region=_in[0], name=_in[1], ss=True)
-            if info.get_real_player():
+            await message.channel.send("Fetching Player History data...") 
+            info = summon_proxy(args=args,ss=True)
+            if info.real:
                 seed = info.get_matches()
-                file = discord.File(f'./images/vape{seed}.png', filename=f'runes{seed}.png')
-                await message.channel.send(f'__{info.get_name()} Match History__',file=file)
-                info.kill_seed(seed)
-                info.kill_driver()
+                file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
+                await message.channel.send(f'__{info.name} Match History__',file=file)
             else:
                 await message.channel.send("That Summoner does not exist or the region is incorrect!")
             return
-        elif command == '>tier':
-            if _args in TIERS:
-                file = discord.File(TIERS[_args], filename=f'_args.png')
-                await message.channel.send(f"__{_args.capitalize()}__",file=file)
-            else:
-                await message.channel.send("That ranked tier does not exist")
-            return 
-
+        
 client.run(TOKEN)
