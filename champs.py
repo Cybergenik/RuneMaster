@@ -24,7 +24,6 @@ class Champ():
                 self.real = True 
                 self.name = response[name]['name']
                 if driver != None:
-                    print("driver getting page")
                     self.driver = driver
                     self.driver.get(self.url)
                 break
