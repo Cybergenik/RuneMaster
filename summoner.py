@@ -48,7 +48,7 @@ class Summon():
                 regions = json.load(f)
             for reg in regions:
                 if regions[reg] == region:
-                    self.url = 'https://'+reg+'.op.gg/summoner/userName='+self.name
+                    self.url = 'https://'+reg+'.op.gg/summoner/userName='+name
                     print(self.url)
                     break
             if driver != None:
