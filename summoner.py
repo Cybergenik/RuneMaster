@@ -43,7 +43,10 @@ class Summon():
                 self.player_win = 'N/A' 
             with open('regions.json') as f:
                 regions = json.load(f)
-            self.url = 'https://'+regions[region.lower()]+'.op.gg/summoner/userName='+self.player_name
+            for reg in regions:
+                if regions[reg] == region:
+                    self.url = 'https://'+reg+'.op.gg/summoner/userName='+self.player_name
+                    break
             if driver != None:
                self.driver = driver
                self.driver.get(self.url)
