@@ -47,10 +47,16 @@ with open('commands.json') as f:
 
 def summon_proxy(args:str, ss=False):
     _in = args.split(' ', 1)
-    if len(_in) == 1:
-        return Summon(name=_in[0], driver=DRIVER)
+    if ss == False:
+        if len(_in) == 1:
+            return Summon(name=_in[0])
+        else:
+            return Summon(region=_in[0], name=_in[1])
     else:
-        return Summon(region=_in[0], name=_in[1], driver=DRIVER)
+        if len(_in) == 1:
+            return Summon(name=_in[0], driver=DRIVER)
+        else:
+            return Summon(region=_in[0], name=_in[1], driver=DRIVER)
 
 @client.event
 async def on_ready():
