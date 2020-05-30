@@ -191,7 +191,7 @@ async def on_message(message):
         elif command == '>matchups':
             await message.channel.send("Fetching Matchup data...") 
             info = Champ(args, driver=DRIVER)
-            if info.get_real():
+            if info.real:
                 seed = info.matchups()
                 file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
                 await message.channel.send(f"__{args.capitalize()} Summoners__",file=file)
