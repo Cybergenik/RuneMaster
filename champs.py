@@ -30,13 +30,11 @@ class Champ():
                 break
 
     def runes(self):
-        #self.driver.set_window_size(689,1120) # May need manual adjustment        
         seed = str(random.randint(0,99999))
         self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/div/table/tbody[2]').screenshot('./temp/'+seed+'.png')
         return seed
 
     def build(self):
-        #self.driver.set_window_size(S('Width')+200,S('Height')+200)
         seed = str(random.randint(0,99999))
         self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[2]').screenshot('./temp/'+seed+'.png')
         return seed
@@ -47,7 +45,6 @@ class Champ():
         return seed
 
     def champ_stats(self):
-        #self.driver.set_window_size(1080,1920)
         seed = str(random.randint(0,99999))
         self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[2]/div[1]').screenshot('./temp/'+seed+'.png')
         return seed
@@ -59,7 +56,6 @@ class Champ():
         return seed
 
     def matchups(self):
-        #S = lambda X: self.driver.execute_script('return document.querySelector("body > div > div.main-container > div.page-content > div.ng-scope > div.matchups > div > div.row.counter-row").scroll'+X)
         self.driver.set_window_size(342,620)
         self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[1]/div/ul/li[6]/a').click()
         seed = str(random.randint(0,99999))

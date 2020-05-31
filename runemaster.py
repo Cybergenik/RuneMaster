@@ -79,7 +79,7 @@ async def on_message(message):
                 os.remove(f'temp/{f}')
         init_driver()
         print('Finished clearing cache and driver restarted')
-        await message.channel.send('RuneMaster good to go!')
+        await message.channel.send('RuneMaster Ready to go!')
         return
     
     if message.author == client.user:
@@ -107,7 +107,7 @@ async def on_message(message):
         )
         await message.channel.send(embed=response)
         return
-        
+
     if re.search('^>tierlist', message.content, flags=re.IGNORECASE): 
         file = discord.File('./images/tierlist.png', filename='tierlist.png')
         await message.channel.send(f"__Ranked Tier List__",file=file)
@@ -116,6 +116,12 @@ async def on_message(message):
     if re.search('^>old_tierlist', message.content, flags=re.IGNORECASE):
         file = discord.File('./images/old_tierlist.png', filename='old_tierlist.png')
         await message.channel.send(f"__Old Ranked Tier List__",file=file)
+        return
+
+    if re.search('^>reload', message.content, flags=re.IGNORECASE):
+        await message.channel.send("Reloading RuneMaster...")
+        init_driver()
+        await message.channel.send("RuneMaster Ready to go!")
         return
 
     if re.search('^>', message.content):
