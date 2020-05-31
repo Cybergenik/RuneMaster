@@ -51,7 +51,7 @@ class Champ():
         return seed
 
     def champ_stats(self):
-        self.driver.execute_script('document.querySelector("#beacon-container").remove()')
+        self.driver.execute_script('document.querySelector("#beacon-container").parentNode.removeChild(document.querySelector("#beacon-container"))')
         self.driver.set_window_size(334,692)
         seed = str(random.randint(0,99999))
         self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[2]/div[1]/div[2]').screenshot(f'./temp/{seed}.png')
