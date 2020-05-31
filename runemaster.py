@@ -92,7 +92,7 @@ async def on_message(message):
     if re.search('^>help', message.content, flags=re.IGNORECASE):
         response = discord.Embed(
             title =  "__Runemaster | Help__",
-            description = "All commands start with a `>` and most commands will require an argument, usually this will be the name of a champion. ",
+            description = "All commands start with a `>` and most commands will require an argument, usually this will be the name of a champion. If the champ has a space or a singlequote dont include them in the name. ex: DrMundo, Reksai",
         )
         for command in COMMANDS.values():
             response.add_field(name=command['usage'], value=command['value'], inline=False)
