@@ -27,6 +27,7 @@ class Champ():
                 if driver != None:
                     self.driver = driver
                     self.driver.get(self.url)
+                    self.driver.execute_script('document.querySelector("#beacon-container").remove()')
                 break
 
     def runes(self):
@@ -36,13 +37,13 @@ class Champ():
         return seed
 
     def build(self):
-        self.driver.set_window_size(733,667)
+        self.driver.set_window_size(733,680)
         seed = str(random.randint(0,99999))
         self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[2]').screenshot(f'./temp/{seed}.png')
         return seed
 
     def skills(self):
-        self.driver.set_window_size(734,138)
+        self.driver.set_window_size(734,150)
         seed = str(random.randint(0,99999))
         self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[1]/tbody[2]').screenshot(f'./temp/{seed}.png')
         return seed
