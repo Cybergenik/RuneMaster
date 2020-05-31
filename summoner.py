@@ -41,9 +41,8 @@ class Summon():
                                 self.champ = f"{response[champ]['name']} {mastery[0]['championPoints']}"
                                 self.img = f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/champion/{response[champ]['image']['full']}"
                                 break
-                        self.masteries = True
                     except:
-                        self.masteries = False
+                        print('masteries were not found')
                     self.url = 'https://'+reg+'.op.gg/summoner/userName='+name
                     break
             if driver != None:

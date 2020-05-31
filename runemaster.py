@@ -221,9 +221,8 @@ async def on_message(message):
                 response.add_field(name="Level:", value=info.level, inline=False)
                 response.add_field(name="Solo/Duo Rank:", value=info.rank, inline=False)
                 response.add_field(name="Ranked Season Win %:", value=f'{info.win}', inline=True)
-                if info.region_na:
-                    response.add_field(name="Highest Mastery :", value=info.champ, inline=False)
-                    response.set_image(url=info.img)
+                response.add_field(name="Highest Mastery :", value=info.champ, inline=False)
+                response.set_image(url=info.img)
                 await message.channel.send(embed=response)
             else:
                 await message.channel.send("That Summoner does not exist or the region is incorrect")
