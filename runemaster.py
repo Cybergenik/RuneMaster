@@ -236,6 +236,6 @@ async def on_message(message):
                 await message.channel.send(f'__{info.name} Match History__',file=file)
             else:
                 await message.channel.send("That Summoner does not exist or the region is incorrect!")
-            return
-        
+        else:
+            await message.channel.send('Type `>help` for a list of commands and how to use them.')
 client.run(TOKEN)
