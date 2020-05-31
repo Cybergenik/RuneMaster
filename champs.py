@@ -3,6 +3,7 @@ import os
 import random
 import json
 import requests
+from time import sleep
 
 class Champ():
     def __init__(self, champ, driver=None):
@@ -35,6 +36,7 @@ class Champ():
         return seed
 
     def build(self):
+        self.driver.set_window_size(734,667)
         seed = str(random.randint(0,99999))
         self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[2]').screenshot('./temp/'+seed+'.png')
         return seed
@@ -60,5 +62,6 @@ class Champ():
         #self.driver.set_window_size(S('Width')+200,S('Height')+200)
         self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[1]/div/ul/li[6]/a').click()
         seed = str(random.randint(0,99999))
+        sleep(1)
         self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[7]/div/div[2]/div[3]').screenshot('./temp/'+seed+'.png')
         return seed
