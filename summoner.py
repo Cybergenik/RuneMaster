@@ -21,21 +21,7 @@ class Summon():
             self.name = player_info['name']
             self.icon = player_info['profileIconId']
             self.level = player_info['summonerLevel']
-            mastery = requests.get(f'https://na1.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{player_info["id"]}?api_key={RIOT_API_KEY}').json()
             response = requests.get('https://ddragon.leagueoflegends.com/cdn/10.10.3216176/data/en_US/champion.json').json()['data']
-            try:
-                vmastery = str(mastery[0]['championId'])
-            except:
-                vmastery = False
-            if region == "na1" and vmastery != False:
-                self.region_na = True
-                for champ in response:
-                    if response[champ]['key'] == vmastery:
-                        self.champ = f"{response[champ]['name']} {mastery[0]['championPoints']}"
-                        self.img = f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/champion/{response[champ]['image']['full']}"
-                        break
-            else:
-                self.region_na = False
             try:
                 self.rank = f'{player_stats[0]["tier"].lower().capitalize()} {player_stats[0]["rank"]} {player_stats[0]["leaguePoints"]} LP'
             except IndexError:
@@ -48,8 +34,17 @@ class Summon():
                 regions = json.load(f)
             for reg in regions:
                 if regions[reg] == region:
+                    try:
+                        mastery = requests.get(f'https://{regions[reg]}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{player_info["id"]}?api_key={RIOT_API_KEY}').json()
+                        for champ in response:
+                            if response[champ]['key'] == str(mastery[0]['championId']):
+                                self.champ = f"{response[champ]['name']} {mastery[0]['championPoints']}"
+                                self.img = f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/champion/{response[champ]['image']['full']}"
+                                break
+                        self.masteries = True
+                    except:
+                        self.masteries = False
                     self.url = 'https://'+reg+'.op.gg/summoner/userName='+name
-                    print(self.url)
                     break
             if driver != None:
                self.driver = driver
