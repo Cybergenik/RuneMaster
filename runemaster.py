@@ -16,10 +16,10 @@ else:
 
 def init_driver():
     global DRIVER
-    try:
+    if DRIVER is not None:
         DRIVER.quit()
         print('restarting driver...')
-    except:
+    else:
         print('Starting web drive for the first time...')
     if os.name == "nt":
         options = webdriver.FirefoxOptions()

@@ -32,28 +32,28 @@ class Champ():
 
     def runes(self):
         seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/div/table/tbody[2]').screenshot('./temp/'+seed+'.png')
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/div/table/tbody[2]').screenshot(f'./temp/{seed}.png')
         return seed
 
     def build(self):
         seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[2]').screenshot('./temp/'+seed+'.png')
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[2]').screenshot(f'./temp/{seed}.png')
         return seed
 
     def skills(self):
         seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[1]/tbody[2]').screenshot('./temp/'+seed+'.png')
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[1]/tbody[2]').screenshot(f'./temp/{seed}.png')
         return seed
 
     def champ_stats(self):
         seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[2]/div[1]').screenshot('./temp/'+seed+'.png')
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[2]/div[1]').screenshot(f'./temp/{seed}.png')
         return seed
         
     def sums(self):
         self.driver.set_window_size(750,135)
         seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[1]/tbody[1]').screenshot('./temp/'+seed+'.png')
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[1]/tbody[1]').screenshot(f'./temp/{seed}.png')
         return seed
 
     def matchups(self):
@@ -61,5 +61,5 @@ class Champ():
         self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[1]/div/ul/li[6]/a').click()
         seed = str(random.randint(0,99999))
         sleep(1)
-        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[7]/div/div[2]/div[3]').screenshot('./temp/'+seed+'.png')
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[7]/div/div[2]/div[3]').screenshot(f'./temp/{seed}.png')
         return seed
