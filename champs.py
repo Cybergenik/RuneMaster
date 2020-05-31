@@ -27,6 +27,7 @@ class Champ():
                 if driver != None:
                     self.driver = driver
                     self.driver.get(self.url)
+                    self.driver.set_window_size(1920,1080)
                 break
 
     def runes(self):
