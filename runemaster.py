@@ -57,7 +57,10 @@ def summon_proxy(args:str, ss=False):
             return Summon(name=_in[0], driver=DRIVER)
         else:
             return Summon(region=_in[0], name=_in[1], driver=DRIVER)
-
+def clean_temp(temp):
+    for f in temp:
+        if f.endswith('.png'):
+            os.remove(f'temp/{f}')
 @client.event
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
@@ -74,9 +77,7 @@ async def on_message(message):
     if len(temp) >= 20:
         await message.channel.send('Self cleaning, please wait...')
         print("cleaning temp dir...")
-        for f in temp:
-            if f.endswith('.png'):
-                os.remove(f'temp/{f}')
+        clean_temp(temp=temp)
         init_driver()
         print('Finished clearing cache and driver restarted')
         await message.channel.send('RuneMaster Ready to go!')

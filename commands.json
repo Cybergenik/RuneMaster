@@ -7,12 +7,16 @@
         "value": "Returns this menu of available options",
         "usage": "**>help**"
     },
+    "reload":{
+        "value": "Reloads the RuneMaster Bot, use this command if you notice that the bot is going slow and has popups in messages.",
+        "usage": "**>reload**"
+    },
     "info":{
         "value": "Returns detailed information on a Champion, including description, stats, image ex: \n ` >info Aatrox `",
         "usage": "**>info**"
     },
     "summon":{
-        "value": "Returns information on a Summoner like they're level, rank, player icon. Default region is NA, don't include a region if you just want NA ex: \n `>summon Faker | >summon KR Faker`",
+        "value": "Returns information on a Summoner like they're level, rank, player icon. Default region is NA, don't include a region if you just want NA. ex: \n `>summon Faker | >summon KR Faker`",
         "usage": "**>summon**"
     },
     "history":{
