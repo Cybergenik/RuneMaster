@@ -27,7 +27,7 @@ class Champ():
                 if driver != None:
                     self.driver = driver
                     self.driver.get(self.url)
-                    self.driver.execute_script('document.querySelector("#beacon-container").remove()')
+                    self.driver.execute_script('window.onload = document.querySelector("#beacon-container").remove();')
                 break
 
     def runes(self):
