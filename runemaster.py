@@ -244,11 +244,11 @@ async def on_message(message):
             if len(args) > 1:
                 region = args[0]
                 prefix = checker(name=args[1], region=region)
-                print(args[1], type(args[1]))
-                print(region, type(region))
-                print(prefix, type(prefix))
+                print("prefix generated")
                 if prefix is not False:
+                    print("generating obj")
                     info = Summon(name=args[1], region=region, prefix=prefix)
+                    print("finished obj generation")
                 else:
                     await message.channel.send("Region does not exist, type *>regions* for a list of regions")
             else:
