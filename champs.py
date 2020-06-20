@@ -6,7 +6,7 @@ import requests
 from time import sleep
 
 class Champ():
-    def __init__(self, champ, driver=None):
+    def __init__(self, champ):
         response = requests.get('https://ddragon.leagueoflegends.com/cdn/10.10.3216176/data/en_US/champion.json').json()['data']
         self.real = False
         for name in response:

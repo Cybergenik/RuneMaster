@@ -3,7 +3,7 @@
         "value": "RuneMaster greets you!",
         "usage": "**>hello**"
     },
-    "help":{
+    "help|commands":{
         "value": "Returns this menu of available options",
         "usage": "**>help**"
     },
@@ -29,11 +29,11 @@
     },
     "tierlist|tiers":{
         "value": "Returns an image of the current up to date ranked tier list: \n ` >tierlist `",
-        "usage": "**>tierlist**"
+        "usage": "**>tiers**"
     },
     "oldtierlist|oldtiers":{
         "value": "Returns an image of the old outdated ranked tier list: \n ` >old_tierlist `",
-        "usage": "**>old_tierlist**"
+        "usage": "**>oldtiers**"
     },
     "tier":{
         "value": "Returns an image of the tier rank specified: \n ` >tier Gold `",

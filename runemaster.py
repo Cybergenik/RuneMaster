@@ -95,16 +95,17 @@ async def on_message(message):
     if re.search('^>hello', message.content, flags=re.IGNORECASE):
         await message.channel.send('Hello Summoner')
         return
-        
-    if re.search('^>help', message.content, flags=re.IGNORECASE):
+    if re.search('^>commands', message.content, flags=re.IGNORECASE):
         response = discord.Embed(
-            title =  "__Runemaster | Help__",
+            title =  "__Runemaster Commands__",
             description = "All commands start with a `>` and most commands will require an argument, usually this will be the name of a champion. If the champ has a space or a singlequote dont include them in the name. ex: DrMundo, Reksai",
         )
         for command in COMMANDS.values():
             response.add_field(name=command['usage'], value=command['value'], inline=False)
         await message.channel.send(embed=response)
-        return
+        return       
+
+    
 
     if re.search('^>regions', message.content, flags=re.IGNORECASE):
         desc = '\n'.join(REGIONS.values())
@@ -140,8 +141,20 @@ async def on_message(message):
             return
         else:
             args = _in[1].lower()
+
+        if command == '>help':
+            if args in [command for command in COMMANDS]:
+                response = discord.Embed(
+                    title =  "__Runemaster Help__",
+                    description = "All commands start with a `>` and most commands will require an argument, usually this will be the name of a champion. If the champ has a space or a singlequote dont include them in the name. ex: DrMundo, Reksai",
+                )
+                response.add_field(name=COMMANDS[args]['usage'], value=COMMANDS[args]['value'], inline=False)
+                await message.channel.send(embed=response)
+            else:
+                await message.channel.send("Command doesn't exist, type *>commands* for a list of commands")
+
 #region Champion related commands
-        if command == '>info':
+        elif command == '>info':
             info = Champ(args)
             if info.real:
                 response = discord.Embed(
@@ -216,7 +229,7 @@ async def on_message(message):
             else:
                 await message.channel.send("That champ does not exist")
 #endregion
-
+        
         elif command == '>tier':
             if args in TIERS:
                 file = discord.File(TIERS[args], filename=f'args.png')
@@ -227,6 +240,7 @@ async def on_message(message):
 #region Summoner related commands
         elif command == '>summon':
             await message.channel.send("Fetching Summoner data...")
+            args = args.split(" ", 1)
             if len(args) > 1:
                 region = args[0]
                 prefix = checker(name=args[1], region=region)
@@ -253,6 +267,7 @@ async def on_message(message):
 
         elif command == '>history':
             await message.channel.send("Fetching Player History data...")
+            args = args.split(" ", 1)
             if len(args) > 1:
                 prefix = checker(name=args[1], region=args[0])
                 if prefix is not False:
