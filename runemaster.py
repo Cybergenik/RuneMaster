@@ -115,7 +115,7 @@ async def on_message(message):
         await message.channel.send(embed=response)
         return
 
-    if re.search('^>tierlist', message.content, flags=re.IGNORECASE): 
+    if re.search('^>tierlist|^>tiers', message.content, flags=re.IGNORECASE): 
         file = discord.File('./images/tierlist.png', filename='tierlist.png')
         await message.channel.send(f"__Ranked Tier List__",file=file)
         return
@@ -227,9 +227,14 @@ async def on_message(message):
 #region Summoner related commands
         elif command == '>summon':
             await message.channel.send("Fetching Summoner data...")
-            prefix = checker(name=args[1], region=args[0])
+            if len(args) == 1:
+                region = 'NA'
+                prefix = checker(name=args[0], region=region)
+            else:
+                region = args[0]
+                prefix = checker(name=args[1], region=region)
             if prefix is not False:
-                info = Summon(name=args[1], region=args[0], prefix=prefix)
+                info = Summon(name=args[1], region=region, prefix=prefix)
                 if info.real_player:
                     response = discord.Embed(
                         title =  f"__{info.name}__" , 
@@ -249,7 +254,10 @@ async def on_message(message):
 
         elif command == '>history':
             await message.channel.send("Fetching Player History data...")
-            prefix = checker(name=args[1], region=args[0])
+            if len(args) == 1:
+                prefix = checker(name=args[0], region='NA')
+            else:
+                prefix = checker(name=args[1], region=args[0])
             if prefix is not False:
                 info = Screenshot(driver=DRIVER, name=args[1], prefix=prefix)
                 try:
