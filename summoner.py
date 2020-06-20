@@ -22,6 +22,7 @@ class Summon():
             self.region = region
             self.icon = player_info['profileIconId']
             self.level = player_info['summonerLevel']
+            print('getting champ data')
             response = requests.get('https://ddragon.leagueoflegends.com/cdn/10.10.3216176/data/en_US/champion.json').json()['data']
             try:
                 self.rank = f'{player_stats[0]["tier"].lower().capitalize()} {player_stats[0]["rank"]} {player_stats[0]["leaguePoints"]} LP'
