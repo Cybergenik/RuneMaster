@@ -27,11 +27,11 @@
         "value": "Returns a list of all regions that you can use to look up ex: \n ` >regions `",
         "usage": "**>regions**"
     },
-    "tierlist":{
+    "tierlist|tiers":{
         "value": "Returns an image of the current up to date ranked tier list: \n ` >tierlist `",
         "usage": "**>tierlist**"
     },
-    "old_tierlist":{
+    "oldtierlist|oldtiers":{
         "value": "Returns an image of the old outdated ranked tier list: \n ` >old_tierlist `",
         "usage": "**>old_tierlist**"
     },

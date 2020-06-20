@@ -120,7 +120,7 @@ async def on_message(message):
         await message.channel.send(f"__Ranked Tier List__",file=file)
         return
 
-    if re.search('^>old_tierlist', message.content, flags=re.IGNORECASE):
+    if re.search('^>oldtierlist|^>oldtiers', message.content, flags=re.IGNORECASE):
         file = discord.File('./images/old_tierlist.png', filename='old_tierlist.png')
         await message.channel.send(f"__Old Ranked Tier List__",file=file)
         return
@@ -227,14 +227,15 @@ async def on_message(message):
 #region Summoner related commands
         elif command == '>summon':
             await message.channel.send("Fetching Summoner data...")
-            if len(args) == 1:
-                region = 'NA'
-                prefix = checker(name=args[0], region=region)
-            else:
+            if len(args) > 1:
                 region = args[0]
                 prefix = checker(name=args[1], region=region)
-            if prefix is not False:
-                info = Summon(name=args[1], region=region, prefix=prefix)
+                if prefix is not False:
+                    info = Summon(name=args[1], region=region, prefix=prefix)
+                else:
+                    await message.channel.send("Region does not exist, type *>regions* for a list of regions")
+            else:
+                info = Summon(name=args)
                 if info.real_player:
                     response = discord.Embed(
                         title =  f"__{info.name}__" , 
@@ -249,17 +250,17 @@ async def on_message(message):
                     await message.channel.send(embed=response)
                 else:
                     await message.channel.send("That Summoner does not exist or is on a different region")
-            else:
-                await message.channel.send("Region does not exist, type *>regions* for a list of regions")
 
         elif command == '>history':
             await message.channel.send("Fetching Player History data...")
-            if len(args) == 1:
-                prefix = checker(name=args[0], region='NA')
-            else:
+            if len(args) > 1:
                 prefix = checker(name=args[1], region=args[0])
-            if prefix is not False:
-                info = Screenshot(driver=DRIVER, name=args[1], prefix=prefix)
+                if prefix is not False:
+                    info = Screenshot(driver=DRIVER, name=args[1], prefix=prefix)
+                else:
+                    await message.channel.send("Region does not exist, type *>regions* for a list of regions")
+            else:
+                info = Screenshot(driver=DRIVER, name=args, prefix='na')
                 try:
                     seed = info.get_matches()
                     file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
