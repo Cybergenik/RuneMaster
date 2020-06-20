@@ -143,15 +143,15 @@ async def on_message(message):
             args = _in[1].lower()
 
         if command == '>help':
-            if args in [command for command in COMMANDS]:
-                response = discord.Embed(
-                    title =  "__Runemaster Help__",
-                    description = "All commands start with a `>` and most commands will require an argument, usually this will be the name of a champion. If the champ has a space or a singlequote dont include them in the name. ex: DrMundo, Reksai",
-                )
-                response.add_field(name=COMMANDS[args]['usage'], value=COMMANDS[args]['value'], inline=False)
-                await message.channel.send(embed=response)
-            else:
-                await message.channel.send("Command doesn't exist, type *>commands* for a list of commands")
+            for command in COMMANDS:
+                if args.lower() == command:
+                    response = discord.Embed(
+                        title =  f"__{command.capitalize()} Help__",
+                        description = f"{COMMANDS[command]['usage']} \n {COMMANDS[command]['value']}",
+                    )
+                    await message.channel.send(embed=response)
+                    return
+            await message.channel.send("Command doesn't exist, type *>commands* for a list of commands")
 
 #region Champion related commands
         elif command == '>info':
@@ -283,6 +283,6 @@ async def on_message(message):
                 except:
                     await message.channel.send("That Summoner does not exist")
         else:
-            await message.channel.send('Type `>help` for a list of commands and how to use them.')
+            await message.channel.send('Type `>commands` for a list of commands and how to use them.')
 #endregion
 client.run(TOKEN)

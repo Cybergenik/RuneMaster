@@ -13,7 +13,8 @@ class Summon():
             player_info = lol_watcher.summoner.by_name(region, name)
             player_stats = lol_watcher.league.by_summoner(region, player_info['id'])
             self.real_player = True
-        except:
+        except Exception as e:
+            print(e)
             print('bad input for summoner or region')
             self.real_player = False
         if self.real_player:

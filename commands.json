@@ -3,9 +3,13 @@
         "value": "RuneMaster greets you!",
         "usage": "**>hello**"
     },
-    "help|commands":{
-        "value": "Returns this menu of available options",
+    "commands":{
+        "value": "Returns a list of all the commands",
         "usage": "**>help**"
+    },
+    "help":{
+        "value": "Returns usage on a specific command",
+        "usage": "**>help summon**"
     },
     "reload":{
         "value": "Reloads the RuneMaster Bot, use this command if you notice that the bot is going slow and has popups in messages.",
