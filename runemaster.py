@@ -243,11 +243,8 @@ async def on_message(message):
             args = args.split(" ", 1)
             if len(args) > 1:
                 prefix = checker(name=args[1], region=args[0])
-                print("prefix generated")
                 if prefix is not None:
-                    print("generating obj")
                     player = Summon(name=args[1], region=args[0], prefix=prefix)
-                    print("finished obj generation")
                 else:
                     await message.channel.send("Region does not exist, type *>regions* for a list of regions")
             else:
