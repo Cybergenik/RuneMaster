@@ -9,6 +9,7 @@ lol_watcher = LolWatcher(RIOT_API_KEY)
 
 class Summon():
     def __init__(self, name, region="na1", prefix="na"):
+        print(name, region, prefix)
         try:
             player_info = lol_watcher.summoner.by_name(region, name)
             player_stats = lol_watcher.league.by_summoner(region, player_info['id'])
@@ -36,7 +37,9 @@ class Summon():
                     if response[champ]['key'] == str(mastery[0]['championId']):
                         self.champ = f"{response[champ]['name']} {mastery[0]['championPoints']}"
                         self.img = f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/champion/{response[champ]['image']['full']}"
+                        print("got masteries")
                         break
             except:
                 print('masteries were not found')
             self.url = f'https://{prefix}.op.gg/summoner/userName={name}'
+            print("finish object instantiation")
