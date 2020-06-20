@@ -37,9 +37,9 @@ class Summon():
                     if response[champ]['key'] == str(mastery[0]['championId']):
                         self.champ = f"{response[champ]['name']} {mastery[0]['championPoints']}"
                         self.img = f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/champion/{response[champ]['image']['full']}"
-                        print("got masteries")
                         break
             except:
+                self.champ = "N/A"
+                self.champ = "./images/default.png"
                 print('masteries were not found')
             self.url = f'https://{prefix}.op.gg/summoner/userName={name}'
-            print("finish object instantiation")

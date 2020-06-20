@@ -261,7 +261,9 @@ async def on_message(message):
                     response.add_field(name="Ranked Season Win %:", value=f'{info.win}', inline=True)
                     response.add_field(name="Highest Mastery :", value=info.champ, inline=False)
                     response.set_image(url=info.img)
+                    print("sending...")
                     await message.channel.send(embed=response)
+                    print("sent message")
                 else:
                     await message.channel.send("That Summoner does not exist or is on a different region")
 
