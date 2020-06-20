@@ -8,7 +8,7 @@ class Screenshot:
     def __init__(self, driver, name, prefix=None):
         self.driver = driver
         if prefix is None:
-            self.url = f'https://www.op.gg/champion/{self.champ}/statistics'
+            self.url = f'https://www.op.gg/champion/{name}/statistics'
         else:
             self.url = f'https://{prefix}.op.gg/summoner/userName={name}'
 
