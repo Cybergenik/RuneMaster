@@ -250,16 +250,23 @@ async def on_message(message):
                     await message.channel.send("Region does not exist, type *>regions* for a list of regions")
             else:
                 info = Summon(name=args[0])
+                print("finished object instantiation")
                 if info.real_player:
                     response = discord.Embed(
                         title =  f"__{info.name}__" , 
                         url= info.url
                         )
+                    print("finished embed object")
                     response.set_thumbnail(url=f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/{info.icon}.png")
+                    print("thumbnail")
                     response.add_field(name="Level:", value=info.level, inline=False)
+                    print("level")
                     response.add_field(name="Solo/Duo Rank:", value=info.rank, inline=False)
+                    print("rank")
                     response.add_field(name="Ranked Season Win %:", value=f'{info.win}', inline=True)
+                    print("win %")
                     response.add_field(name="Highest Mastery :", value=info.champ, inline=False)
+                    print("mastery")
                     response.set_image(url=info.img)
                     print("sending...")
                     await message.channel.send(embed=response)
