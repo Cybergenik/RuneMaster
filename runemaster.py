@@ -55,11 +55,11 @@ def checker(name, region=None):
     '''
     if region is None:
         for champ in CHAMPS:
-            if champ == name.lower():
+            if champ.lower() == name.lower():
                 return champ
     else: 
         for reg in REGIONS:
-            if REGIONS[reg] == region:
+            if REGIONS[reg] == region.lower():
                 return reg #this is the prefix per the region
     return False
 
