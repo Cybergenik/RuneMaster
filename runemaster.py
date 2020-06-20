@@ -249,7 +249,7 @@ async def on_message(message):
                 else:
                     await message.channel.send("Region does not exist, type *>regions* for a list of regions")
             else:
-                info = Summon(name=args)
+                info = Summon(name=args[0])
                 if info.real_player:
                     response = discord.Embed(
                         title =  f"__{info.name}__" , 
@@ -275,7 +275,7 @@ async def on_message(message):
                 else:
                     await message.channel.send("Region does not exist, type *>regions* for a list of regions")
             else:
-                info = Screenshot(driver=DRIVER, name=args, prefix='na')
+                info = Screenshot(driver=DRIVER, name=args[0], prefix='na')
                 try:
                     seed = info.get_matches()
                     file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')

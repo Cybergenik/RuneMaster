@@ -8,7 +8,7 @@ RIOT_API_KEY = os.getenv("RIOT_API_KEY")
 lol_watcher = LolWatcher(RIOT_API_KEY)
 
 class Summon():
-    def __init__(self, name:str, region="na1", prefix="na"):
+    def __init__(self, name, region="na1", prefix="na"):
         try:
             player_info = lol_watcher.summoner.by_name(region, name)
             player_stats = lol_watcher.league.by_summoner(region, player_info['id'])
