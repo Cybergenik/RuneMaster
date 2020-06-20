@@ -19,10 +19,8 @@ class Summon():
             self.real_player = False
         if self.real_player:
             self.name = player_info['name']
-            self.region = region
             self.icon = player_info['profileIconId']
             self.level = player_info['summonerLevel']
-            print('getting champ data')
             response = requests.get('https://ddragon.leagueoflegends.com/cdn/10.10.3216176/data/en_US/champion.json').json()['data']
             try:
                 self.rank = f'{player_stats[0]["tier"].lower().capitalize()} {player_stats[0]["rank"]} {player_stats[0]["leaguePoints"]} LP'
@@ -33,7 +31,7 @@ class Summon():
             else:
                 self.win = 'N/A' 
             try:
-                mastery = requests.get(f'https://{self.region}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{player_info["id"]}?api_key={RIOT_API_KEY}').json()
+                mastery = requests.get(f'https://{region}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{player_info["id"]}?api_key={RIOT_API_KEY}').json()
                 for champ in response:
                     if response[champ]['key'] == str(mastery[0]['championId']):
                         self.champ = f"{response[champ]['name']} {mastery[0]['championPoints']}"
