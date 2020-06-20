@@ -244,6 +244,9 @@ async def on_message(message):
             if len(args) > 1:
                 region = args[0]
                 prefix = checker(name=args[1], region=region)
+                print(args[1], type(args[1]))
+                print(region, type(region))
+                print(prefix, type(prefix))
                 if prefix is not False:
                     info = Summon(name=args[1], region=region, prefix=prefix)
                 else:
