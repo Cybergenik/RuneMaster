@@ -1,4 +1,3 @@
-from selenium import webdriver
 import random
 import os
 import json
@@ -9,7 +8,7 @@ RIOT_API_KEY = os.getenv("RIOT_API_KEY")
 lol_watcher = LolWatcher(RIOT_API_KEY)
 
 class Summon():
-    def __init__(self, region="na1", name="jareco", driver=None):
+    def __init__(self, region="na1", name="jareco", prefix="na"):
         try:
             player_info = lol_watcher.summoner.by_name(region, name)
             player_stats = lol_watcher.league.by_summoner(region, player_info['id'])
@@ -19,6 +18,7 @@ class Summon():
             self.real_player = False
         if self.real_player:
             self.name = player_info['name']
+            self.region = region
             self.icon = player_info['profileIconId']
             self.level = player_info['summonerLevel']
             response = requests.get('https://ddragon.leagueoflegends.com/cdn/10.10.3216176/data/en_US/champion.json').json()['data']
@@ -30,33 +30,13 @@ class Summon():
                 self.win = f'{round((player_stats[0]["wins"] / (player_stats[0]["wins"] + player_stats[0]["losses"])) * 100)}%'
             else:
                 self.win = 'N/A' 
-            with open('regions.json') as f:
-                regions = json.load(f)
-            for reg in regions:
-                if regions[reg] == region:
-                    try:
-                        mastery = requests.get(f'https://{regions[reg]}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{player_info["id"]}?api_key={RIOT_API_KEY}').json()
-                        for champ in response:
-                            if response[champ]['key'] == str(mastery[0]['championId']):
-                                self.champ = f"{response[champ]['name']} {mastery[0]['championPoints']}"
-                                self.img = f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/champion/{response[champ]['image']['full']}"
-                                break
-                    except:
-                        print('masteries were not found')
-                    self.url = 'https://'+reg+'.op.gg/summoner/userName='+name
-                    break
-            if driver != None:
-               self.driver = driver
-               self.driver.get(self.url)
-               self.driver.set_window_size(1920,1080)
-
-    def get_match_info(self):
-        seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('//*[@id="GameAverageStatsBox-summary"]/div[1]').screenshot(f'./temp/{seed}.png')
-        return seed
-
-    def get_matches(self):
-        seed = str(random.randint(0,99999))
-        self.driver.set_window_size(1080,1920) # May need manual adjustment
-        self.driver.find_element_by_xpath('//*[@id="SummonerLayoutContent"]/div[2]/div[2]/div').screenshot(f'./temp/{seed}.png')
-        return seed
+            try:
+                mastery = requests.get(f'https://{self.region}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{player_info["id"]}?api_key={RIOT_API_KEY}').json()
+                for champ in response:
+                    if response[champ]['key'] == str(mastery[0]['championId']):
+                        self.champ = f"{response[champ]['name']} {mastery[0]['championPoints']}"
+                        self.img = f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/champion/{response[champ]['image']['full']}"
+                        break
+            except:
+                print('masteries were not found')
+            self.url = f'https://{prefix}.op.gg/summoner/userName={name}'

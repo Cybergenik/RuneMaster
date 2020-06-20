@@ -4,8 +4,10 @@ import os
 import discord
 import re
 import json
+import requests
 from champs import Champ
 from summoner import Summon
+from screenshot import Screenshot
 
 DRIVER = None
 TOKEN = os.getenv('DISCORD_TOKEN')
@@ -38,37 +40,47 @@ def init_driver():
         raise Exception('Unknown Operating System, please use either a UNIX based OS or Windows')
 init_driver()
 
+# Global Variable declaration
 with open('tiers.json') as f:
     TIERS = json.load(f)
 with open('regions.json') as f:
     REGIONS = json.load(f)
 with open('commands.json') as f:
     COMMANDS = json.load(f)
+CHAMPS = requests.get('https://ddragon.leagueoflegends.com/cdn/10.10.3216176/data/en_US/champion.json').json()['data']
 
-def summon_proxy(args:str, ss=False):
+def checker(name, region=None):
+    '''
+    Checks to see that the region/champ exists and returns the champ/url prefix for the region
+    '''
+    if region is None:
+        for champ in CHAMPS:
+            if champ == name.lower():
+                return champ
+    else: 
+        for reg in REGIONS:
+            if REGIONS[reg] == region:
+                return reg
+    return False
+
+def screenshot_proxy(args:str):
     _in = args.split(' ', 1)
-    if ss == False:
-        if len(_in) == 1:
-            return Summon(name=_in[0])
-        else:
-            return Summon(region=_in[0], name=_in[1])
+    if len(_in) == 1:
+        if checker(name=_in[0]):
+            return Screenshot(name=_in[0])
     else:
-        if len(_in) == 1:
-            return Summon(name=_in[0], driver=DRIVER)
-        else:
-            return Summon(region=_in[0], name=_in[1], driver=DRIVER)
+        return Summon(region=_in[0], name=_in[1])
 def clean_temp(temp):
     for f in temp:
         if f.endswith('.png'):
             os.remove(f'temp/{f}')
+
 @client.event
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
     print (f'{client.user} is connected to the following guilds:\n')
     for guild in client.guilds:
-        print(
-            f'{guild.name}(id: {guild.id})\n'
-        )
+        print(f'{guild.name}(id: {guild.id})\n')
 
 @client.event
 async def on_message(message):
@@ -86,6 +98,7 @@ async def on_message(message):
     if message.author == client.user:
         return
         
+#region Generic commands
     if re.search('^>hello', message.content, flags=re.IGNORECASE):
         await message.channel.send('Hello Summoner')
         return
@@ -124,6 +137,7 @@ async def on_message(message):
         init_driver()
         await message.channel.send("RuneMaster Ready to go!")
         return
+#endregion
 
     if re.search('^>', message.content):
         _in = message.content.split(' ', 1)
@@ -133,7 +147,7 @@ async def on_message(message):
             return
         else:
             args = _in[1].lower()
-
+#region Champion related commands
         if command == '>info':
             info = Champ(args)
             if info.real:
@@ -150,9 +164,9 @@ async def on_message(message):
                 await message.channel.send("That champ does not exist")
 
         elif command == '>runes':
-            await message.channel.send("Fetching Rune Data...") 
-            info = Champ(args, driver=DRIVER)
-            if info.real:
+            await message.channel.send("Fetching Rune Data...")
+            if checker(name=args) is not False:
+                info = Screenshot(driver=DRIVER, name=args)
                 seed = info.runes()
                 file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
                 await message.channel.send(f"__{args.capitalize()} Runes__",file=file)
@@ -161,8 +175,8 @@ async def on_message(message):
 
         elif command == '>build':
             await message.channel.send("Fetching Build Data...") 
-            info = Champ(args, driver=DRIVER)
-            if info.real:
+            if checker(name=args) is not False:
+                info = Screenshot(driver=DRIVER, name=args)
                 seed = info.build()
                 file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
                 await message.channel.send(f"__{args.capitalize()} Build__",file=file)
@@ -171,18 +185,18 @@ async def on_message(message):
 
         elif command == '>skills':
             await message.channel.send("Fetching Skills Data...") 
-            info = Champ(args, driver=DRIVER)
-            if info.real:
+            if checker(name=args) is not False:
+                info = Screenshot(driver=DRIVER, name=args)
                 seed = info.skills()
-                file = discord.File(f'./temp/{seed}.png', filename='runes{seed}.png')
-                await message.channel.send(f"__{args.capitalize()} Skill Order__",file=file)
+                file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
+                await message.channel.send(f"__{args.capitalize()} Skills__",file=file)
             else:
                 await message.channel.send("That champ does not exist")
 
         elif command == '>stats':
             await message.channel.send("Fetching Stats Data...") 
-            info = Champ(args, driver=DRIVER)
-            if info.real:
+            if checker(name=args) is not False:
+                info = Screenshot(driver=DRIVER, name=args)
                 seed = info.champ_stats()
                 file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
                 await message.channel.send(f"__{args.capitalize()} Stats__",file=file)
@@ -191,23 +205,24 @@ async def on_message(message):
 
         elif command == '>sums':
             await message.channel.send("Fetching Summoner Spell data...") 
-            info = Champ(args, driver=DRIVER)
-            if info.real:
+            if checker(name=args) is not False:
+                info = Screenshot(driver=DRIVER, name=args)
                 seed = info.sums()
                 file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
-                await message.channel.send(f"__{args.capitalize()} Summoners__",file=file)
+                await message.channel.send(f"__{args.capitalize()} Summoner Spells__",file=file)
             else:
                 await message.channel.send("That champ does not exist")
 
         elif command == '>matchups':
             await message.channel.send("Fetching Matchup data...") 
-            info = Champ(args, driver=DRIVER)
-            if info.real:
+            if checker(name=args) is not False:
+                info = Screenshot(driver=DRIVER, name=args)
                 seed = info.matchups()
                 file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
-                await message.channel.send(f"__{args.capitalize()} Summoners__",file=file)
+                await message.channel.send(f"__{args.capitalize()} Matchups__",file=file)
             else:
                 await message.channel.send("That champ does not exist")
+#endregion
 
         elif command == '>tier':
             if args in TIERS:
@@ -216,9 +231,10 @@ async def on_message(message):
             else:
                 await message.channel.send("That ranked tier does not exist")
 
+#region Summoner related commands
         elif command == '>summon':
             await message.channel.send("Fetching Summoner data...") 
-            info = summon_proxy(args=args)
+            info = screenshot_proxy(args=args)
             if info.real_player:
                 response = discord.Embed(
                     title =  f"__{info.name}__" , 
@@ -236,7 +252,7 @@ async def on_message(message):
 
         elif command == '>history':
             await message.channel.send("Fetching Player History data...") 
-            info = summon_proxy(args=args,ss=True)
+            info = screenshot_proxy(args=args)
             if info.real_player:
                 seed = info.get_matches()
                 file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
@@ -245,4 +261,5 @@ async def on_message(message):
                 await message.channel.send("That Summoner does not exist or the region is incorrect!")
         else:
             await message.channel.send('Type `>help` for a list of commands and how to use them.')
+#endregion
 client.run(TOKEN)
