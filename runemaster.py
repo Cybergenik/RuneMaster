@@ -60,16 +60,9 @@ def checker(name, region=None):
     else: 
         for reg in REGIONS:
             if REGIONS[reg] == region:
-                return reg
+                return reg #this is the prefix per the region
     return False
 
-def screenshot_proxy(args:str):
-    _in = args.split(' ', 1)
-    if len(_in) == 1:
-        if checker(name=_in[0]):
-            return Screenshot(name=_in[0])
-    else:
-        return Summon(region=_in[0], name=_in[1])
 def clean_temp(temp):
     for f in temp:
         if f.endswith('.png'):
@@ -233,32 +226,38 @@ async def on_message(message):
 
 #region Summoner related commands
         elif command == '>summon':
-            await message.channel.send("Fetching Summoner data...") 
-            info = screenshot_proxy(args=args)
-            if info.real_player:
-                response = discord.Embed(
-                    title =  f"__{info.name}__" , 
-                    url= info.url
-                    )
-                response.set_thumbnail(url=f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/{info.icon}.png")
-                response.add_field(name="Level:", value=info.level, inline=False)
-                response.add_field(name="Solo/Duo Rank:", value=info.rank, inline=False)
-                response.add_field(name="Ranked Season Win %:", value=f'{info.win}', inline=True)
-                response.add_field(name="Highest Mastery :", value=info.champ, inline=False)
-                response.set_image(url=info.img)
-                await message.channel.send(embed=response)
+            await message.channel.send("Fetching Summoner data...")
+            prefix = checker(name=args[1], region=args[0])
+            if prefix is not False:
+                info = Summon(name=args[1], region=args[0], prefix=prefix)
+                if info.real_player:
+                    response = discord.Embed(
+                        title =  f"__{info.name}__" , 
+                        url= info.url
+                        )
+                    response.set_thumbnail(url=f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/{info.icon}.png")
+                    response.add_field(name="Level:", value=info.level, inline=False)
+                    response.add_field(name="Solo/Duo Rank:", value=info.rank, inline=False)
+                    response.add_field(name="Ranked Season Win %:", value=f'{info.win}', inline=True)
+                    response.add_field(name="Highest Mastery :", value=info.champ, inline=False)
+                    response.set_image(url=info.img)
+                    await message.channel.send(embed=response)
+                else:
+                    await message.channel.send("That Summoner does not exist or is on a different region")
             else:
-                await message.channel.send("That Summoner does not exist or the region is incorrect")
+                await message.channel.send("Region does not exist, type *>regions* for a list of regions")
 
         elif command == '>history':
-            await message.channel.send("Fetching Player History data...") 
-            info = screenshot_proxy(args=args)
-            if info.real_player:
-                seed = info.get_matches()
-                file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
-                await message.channel.send(f'__{info.name} Match History__',file=file)
-            else:
-                await message.channel.send("That Summoner does not exist or the region is incorrect!")
+            await message.channel.send("Fetching Player History data...")
+            prefix = checker(name=args[1], region=args[0])
+            if prefix is not False:
+                info = Screenshot(driver=DRIVER, name=args[1], prefix=prefix)
+                try:
+                    seed = info.get_matches()
+                    file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
+                    await message.channel.send(f'__{info.name} Match History__',file=file)
+                except:
+                    await message.channel.send("That Summoner does not exist")
         else:
             await message.channel.send('Type `>help` for a list of commands and how to use them.')
 #endregion
