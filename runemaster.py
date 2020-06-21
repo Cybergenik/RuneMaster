@@ -135,7 +135,7 @@ async def on_message(message):
         _in = message.content.split(' ', 1)
         command = _in[0].lower()
         if len(_in) == 1:
-            await message.channel.send('Type `>help` for a list of commands and how to use them.')
+            await message.channel.send('Type `>commands` for a list of commands and how to use them.')
             return
         else:
             args = _in[1].lower()
@@ -277,7 +277,8 @@ async def on_message(message):
                 seed = player.get_matches()
                 file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
                 await message.channel.send(f'__{player.name} Match History__',file=file)
-            except:
+            except Exception as e:
+                print(e)
                 await message.channel.send("That Summoner does not exist")
         else:
             await message.channel.send('Type `>commands` for a list of commands and how to use them.')
