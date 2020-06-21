@@ -138,7 +138,7 @@ async def on_message(message):
             await message.channel.send('Type `>commands` for a list of commands and how to use them.')
             return
         else:
-            args = _in[1].lower()
+            args = _in[1].lower().strip()
 
         if command == '>help':
             for command in COMMANDS:
