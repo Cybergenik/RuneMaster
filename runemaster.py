@@ -49,18 +49,16 @@ with open('commands.json') as f:
     COMMANDS = json.load(f)
 CHAMPS = requests.get('https://ddragon.leagueoflegends.com/cdn/10.10.3216176/data/en_US/champion.json').json()['data']
 
-def checker(name, region=None):
-    '''
-    Checks to see that the region/champ exists and returns the champ/url prefix for the region
-    '''
-    if region is None:
-        for champ in CHAMPS:
-            if champ.lower() == name.lower():
-                return champ
-    else: 
-        for reg in REGIONS:
-            if REGIONS[reg] == region.lower():
-                return reg #this is the prefix per the region
+def real_champ(name):
+    for champ in CHAMPS:
+        if champ.lower() == name.lower():
+            return champ
+    return None
+
+def real_region(region):
+    for prefix in REGIONS:
+        if REGIONS[prefix] == region.lower():
+            return prefix
     return None
 
 def clean_temp(temp):
@@ -171,7 +169,7 @@ async def on_message(message):
 
         elif command == '>runes':
             await message.channel.send("Fetching Rune Data...")
-            if checker(name=args) is not None:
+            if real_champ(name=args) is not None:
                 info = Screenshot(driver=DRIVER, name=args)
                 seed = info.runes()
                 file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
@@ -181,7 +179,7 @@ async def on_message(message):
 
         elif command == '>build':
             await message.channel.send("Fetching Build Data...") 
-            if checker(name=args) is not None:
+            if real_champ(name=args) is not None:
                 info = Screenshot(driver=DRIVER, name=args)
                 seed = info.build()
                 file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
@@ -191,7 +189,7 @@ async def on_message(message):
 
         elif command == '>skills':
             await message.channel.send("Fetching Skills Data...") 
-            if checker(name=args) is not None:
+            if real_champ(name=args) is not None:
                 info = Screenshot(driver=DRIVER, name=args)
                 seed = info.skills()
                 file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
@@ -201,7 +199,7 @@ async def on_message(message):
 
         elif command == '>stats':
             await message.channel.send("Fetching Stats Data...") 
-            if checker(name=args) is not None:
+            if real_champ(name=args) is not None:
                 info = Screenshot(driver=DRIVER, name=args)
                 seed = info.champ_stats()
                 file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
@@ -211,7 +209,7 @@ async def on_message(message):
 
         elif command == '>sums':
             await message.channel.send("Fetching Summoner Spell data...") 
-            if checker(name=args) is not None:
+            if real_champ(name=args) is not None:
                 info = Screenshot(driver=DRIVER, name=args)
                 seed = info.sums()
                 file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
@@ -221,7 +219,7 @@ async def on_message(message):
 
         elif command == '>matchups':
             await message.channel.send("Fetching Matchup data...") 
-            if checker(name=args) is not None:
+            if real_champ(name=args) is not None:
                 info = Screenshot(driver=DRIVER, name=args)
                 seed = info.matchups()
                 file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
@@ -242,45 +240,45 @@ async def on_message(message):
             await message.channel.send("Fetching Summoner data...")
             args = args.split(" ", 1)
             if len(args) > 1:
-                prefix = checker(name=args[1], region=args[0])
+                prefix = real_region(region=args[0])
                 if prefix is not None:
                     player = Summon(name=args[1], region=args[0], prefix=prefix)
                 else:
                     await message.channel.send("Region does not exist, type *>regions* for a list of regions")
             else:
                 player = Summon(name=args[0])
-                if player.real_player:
-                    response = discord.Embed(
-                        title =  f"__{player.name}__" , 
-                        url= player.url
-                        )
-                    response.set_thumbnail(url=f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/{player.icon}.png")
-                    response.add_field(name="Level:", value=player.level, inline=False)
-                    response.add_field(name="Solo/Duo Rank:", value=player.rank, inline=False)
-                    response.add_field(name="Ranked Season Win %:", value=f'{player.win}', inline=True)
-                    response.add_field(name="Highest Mastery :", value=player.champ, inline=False)
-                    response.set_image(url=player.img)
-                    await message.channel.send(embed=response)
-                else:
-                    await message.channel.send("That Summoner does not exist or is on a different region")
+            if player.real_player:
+                response = discord.Embed(
+                    title =  f"__{player.name}__" , 
+                    url= player.url
+                    )
+                response.set_thumbnail(url=f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/{player.icon}.png")
+                response.add_field(name="Level:", value=player.level, inline=False)
+                response.add_field(name="Solo/Duo Rank:", value=player.rank, inline=False)
+                response.add_field(name="Ranked Season Win %:", value=f'{player.win}', inline=True)
+                response.add_field(name="Highest Mastery :", value=player.champ, inline=False)
+                response.set_image(url=player.img)
+                await message.channel.send(embed=response)
+            else:
+                await message.channel.send("That Summoner does not exist or is on a different region")
 
         elif command == '>history':
             await message.channel.send("Fetching Player History data...")
             args = args.split(" ", 1)
             if len(args) > 1:
-                prefix = checker(name=args[1], region=args[0])
+                prefix = real_region(region=args[0])
                 if prefix is not None:
                     player = Screenshot(driver=DRIVER, name=args[1], prefix=prefix)
                 else:
                     await message.channel.send("Region does not exist, type *>regions* for a list of regions")
             else:
                 player = Screenshot(driver=DRIVER, name=args[0], prefix='na')
-                try:
-                    seed = player.get_matches()
-                    file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
-                    await message.channel.send(f'__{player.name} Match History__',file=file)
-                except:
-                    await message.channel.send("That Summoner does not exist")
+            try:
+                seed = player.get_matches()
+                file = discord.File(f'./temp/{seed}.png', filename=f'runes{seed}.png')
+                await message.channel.send(f'__{player.name} Match History__',file=file)
+            except:
+                await message.channel.send("That Summoner does not exist")
         else:
             await message.channel.send('Type `>commands` for a list of commands and how to use them.')
 #endregion

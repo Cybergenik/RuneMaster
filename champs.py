@@ -24,4 +24,5 @@ class Champ():
                 self.url = f'https://www.op.gg/champion/{self.champ}/statistics'
                 self.real = True 
                 self.name = response[name]['name']
+                break
                 
