@@ -7,10 +7,11 @@ from selenium.webdriver.common.keys import Keys
 class Screenshot:
     def __init__(self, driver, name, prefix=None):
         self.driver = driver
+        self.name = name
         if prefix is None:
-            self.url = f'https://www.op.gg/champion/{name}/statistics'
+            self.url = f'https://www.op.gg/champion/{self.name}/statistics'
         else:
-            self.url = f'https://{prefix}.op.gg/summoner/userName={name}'
+            self.url = f'https://{prefix}.op.gg/summoner/userName={self.name}'
 
     def runes(self):
         self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 't')
