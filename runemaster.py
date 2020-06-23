@@ -98,7 +98,7 @@ async def on_message(message):
         await message.channel.send('Hello Summoner')
         return
     if re.search('^@RuneMaster', message.content, flags=re.IGNORECASE):
-        await message.channel.send('Ready for the Rift! type >commands for a list of all commands')
+        await message.channel.send('Ready for the Rift? type >commands for a list of all commands')
         return
     if re.search('^>commands', message.content, flags=re.IGNORECASE):
         response = discord.Embed(
@@ -280,7 +280,7 @@ async def on_message(message):
             except Exception as e:
                 print(e)
                 await message.channel.send("That Summoner does not exist")
-    else:
-        await message.channel.send('Type `>commands` for a list of commands and how to use them.')
+        else:
+            await message.channel.send('Type `>commands` for a list of commands and how to use them.')
 #endregion
 client.run(TOKEN)
