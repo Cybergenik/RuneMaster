@@ -74,6 +74,10 @@ async def on_ready():
         print(f'{guild.name}(id: {guild.id})\n')
 
 @client.event
+async def on_mention(message):
+    pass
+
+@client.event
 async def on_message(message):
     global DRIVER
     temp = os.listdir('temp/')
@@ -93,6 +97,9 @@ async def on_message(message):
     if re.search('^>hello', message.content, flags=re.IGNORECASE):
         await message.channel.send('Hello Summoner')
         return
+    if re.search('^@RuneMaster', message.content, flags=re.IGNORECASE):
+        await message.channel.send('Ready for the Rift! type >commands for a list of all commands')
+        return
     if re.search('^>commands', message.content, flags=re.IGNORECASE):
         response = discord.Embed(
             title =  "__Runemaster Commands__",
@@ -102,9 +109,6 @@ async def on_message(message):
             response.add_field(name=command['usage'], value=command['value'], inline=False)
         await message.channel.send(embed=response)
         return       
-
-    
-
     if re.search('^>regions', message.content, flags=re.IGNORECASE):
         desc = '\n'.join(REGIONS.values())
         response = discord.Embed(
@@ -113,24 +117,20 @@ async def on_message(message):
         )
         await message.channel.send(embed=response)
         return
-
     if re.search('^>tierlist|^>tiers', message.content, flags=re.IGNORECASE): 
         file = discord.File('./images/tierlist.png', filename='tierlist.png')
         await message.channel.send(f"__Ranked Tier List__",file=file)
         return
-
     if re.search('^>oldtierlist|^>oldtiers', message.content, flags=re.IGNORECASE):
         file = discord.File('./images/old_tierlist.png', filename='old_tierlist.png')
         await message.channel.send(f"__Old Ranked Tier List__",file=file)
         return
-
     if re.search('^>reload', message.content, flags=re.IGNORECASE):
         await message.channel.send("Reloading RuneMaster...")
         init_driver()
         await message.channel.send("RuneMaster Ready to go!")
         return
 #endregion
-
     if re.search('^>', message.content):
         _in = message.content.split(' ', 1)
         command = _in[0].lower()
@@ -280,7 +280,7 @@ async def on_message(message):
             except Exception as e:
                 print(e)
                 await message.channel.send("That Summoner does not exist")
-        else:
-            await message.channel.send('Type `>commands` for a list of commands and how to use them.')
+    else:
+        await message.channel.send('Type `>commands` for a list of commands and how to use them.')
 #endregion
 client.run(TOKEN)
