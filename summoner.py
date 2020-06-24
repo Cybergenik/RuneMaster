@@ -33,7 +33,8 @@ class Summon():
                     self.rank = f'{player_stats[0]["tier"].lower().capitalize()} {player_stats[0]["rank"]} {player_stats[0]["leaguePoints"]} LP'
                     self.rank5 = None
             except IndexError:
-                self.rank ='Unranked'
+                self.ranksolo ='Unranked'
+                self.rank5 = 'Unranked'
             if self.rank != 'Unranked':
                 self.win = f'{round((player_stats[0]["wins"] / (player_stats[0]["wins"] + player_stats[0]["losses"])) * 100)}%'
             else:
