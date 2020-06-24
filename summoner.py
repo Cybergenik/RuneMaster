@@ -23,10 +23,15 @@ class Summon():
             self.level = player_info['summonerLevel']
             response = requests.get('https://ddragon.leagueoflegends.com/cdn/10.10.3216176/data/en_US/champion.json').json()['data']
             try:
-                for i in player_stats:
-                    if i["queueType"] == "RANKED_SOLO_5x5":
-                        self.rank = f'{i["tier"].lower().capitalize()} {i["rank"]} {i["leaguePoints"]} LP'
-                        break
+                if len(player_stats) >= 2:
+                    for i in player_stats:
+                        if i["queueType"] == "RANKED_SOLO_5x5":
+                            self.ranksolo = f'{i["tier"].lower().capitalize()} {i["rank"]} {i["leaguePoints"]} LP'
+                        elif i["queueType"] == "RANKED_FLEX_SR":
+                            self.rank5 = f'{i["tier"].lower().capitalize()} {i["rank"]} {i["leaguePoints"]} LP' 
+                else:
+                    self.rank = f'{player_stats[0]["tier"].lower().capitalize()} {player_stats[0]["rank"]} {player_stats[0]["leaguePoints"]} LP'
+                    self.rank5 = None
             except IndexError:
                 self.rank ='Unranked'
             if self.rank != 'Unranked':

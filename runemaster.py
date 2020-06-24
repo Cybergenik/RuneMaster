@@ -254,7 +254,9 @@ async def on_message(message):
                     )
                 response.set_thumbnail(url=f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/profileicon/{player.icon}.png")
                 response.add_field(name="Level:", value=player.level, inline=False)
-                response.add_field(name="Solo/Duo Rank:", value=player.rank, inline=False)
+                response.add_field(name="Solo/Duo Rank:", value=player.ranksolo, inline=False)
+                if player.rank5 != None:
+                    response.add_field(name="5v5 Flex Rank: ", value=player.rank5, inline=False)
                 response.add_field(name="Ranked Season Win %:", value=f'{player.win}', inline=True)
                 response.add_field(name="Highest Mastery :", value=player.champ, inline=False)
                 response.set_image(url=player.img)
