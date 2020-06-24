@@ -35,7 +35,7 @@ class Summon():
             except IndexError:
                 self.ranksolo ='Unranked'
                 self.rank5 = 'Unranked'
-            if self.rank != 'Unranked':
+            if self.ranksolo != 'Unranked':
                 self.win = f'{round((player_stats[0]["wins"] / (player_stats[0]["wins"] + player_stats[0]["losses"])) * 100)}%'
             else:
                 self.win = 'N/A' 
