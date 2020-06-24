@@ -30,7 +30,7 @@ class Summon():
                         elif i["queueType"] == "RANKED_FLEX_SR":
                             self.rank5 = f'{i["tier"].lower().capitalize()} {i["rank"]} {i["leaguePoints"]} LP' 
                 else:
-                    self.rank = f'{player_stats[0]["tier"].lower().capitalize()} {player_stats[0]["rank"]} {player_stats[0]["leaguePoints"]} LP'
+                    self.ranksolo = f'{player_stats[0]["tier"].lower().capitalize()} {player_stats[0]["rank"]} {player_stats[0]["leaguePoints"]} LP'
                     self.rank5 = None
             except IndexError:
                 self.ranksolo ='Unranked'
