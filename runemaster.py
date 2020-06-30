@@ -130,6 +130,8 @@ async def on_message(message):
         init_driver()
         await message.channel.send("RuneMaster Ready to go!")
         return
+    if re.search('^>>>', message.content, flags=re.IGNORECASE):
+        return
 #endregion
     if re.search('^>', message.content):
         _in = message.content.split(' ', 1)
