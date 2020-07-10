@@ -50,8 +50,9 @@ with open('commands.json') as f:
 CHAMPS = requests.get('https://ddragon.leagueoflegends.com/cdn/10.10.3216176/data/en_US/champion.json').json()['data']
 
 def real_champ(name):
+    _name = name.lower().replace(' ', '')
     for champ in CHAMPS:
-        if champ.lower() == name.lower():
+        if champ.lower() == _name:
             return champ
     return None
 
@@ -97,7 +98,7 @@ async def on_message(message):
     if re.search('^>hello', message.content, flags=re.IGNORECASE):
         await message.channel.send('Hello Summoner')
         return
-    if re.search('^@RuneMaster', message.content, flags=re.IGNORECASE):
+    if re.search('@RuneMaster', message.content, flags=re.IGNORECASE):
         await message.channel.send('Ready for the Rift? type >commands for a list of all commands')
         return
     if re.search('^>commands', message.content, flags=re.IGNORECASE):

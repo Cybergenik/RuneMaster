@@ -9,8 +9,9 @@ class Champ():
     def __init__(self, champ):
         response = requests.get('https://ddragon.leagueoflegends.com/cdn/10.10.3216176/data/en_US/champion.json').json()['data']
         self.real = False
+        _champ = champ.lower().replace(' ','')
         for name in response:
-            if champ == name.lower():
+            if name.lower() == _champ:
                 self.champ = response[name]['id']
                 self.title = response[self.champ]['title']
                 self.img = f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/champion/{response[self.champ]['image']['full']}"
