@@ -18,7 +18,7 @@ class Screenshot:
         self.driver.get(self.url)
         self.driver.set_window_size(733,481)
         seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/div/table/tbody[2]').screenshot(f'./temp/{seed}.png')
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/div/table/tbody[2]').screenshot(f'../temp/{seed}.png')
         self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
         return seed
 
@@ -27,7 +27,7 @@ class Screenshot:
         self.driver.get(self.url)
         self.driver.set_window_size(733,680)
         seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[2]').screenshot(f'./temp/{seed}.png')
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[2]').screenshot(f'../temp/{seed}.png')
         self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
         return seed
 
@@ -36,7 +36,7 @@ class Screenshot:
         self.driver.get(self.url)
         self.driver.set_window_size(734,150)
         seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[1]/tbody[2]').screenshot(f'./temp/{seed}.png')
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[1]/tbody[2]').screenshot(f'../temp/{seed}.png')
         self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
         return seed
 
@@ -45,7 +45,7 @@ class Screenshot:
         self.driver.get(self.url)
         self.driver.set_window_size(334,692)
         seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[2]/div[1]/div[2]').screenshot(f'./temp/{seed}.png')
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[2]/div[1]/div[2]').screenshot(f'../temp/{seed}.png')
         self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
         return seed
         
@@ -54,7 +54,7 @@ class Screenshot:
         self.driver.get(self.url)
         self.driver.set_window_size(750,135)
         seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[1]/tbody[1]').screenshot(f'./temp/{seed}.png')
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[1]/tbody[1]').screenshot(f'../temp/{seed}.png')
         self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
         return seed
 
@@ -65,7 +65,7 @@ class Screenshot:
         self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[1]/div/ul/li[6]/a').click()
         seed = str(random.randint(0,99999))
         sleep(.5)
-        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[7]/div/div[2]/div[3]').screenshot(f'./temp/{seed}.png')
+        self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[7]/div/div[2]/div[3]').screenshot(f'../temp/{seed}.png')
         self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
         return seed
 
@@ -73,7 +73,7 @@ class Screenshot:
         self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 't')
         self.driver.get(self.url)
         seed = str(random.randint(0,99999))
-        self.driver.find_element_by_xpath('//*[@id="GameAverageStatsBox-summary"]/div[1]').screenshot(f'./temp/{seed}.png')
+        self.driver.find_element_by_xpath('//*[@id="GameAverageStatsBox-summary"]/div[1]').screenshot(f'../temp/{seed}.png')
         self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
         return seed
 
@@ -82,6 +82,6 @@ class Screenshot:
         self.driver.get(self.url)
         seed = str(random.randint(0,99999))
         self.driver.set_window_size(1080,1920) # May need manual adjustment
-        self.driver.find_element_by_xpath('//*[@id="SummonerLayoutContent"]/div[2]/div[2]/div').screenshot(f'./temp/{seed}.png')
+        self.driver.find_element_by_xpath('//*[@id="SummonerLayoutContent"]/div[2]/div[2]/div').screenshot(f'../temp/{seed}.png')
         self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
         return seed
