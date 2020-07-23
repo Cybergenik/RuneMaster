@@ -41,11 +41,11 @@ def init_driver():
 init_driver()
 
 # Global Variable declaration
-with open('tiers.json') as f:
+with open('./tiers.json') as f:
     TIERS = json.load(f)
-with open('regions.json') as f:
+with open('./regions.json') as f:
     REGIONS = json.load(f)
-with open('commands.json') as f:
+with open('./commands.json') as f:
     COMMANDS = json.load(f)
 CHAMPS = requests.get('https://ddragon.leagueoflegends.com/cdn/10.10.3216176/data/en_US/champion.json').json()['data']
 
