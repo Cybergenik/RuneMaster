@@ -1,1 +1,1 @@
-worker: python runemaster.py
+worker: python bot/runemaster.py
