@@ -19,7 +19,7 @@ A Discord bot for League of Legends
 ### Driver & Bin
 
 *Make sure Driver and bin are compatible*
-- Linux (this bot runs on Driver v84.0.4147.30, and chrome bin v84.0.4147.89): 
+- Linux (this bot runs on driver v84.0.4147.30, and chrome bin v84.0.4147.89): 
     - Chrome Binary 
     - Chrome Driver
 - Windows:
