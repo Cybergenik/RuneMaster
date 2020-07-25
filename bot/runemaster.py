@@ -2,6 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import os
 import discord
+from discord.ext import commands
 import re
 import json
 import requests
@@ -13,6 +14,7 @@ DRIVER = None
 TOKEN = os.getenv('DISCORD_TOKEN')
 if TOKEN != None:
     client = discord.Client()
+    bot = commands.Bot(command_prefix='>')
 else:
     raise EnvironmentError("DISCORD_TOKEN env variable is not set")
 
@@ -23,21 +25,12 @@ def init_driver():
         print('restarting driver...')
     else:
         print('Starting web drive for the first time...')
-    if os.name == "nt":
-        options = webdriver.FirefoxOptions()
-        options.add_argument('--headless')
-        options.add_argument('--no-sandbox')
-        options.add_argument('--disable-dev-shm-usage')
-        DRIVER = webdriver.Firefox(executable_path="./geckodriver.exe",options=options)
-    elif os.name == "posix":
-        options = webdriver.ChromeOptions()
-        options.binary_location = os.getenv("GOOGLE_CHROME_BIN")
-        options.add_argument('--headless')
-        options.add_argument('--disable-dev-shm-usage')
-        options.add_argument('--no-sandbox')
-        DRIVER = webdriver.Chrome(executable_path=os.getenv("CHROMEDRIVER_PATH"), options=options)
-    else:
-        raise Exception('Unknown Operating System, please use either a UNIX based OS or Windows')
+    options = webdriver.ChromeOptions()
+    options.binary_location = os.getenv("GOOGLE_CHROME_BIN")
+    options.add_argument('--headless')
+    options.add_argument('--disable-dev-shm-usage')
+    options.add_argument('--no-sandbox')
+    DRIVER = webdriver.Chrome(executable_path=os.getenv("CHROMEDRIVER_PATH"), options=options)
 init_driver()
 
 # Global Variable declaration
@@ -78,6 +71,10 @@ async def on_ready():
 async def on_mention(message):
     await message.channel.send('Ready for the Rift? type >commands for a list of all commands')
     return
+
+@bot.command()
+async def juice(ctx):
+    await ctx.send('Hello Juicy')
 
 @client.event
 async def on_message(message):
