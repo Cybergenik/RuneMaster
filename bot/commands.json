@@ -8,7 +8,7 @@
         "usage": "**>help**"
     },
     "help":{
-        "value": "Returns usage on a specific command",
+        "value": "Returns a tooltip with the usage on a specific command",
         "usage": "**>help summon**"
     },
     "reload":{
@@ -20,11 +20,11 @@
         "usage": "**>info**"
     },
     "summon":{
-        "value": "Returns information on a Summoner like they're level, rank, player icon. Default region is NA, don't include a region if you just want NA. ex: \n `>summon Faker | >summon KR Faker`",
+        "value": "Returns information on a Summoner like they're level, rank, player icon. Default region is NA, don't include a region if you just want NA. ex: \n `>summon hideonbush | >summon KR hideonbush`",
         "usage": "**>summon**"
     },
     "history":{
-        "value": "Returns an image of the last 5 games in the players match history ex: \n ` >history Faker | >history KR Faker `",
+        "value": "Returns an image of the last 5 games in the players match history ex: \n ` >history hideonbush | >history KR hideonbush `",
         "usage": "**>history**"
     },
     "regions":{
@@ -36,7 +36,7 @@
         "usage": "**>tiers**"
     },
     "oldtierlist|oldtiers":{
-        "value": "Returns an image of the old outdated ranked tier list: \n ` >old_tierlist `",
+        "value": "Returns an image of the old outdated ranked tier list: \n ` >oldtiers `",
         "usage": "**>oldtiers**"
     },
     "tier":{
