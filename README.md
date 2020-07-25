@@ -16,7 +16,7 @@ A Discord bot for League of Legends
 - requests
 - [riotwatcher](https://github.com/pseudonym117/Riot-Watcher)
 
-##### Driver & Bin
+### Driver & Bin
 
 *Make sure Driver and bin are compatible*
 - Linux (this bot runs on Driver v84.0.4147.30, and chrome bin v84.0.4147.89): 
