@@ -1,6 +1,6 @@
 Runemaster
 ====
-[![Runemaster Icon](/assets/images/philly-magic-gardens.jpg "Runemaster")](https://discord.com/api/oauth2/authorize?client_id=735030698066313227&permissions=523328&scope=bot)
+[![Runemaster Icon](/images/default.png "Runemaster")](https://discord.com/api/oauth2/authorize?client_id=735030698066313227&permissions=523328&scope=bot)
 
 A Discord bot for League of Legends
 
@@ -28,7 +28,7 @@ A Discord bot for League of Legends
 
 ## Commands
 
-*All commands start with a **>** and most commands will require an argument, usually this will be the name of a champion. If the champ has a **space** or a **singlequote** dont include them in the name. ex: DrMundo, Reksai, Kaisa*
+*All commands start with a* **>** *and most commands will require an argument, usually this will be the name of a champion. If the champ has a* **space** *or a* **singlequote** *dont include them in the name. ex: DrMundo, Reksai, Kaisa*
 
 #### Info
 
@@ -43,14 +43,14 @@ A Discord bot for League of Legends
 
 #### Player
 
-*all of these commands take the name of a player as an arguement(input) ex: **summon KR hideonbush** *
+*all of these commands take the name of a player as an arguement(input)* `**>summon KR hideonbush**` 
 
 - <kbd>>summon *</kbd>: Returns information on a Summoner like they're level, rank, player icon. Default region is NA, don't include a region if you just want NA
 - <kbd>>history *</kbd>: Returns an image of the last 5 games in the players match history 
 
 #### Champion
 
-*all of these commands take the name of a champion as an arguement(input) ex: **info Aatrox** *
+*all of these commands take the name of a champion as an arguement(input)* `**>info Aatrox**`
 
 - <kbd>>info *</kbd>: Returns detailed information on a Champion, including description, stats, image
 - <kbd>>runes *</kbd>: Returns an image of the highest win-rate Runes on that champion
