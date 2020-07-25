@@ -1,6 +1,6 @@
 Runemaster
 ====
-[![Runemaster Icon](/images/default.png =256 "Runemaster")](https://discord.com/api/oauth2/authorize?client_id=713831642061602827&permissions=523328&scope=bot)
+[![Runemaster Icon](/images/default.png =256x "Runemaster")](https://discord.com/api/oauth2/authorize?client_id=713831642061602827&permissions=523328&scope=bot)
 
 A Discord bot for League of Legends
 
