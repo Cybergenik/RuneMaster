@@ -68,15 +68,6 @@ async def on_ready():
         print(f'{guild.name}(id: {guild.id})\n')
 
 @client.event
-async def on_mention(message):
-    await message.channel.send('Ready for the Rift? type >commands for a list of all commands')
-    return
-
-@bot.command()
-async def juice(ctx):
-    await ctx.send('Hello Juicy')
-
-@client.event
 async def on_message(message):
     global DRIVER
     temp = os.listdir('temp/')
@@ -89,6 +80,9 @@ async def on_message(message):
         await message.channel.send('RuneMaster Ready to go!')
         return
     if message.author == client.user:
+        return
+    if re.search('@Runemaster', message.content, flags=re.IGNORECASE):
+        await message.channel.send('Ready for the Rift? type >commands for a list of all commands')
         return
 #region Generic commands
     if re.search('^>hello', message.content, flags=re.IGNORECASE):
@@ -168,7 +162,7 @@ async def on_message(message):
             if real_champ(name=args) is not None:
                 info = Screenshot(driver=DRIVER, name=args)
                 seed = info.runes()
-                file = discord.File(f'temp/{seed}.png', filename=f'runes{seed}.png')
+                file = discord.File(f'temp/{seed}.png', filename=f'{seed}.png')
                 await message.channel.send(f"__{args.capitalize()} Runes__",file=file)
             else:
                 await message.channel.send("That champ does not exist")
@@ -178,7 +172,7 @@ async def on_message(message):
             if real_champ(name=args) is not None:
                 info = Screenshot(driver=DRIVER, name=args)
                 seed = info.build()
-                file = discord.File(f'temp/{seed}.png', filename=f'runes{seed}.png')
+                file = discord.File(f'temp/{seed}.png', filename=f'{seed}.png')
                 await message.channel.send(f"__{args.capitalize()} Build__",file=file)
             else:
                 await message.channel.send("That champ does not exist")
@@ -188,7 +182,7 @@ async def on_message(message):
             if real_champ(name=args) is not None:
                 info = Screenshot(driver=DRIVER, name=args)
                 seed = info.skills()
-                file = discord.File(f'temp/{seed}.png', filename=f'runes{seed}.png')
+                file = discord.File(f'temp/{seed}.png', filename=f'{seed}.png')
                 await message.channel.send(f"__{args.capitalize()} Skills__",file=file)
             else:
                 await message.channel.send("That champ does not exist")
@@ -198,7 +192,7 @@ async def on_message(message):
             if real_champ(name=args) is not None:
                 info = Screenshot(driver=DRIVER, name=args)
                 seed = info.champ_stats()
-                file = discord.File(f'temp/{seed}.png', filename=f'runes{seed}.png')
+                file = discord.File(f'temp/{seed}.png', filename=f'{seed}.png')
                 await message.channel.send(f"__{args.capitalize()} Stats__",file=file)
             else:
                 await message.channel.send("That champ does not exist")
@@ -208,7 +202,7 @@ async def on_message(message):
             if real_champ(name=args) is not None:
                 info = Screenshot(driver=DRIVER, name=args)
                 seed = info.sums()
-                file = discord.File(f'temp/{seed}.png', filename=f'runes{seed}.png')
+                file = discord.File(f'temp/{seed}.png', filename=f'{seed}.png')
                 await message.channel.send(f"__{args.capitalize()} Summoner Spells__",file=file)
             else:
                 await message.channel.send("That champ does not exist")
@@ -218,7 +212,7 @@ async def on_message(message):
             if real_champ(name=args) is not None:
                 info = Screenshot(driver=DRIVER, name=args)
                 seed = info.matchups()
-                file = discord.File(f'temp/{seed}.png', filename=f'runes{seed}.png')
+                file = discord.File(f'temp/{seed}.png', filename=f'{seed}.png')
                 await message.channel.send(f"__{args.capitalize()} Matchups__",file=file)
             else:
                 await message.channel.send("That champ does not exist")

@@ -12,7 +12,6 @@ class Screenshot:
             self.url = f'https://www.op.gg/champion/{self.name}/statistics'
         else:
             self.url = f'https://{prefix}.op.gg/summoner/userName={self.name}'
-        print('finished constructing Screenshot object')
 
     def runes(self):
         self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 't')
