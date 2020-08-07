@@ -40,7 +40,7 @@ with open('bot/regions.json') as f:
     REGIONS = json.load(f)
 with open('bot/commands.json') as f:
     COMMANDS = json.load(f)
-VERSION = request.get('https://ddragon.leagueoflegends.com/api/versions.json').json()[0]
+VERSION = requests.get('https://ddragon.leagueoflegends.com/api/versions.json').json()[0]
 CHAMPS = requests.get(f'https://ddragon.leagueoflegends.com/cdn/{VERSION}/data/en_US/champion.json').json()['data']
 
 def real_champ(name):
