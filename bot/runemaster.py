@@ -41,7 +41,6 @@ with open('bot/regions.json') as f:
 with open('bot/commands.json') as f:
     COMMANDS = json.load(f)
 VERSION = requests.get('https://ddragon.leagueoflegends.com/api/versions.json').json()[0]
-print(VERSION)
 CHAMPS = requests.get(f'https://ddragon.leagueoflegends.com/cdn/{VERSION}/data/en_US/champion.json').json()['data']
 
 def real_champ(name):
@@ -68,6 +67,7 @@ async def on_ready():
     print (f'{client.user} is connected to the following guilds:\n')
     for guild in client.guilds:
         print(f'{guild.name}(id: {guild.id})\n')
+    print(f'League of Legends Version {VERSION}')
 
 @client.event
 async def on_message(message):
