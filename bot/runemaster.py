@@ -83,7 +83,7 @@ async def on_message(message):
         return
     if message.author == client.user:
         return
-    if re.search('@Runemaster', message.content, flags=re.IGNORECASE):
+    if re.search('Runemaster', message.content, flags=re.IGNORECASE):
         await message.channel.send('Ready for the Rift? type >commands for a list of all commands')
         return
 #region Generic commands
