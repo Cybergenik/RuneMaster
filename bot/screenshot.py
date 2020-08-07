@@ -22,7 +22,7 @@ class Screenshot:
             self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/div/table/tbody[2]').screenshot(f'temp/{seed}.png')
             self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
             return seed
-        except as e:
+        except Exception as e:
             print('Error in Screenshot')
             print(e)
 
@@ -35,7 +35,7 @@ class Screenshot:
             self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[2]').screenshot(f'temp/{seed}.png')
             self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
             return seed
-        except as e:
+        except Exception as e:
             print('Error in Screenshot')
             print(e) 
 
@@ -48,7 +48,7 @@ class Screenshot:
             self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[1]/tbody[2]').screenshot(f'temp/{seed}.png')
             self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
             return seed
-        except as e:
+        except Exception as e:
             print('Error in Screenshot')
             print(e) 
 
@@ -61,7 +61,7 @@ class Screenshot:
             self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[2]/div[1]/div[2]').screenshot(f'temp/{seed}.png')
             self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
             return seed
-        except as e:
+        except Exception as e:
             print('Error in Screenshot')
             print(e)
 
@@ -74,7 +74,7 @@ class Screenshot:
             self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[1]/tbody[1]').screenshot(f'temp/{seed}.png')
             self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
             return seed
-        except as e:
+        except Exception as e:
             print('Error in Screenshot')
             print(e)
 
@@ -89,7 +89,7 @@ class Screenshot:
             self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[7]/div/div[2]/div[3]').screenshot(f'temp/{seed}.png')
             self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
             return seed
-        except as e:
+        except Exception as e:
             print('Error in Screenshot')
             print(e)
 
@@ -101,7 +101,7 @@ class Screenshot:
             self.driver.find_element_by_xpath('//*[@id="GameAverageStatsBox-summary"]/div[1]').screenshot(f'temp/{seed}.png')
             self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
             return seed
-        except as e:
+        except Exception as e:
             print('Error in Screenshot')
             print(e)
 
@@ -114,6 +114,6 @@ class Screenshot:
             self.driver.find_element_by_xpath('//*[@id="SummonerLayoutContent"]/div[2]/div[2]/div').screenshot(f'temp/{seed}.png')
             self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
             return seed
-        except as e:
+        except Exception as e:
             print('Error in Screenshot')
             print(e)

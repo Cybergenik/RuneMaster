@@ -138,7 +138,7 @@ async def on_message(message):
                     response = discord.Embed(
                         title =  f"__{command.capitalize()} Help__",
                         description = f"{COMMANDS[command]['usage']} \n {COMMANDS[command]['value']}",
-                    )
+                    )   
                     await message.channel.send(embed=response)
                     return
             await message.channel.send("Command doesn't exist, type *>commands* for a list of commands")
