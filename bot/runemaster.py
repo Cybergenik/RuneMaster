@@ -41,6 +41,7 @@ with open('bot/regions.json') as f:
 with open('bot/commands.json') as f:
     COMMANDS = json.load(f)
 VERSION = requests.get('https://ddragon.leagueoflegends.com/api/versions.json').json()[0]
+print(VERSION)
 CHAMPS = requests.get(f'https://ddragon.leagueoflegends.com/cdn/{VERSION}/data/en_US/champion.json').json()['data']
 
 def real_champ(name):
@@ -144,8 +145,9 @@ async def on_message(message):
 
 #region Champion related commands
         elif command == '>info':
-            info = Champ(args)
-            if info.real:
+            champ = real_champ(name=args)
+            if champ is not None:
+                info = Champ(champ=champ, champs=CHAMPS, version=VERSION)
                 response = discord.Embed(
                     title =  f"__{info.champ} | {info.title}__",
                     description = info.desc,
@@ -155,7 +157,7 @@ async def on_message(message):
                 response.add_field(name="Tags", value= info.tags, inline=False)
                 response.add_field(name="Stats", value= info.stats, inline=False)
                 await message.channel.send(embed=response)
-            else:
+            elif champ is None:
                 await message.channel.send("That champ does not exist")
 
         elif command == '>runes':
