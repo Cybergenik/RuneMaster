@@ -83,6 +83,8 @@ async def on_message(message):
         return
     if message.author == client.user:
         return
+    if re.search('^>>>', message.content, flags=re.IGNORECASE):
+        return
     if re.search('Runemaster', message.content, flags=re.IGNORECASE):
         await message.channel.send('Ready for the Rift? type >commands for a list of all commands')
         return
@@ -119,8 +121,6 @@ async def on_message(message):
         await message.channel.send("Reloading RuneMaster...")
         init_driver()
         await message.channel.send("RuneMaster Ready to go!")
-        return
-    if re.search('^>>>', message.content, flags=re.IGNORECASE):
         return
 #endregion
     if re.search('^>', message.content):
