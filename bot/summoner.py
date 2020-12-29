@@ -6,10 +6,10 @@ from dotenv import load_dotenv
 from riotwatcher import LolWatcher
 
 load_dotenv()
+lol_watcher = LolWatcher(os.getenv("RIOT_API_KEY"))
 
 class Summon():
     def __init__(self, name, region="na1", prefix="na"):
-        lol_watcher = LolWatcher(os.getenv("RIOT_API_KEY"))
         try:
             player_info = lol_watcher.summoner.by_name(region, name)
             player_stats = lol_watcher.league.by_summoner(region, player_info['id'])
