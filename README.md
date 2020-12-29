@@ -4,29 +4,40 @@ Runemaster
 
 A Discord bot for League of Legends
 
-### installation
+### **installation**
 
-1. `pip install requirements`
-2. `python bot/runemaster.py`
+- From source:
+    1. `git clone https://github.com/Cybergenik/RuneMaster`
+    2. `cd RuneMaster`
+    3. `pip install -r requirements`
+    4. `python bot/runemaster.py`
 
-### Requirements
+### **Requirements**
+#### Packages:
+        - Python 3.9
+        - Selenium 
+        - requests
+        - discord
+        - python-dotenv
+        - [riotwatcher](https://github.com/pseudonym117/Riot-Watcher)
+#### Enviornment Variables:
+        Sample .env:
+            CHROMEDRIVER_PATH=/path/to/chromedriver
+            CHROMEDRIVER_VERSION=84.0.4147.30
+            DISCORD_TOKEN=1234
+            GOOGLE_CHROME_BIN=/path/to/bin
+        RIOT_API_KEY=1234
 
-- Python 3.6+
-- Selenium 
-- requests
-- [riotwatcher](https://github.com/pseudonym117/Riot-Watcher)
 
-### Driver & Bin
 
-*Make sure Driver and bin are compatible*
-- Linux (this bot runs on driver v84.0.4147.30, and chrome bin v84.0.4147.89): 
+### **Driver & Bin**
+
+*Driver and binary must be compatible*
+- Linux/OSX (this bot runs on driver v84.0.4147.30, and chrome bin v84.0.4147.89): 
     - Chrome Binary 
     - Chrome Driver
-- Windows:
-    - Firefox Binary
-    - Gecko Driver
 
-## Commands
+## **Commands**
 
 *All commands start with a* `>` *and most commands will require an argument, usually this will be the name of a champion. If the champ has a* **space** *or a* **singlequote** *dont include them in the name. ex: DrMundo, Reksai, Kaisa*
 

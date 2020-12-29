@@ -2,3 +2,4 @@ discord.py>=1.3.4
 selenium
 requests
 riotwatcher
+python-dotenv

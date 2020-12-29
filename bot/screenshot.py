@@ -1,12 +1,12 @@
-from selenium import webdriver
 import json
 import random
 from time import sleep
 from selenium.webdriver.common.keys import Keys
+from driver import get_driver
 
 class Screenshot:
-    def __init__(self, driver, name, prefix=None):
-        self.driver = driver
+    def __init__(self, name, prefix=None):
+        self.driver = get_driver().driver
         self.name = name
         if prefix is None:
             self.url = f'https://www.op.gg/champion/{self.name}/statistics'
@@ -23,8 +23,7 @@ class Screenshot:
             self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
             return seed
         except Exception as e:
-            print('Error in Screenshot')
-            print(e)
+            print(f'Error in Screenshot: {e}')
 
     def build(self):
         try:
@@ -36,8 +35,7 @@ class Screenshot:
             self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
             return seed
         except Exception as e:
-            print('Error in Screenshot')
-            print(e) 
+            print(f'Error in Screenshot: {e}')
 
     def skills(self):
         try:
@@ -75,8 +73,7 @@ class Screenshot:
             self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
             return seed
         except Exception as e:
-            print('Error in Screenshot')
-            print(e)
+            print(f'Error in Screenshot: {e}')
 
     def matchups(self):
         try:
@@ -90,8 +87,7 @@ class Screenshot:
             self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
             return seed
         except Exception as e:
-            print('Error in Screenshot')
-            print(e)
+            print(f'Error in Screenshot: {e}')
 
     def get_match_info(self):
         try:
@@ -102,8 +98,7 @@ class Screenshot:
             self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
             return seed
         except Exception as e:
-            print('Error in Screenshot')
-            print(e)
+            print(f'Error in Screenshot: {e}')
 
     def get_matches(self):
         try:
@@ -115,5 +110,4 @@ class Screenshot:
             self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
             return seed
         except Exception as e:
-            print('Error in Screenshot')
-            print(e)
+            print(f'Error in Screenshot: {e}')

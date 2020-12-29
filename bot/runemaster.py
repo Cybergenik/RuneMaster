@@ -1,37 +1,22 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 import os
 import discord
 from discord.ext import commands
 import re
 import json
 import requests
+from driver import get_driver
+from dotenv import load_dotenv
 from champs import Champ
 from summoner import Summon
 from screenshot import Screenshot
 
-DRIVER = None
-TOKEN = os.getenv('DISCORD_TOKEN')
-if TOKEN != None:
+load_dotenv()
+
+if os.getenv('DISCORD_TOKEN') != None:
     client = discord.Client()
     bot = commands.Bot(command_prefix='>')
 else:
     raise EnvironmentError("DISCORD_TOKEN env variable is not set")
-
-def init_driver():
-    global DRIVER
-    if DRIVER is not None:
-        DRIVER.quit()
-        print('restarting driver...')
-    else:
-        print('Starting web drive for the first time...')
-    options = webdriver.ChromeOptions()
-    options.binary_location = os.getenv("GOOGLE_CHROME_BIN")
-    options.add_argument('--headless')
-    options.add_argument('--disable-dev-shm-usage')
-    options.add_argument('--no-sandbox')
-    DRIVER = webdriver.Chrome(executable_path=os.getenv("CHROMEDRIVER_PATH"), options=options)
-init_driver()
 
 # Global Variable declaration
 with open('bot/tiers.json') as f:
@@ -71,13 +56,12 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    global DRIVER
     temp = os.listdir('temp/')
     if len(temp) >= 20:
         await message.channel.send('Self cleaning, please wait...')
         print("cleaning temp dir...")
         clean_temp(temp=temp)
-        init_driver()
+        get_driver().reset()
         print('Finished clearing cache and driver restarted')
         await message.channel.send('RuneMaster Ready to go!')
         return
@@ -117,7 +101,7 @@ async def on_message(message):
         return
     if re.search('^>reload', message.content, flags=re.IGNORECASE):
         await message.channel.send("Reloading RuneMaster...")
-        init_driver()
+        get_driver().reset()
         await message.channel.send("RuneMaster Ready to go!")
         return
     if re.search('^>>>', message.content, flags=re.IGNORECASE):
@@ -163,7 +147,7 @@ async def on_message(message):
         elif command == '>runes':
             await message.channel.send("Fetching Rune Data...")
             if real_champ(name=args) is not None:
-                info = Screenshot(driver=DRIVER, name=args)
+                info = Screenshot(name=args)
                 seed = info.runes()
                 file = discord.File(f'temp/{seed}.png', filename=f'{seed}.png')
                 await message.channel.send(f"__{args.capitalize()} Runes__",file=file)
@@ -173,7 +157,7 @@ async def on_message(message):
         elif command == '>build':
             await message.channel.send("Fetching Build Data...") 
             if real_champ(name=args) is not None:
-                info = Screenshot(driver=DRIVER, name=args)
+                info = Screenshot(name=args)
                 seed = info.build()
                 file = discord.File(f'temp/{seed}.png', filename=f'{seed}.png')
                 await message.channel.send(f"__{args.capitalize()} Build__",file=file)
@@ -183,7 +167,7 @@ async def on_message(message):
         elif command == '>skills':
             await message.channel.send("Fetching Skills Data...") 
             if real_champ(name=args) is not None:
-                info = Screenshot(driver=DRIVER, name=args)
+                info = Screenshot(name=args)
                 seed = info.skills()
                 file = discord.File(f'temp/{seed}.png', filename=f'{seed}.png')
                 await message.channel.send(f"__{args.capitalize()} Skills__",file=file)
@@ -193,7 +177,7 @@ async def on_message(message):
         elif command == '>stats':
             await message.channel.send("Fetching Stats Data...") 
             if real_champ(name=args) is not None:
-                info = Screenshot(driver=DRIVER, name=args)
+                info = Screenshot(name=args)
                 seed = info.champ_stats()
                 file = discord.File(f'temp/{seed}.png', filename=f'{seed}.png')
                 await message.channel.send(f"__{args.capitalize()} Stats__",file=file)
@@ -203,7 +187,7 @@ async def on_message(message):
         elif command == '>sums':
             await message.channel.send("Fetching Summoner Spell data...") 
             if real_champ(name=args) is not None:
-                info = Screenshot(driver=DRIVER, name=args)
+                info = Screenshot(name=args)
                 seed = info.sums()
                 file = discord.File(f'temp/{seed}.png', filename=f'{seed}.png')
                 await message.channel.send(f"__{args.capitalize()} Summoner Spells__",file=file)
@@ -213,7 +197,7 @@ async def on_message(message):
         elif command == '>matchups':
             await message.channel.send("Fetching Matchup data...") 
             if real_champ(name=args) is not None:
-                info = Screenshot(driver=DRIVER, name=args)
+                info = Screenshot(name=args)
                 seed = info.matchups()
                 file = discord.File(f'temp/{seed}.png', filename=f'{seed}.png')
                 await message.channel.send(f"__{args.capitalize()} Matchups__",file=file)
@@ -263,11 +247,11 @@ async def on_message(message):
             if len(args) > 1:
                 prefix = real_region(region=args[0])
                 if prefix is not None:
-                    player = Screenshot(driver=DRIVER, name=args[1], prefix=prefix)
+                    player = Screenshot(name=args[1], prefix=prefix)
                 else:
                     await message.channel.send("Region does not exist, type *>regions* for a list of regions")
             else:
-                player = Screenshot(driver=DRIVER, name=args[0], prefix='na')
+                player = Screenshot(name=args[0], prefix='na')
             try:
                 seed = player.get_matches()
                 file = discord.File(f'temp/{seed}.png', filename=f'runes{seed}.png')
@@ -278,4 +262,4 @@ async def on_message(message):
         else:
             await message.channel.send('Type `>commands` for a list of commands and how to use them.')
 #endregion
-client.run(TOKEN)
+client.run(os.getenv('DISCORD_TOKEN'))

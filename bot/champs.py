@@ -1,9 +1,3 @@
-from selenium import webdriver
-import os
-import random
-import json
-import requests
-from time import sleep
 
 class Champ():
     def __init__(self, champs, version, champ):
