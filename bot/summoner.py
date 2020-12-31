@@ -48,7 +48,7 @@ class Summon():
                         self.img = f"https://ddragon.leagueoflegends.com/cdn/10.10.3216176/img/champion/{response[champ]['image']['full']}"
                         break
             except:
-                self.champ = "n/a"
+                self.champ = "N/A"
                 self.champ = "./images/default.png"
-                print('masteries were not found')
-            self.url = f'https://{prefix}.op.gg/summoner/username={name}'
+                print('Masteries were not found')
+            self.url = f'https://{prefix}.op.gg/summoner/userName={name}'

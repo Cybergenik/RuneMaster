@@ -26,7 +26,7 @@ A Discord bot for League of Legends
             CHROMEDRIVER_VERSION=84.0.4147.30
             DISCORD_TOKEN=1234
             GOOGLE_CHROME_BIN=/path/to/bin
-        RIOT_API_KEY=1234
+            RIOT_API_KEY=1234
 
 
 
