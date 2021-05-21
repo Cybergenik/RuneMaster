@@ -104,9 +104,10 @@ async def on_message(message):
         await message.channel.send(f"__Old Ranked Tier List__",file=file)
         return
     if re.search('^>reload', message.content, flags=re.IGNORECASE):
-        await message.channel.send("Reloading RuneMaster...")
-        get_driver().reset()
-        await message.channel.send("RuneMaster Ready to go!")
+        if(str(message.author) == "Cybergenik#0666"):
+            await message.channel.send("Reloading RuneMaster...")
+            get_driver().reset()
+            await message.channel.send("RuneMaster Ready to go!")
         return
 #endregion
     if re.search('^>', message.content):
