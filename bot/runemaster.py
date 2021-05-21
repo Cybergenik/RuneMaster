@@ -75,7 +75,7 @@ async def on_message(message):
         await message.channel.send('Ready for the Rift? type >commands for a list of all commands')
         return
 #region Generic commands
-    if re.search('^>hello', message.content, flags=re.IGNORECASE):
+    if re.search('^>(hello|@RuneMaster)', message.content, flags=re.IGNORECASE):
         await message.channel.send('Hello Summoner')
         return
     if re.search('^>commands', message.content, flags=re.IGNORECASE):
