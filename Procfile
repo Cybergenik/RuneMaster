@@ -1,2 +1,2 @@
-release: python3.9 -m playwright install chromium
+release: python -m playwright install
 worker: python bot/runemaster.py
