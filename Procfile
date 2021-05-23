@@ -1,2 +1,1 @@
-release: python -m playwright install
-worker: python bot/runemaster.py
+worker: python -m playwright install chromium && python bot/runemaster.py
