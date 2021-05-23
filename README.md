@@ -10,32 +10,22 @@ A Discord bot for League of Legends
     1. `git clone https://github.com/Cybergenik/RuneMaster`
     2. `cd RuneMaster`
     3. `pip install -r requirements`
-    4. `python bot/runemaster.py`
+    4. `playwright install chromium`
+    5. `python bot/runemaster.py`
 
 ### **Requirements**
 #### Packages:
         - Python 3.9
-        - Selenium 
+        - playwright 
         - requests
         - discord
         - python-dotenv
         - [riotwatcher](https://github.com/pseudonym117/Riot-Watcher)
+
 #### Enviornment Variables:
         Sample .env:
-            CHROMEDRIVER_PATH=/path/to/chromedriver
-            CHROMEDRIVER_VERSION=84.0.4147.30
             DISCORD_TOKEN=1234
-            GOOGLE_CHROME_BIN=/path/to/bin
             RIOT_API_KEY=1234
-
-
-
-### **Driver & Bin**
-
-*Driver and binary must be compatible*
-- Linux/OSX (this bot runs on driver v84.0.4147.30, and chrome bin v84.0.4147.89): 
-    - Chrome Binary 
-    - Chrome Driver
 
 ## **Commands**
 
@@ -46,7 +36,6 @@ A Discord bot for League of Legends
 - <kbd>>hello</kbd>: RuneMaster greets you!
 - <kbd>>commands</kbd>: Returns a list of all the commands
 - <kbd>>help *</kbd>: Returns a tooltip with the usage on a specific command `>help info`
-- <kbd>>reload</kbd>: Reloads the RuneMaster Bot, use this command if you notice that the bot is going slow and has popups in messages.
 - <kbd>>tierlist | tiers</kbd>: Returns an image of the current up to date ranked tier list
 - <kbd>>oldtierlist | oldtiers</kbd>: Returns an image of the old outdated ranked tier list
 - <kbd>>tier *</kbd>: Returns an image of the tier rank specified `>tier gold`
@@ -57,7 +46,9 @@ A Discord bot for League of Legends
 *all of these commands take the name of a player as an arguement(input)* **`>summon KR hideonbush`** 
 
 - <kbd>>summon *</kbd>: Returns information on a Summoner like they're level, rank, player icon. Default region is NA, don't include a region if you just want NA
-- <kbd>>history *</kbd>: Returns an image of the last 5 games in the players match history 
+- <kbd>>matches *</kbd>: Returns an image of the last 10 games in the players entire match history 
+- <kbd>>soloranked_matches *</kbd>: Returns an image of the last 10 games in the players solo ranked match history 
+- <kbd>>flexranked_matches *</kbd>: Returns an image of the last 10 games in the players flex ranked match history 
 
 #### Champion
 
@@ -66,7 +57,5 @@ A Discord bot for League of Legends
 - <kbd>>info *</kbd>: Returns detailed information on a Champion, including description, stats, image
 - <kbd>>runes *</kbd>: Returns an image of the highest win-rate Runes on that champion
 - <kbd>>build *</kbd>: Returns an image of the highest win-rate Build on that champion
-- <kbd>>skills *</kbd>: Returns an image of the highest win-rate Skill order on that champion
-- <kbd>>stats *</kbd>: Returns an image of all the stats for that champion
-- <kbd>>sums *</kbd>: Returns an image of the highest win-rate Summoner Spells on that champion
-- <kbd>>matchups *</kbd>: Returns an image of the best and worst matchups on that champion
+- <kbd>>skills</kbd>, <kbd>>abilities</kbd>, <kbd>>spells</kbd>: Returns an iamge of Summoner Spells, Pick and Win Rate, as well as skill-up order.
+- <kbd>>stats *</kbd>: Returns an image of important stats about the champion like Tier, Abilities, and Champions that counter this champion. 

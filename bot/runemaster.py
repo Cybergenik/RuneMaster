@@ -1,50 +1,12 @@
-import os
-import discord
-from discord.ext import commands
 import re
-import json
-import requests
-from driver import get_driver
-from dotenv import load_dotenv
-from champs import Champ
-from summoner import Summon
-from screenshot import Screenshot
+from discord import Client, Embed, File
+from bot.screenshot import get_screenshot
+from bot.champs import Champ
+from bot.summoner import Summon
+from bot.utils import TOKEN, VERSION, COMMANDS, REGIONS, TIERS, real_champ, real_region
 
-load_dotenv()
 
-if os.getenv('DISCORD_TOKEN') != None:
-    client = discord.Client()
-    bot = commands.Bot(command_prefix='>')
-else:
-    raise EnvironmentError("DISCORD_TOKEN env variable is not set")
-
-# Global Variable declaration
-with open('bot/tiers.json') as f:
-    TIERS = json.load(f)
-with open('bot/regions.json') as f:
-    REGIONS = json.load(f)
-with open('bot/commands.json') as f:
-    COMMANDS = json.load(f)
-VERSION = requests.get('https://ddragon.leagueoflegends.com/api/versions.json').json()[0]
-CHAMPS = requests.get(f'https://ddragon.leagueoflegends.com/cdn/{VERSION}/data/en_US/champion.json').json()['data']
-
-def real_champ(name):
-    _name = name.lower().replace(' ', '')
-    for champ in CHAMPS:
-        if champ.lower() == _name:
-            return champ
-    return None
-
-def real_region(region):
-    for prefix in REGIONS:
-        if REGIONS[prefix] == region.lower():
-            return prefix
-    return None
-
-def clean_temp(temp):
-    for f in temp:
-        if f.endswith('.png'):
-            os.remove(f'temp/{f}')
+client = Client()
 
 @client.event
 async def on_ready():
@@ -56,30 +18,21 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    temp = os.listdir('temp/')
-    if len(temp) >= 20:
-        await message.channel.send('Self cleaning, please wait...')
-        print("cleaning temp dir...")
-        clean_temp(temp=temp)
-        get_driver().reset()
-        print('Finished clearing cache and driver restarted')
-        await message.channel.send('RuneMaster Ready to go!')
-        return
     if message.author == client.user:
         return
     if re.search('^>>> ', message.content, flags=re.IGNORECASE):
         return
     if re.search('^> ', message.content, flags=re.IGNORECASE):
         return
-    if re.search('Runemaster', message.content, flags=re.IGNORECASE):
+    if re.search('@RuneMaster', message.content):
         await message.channel.send('Ready for the Rift? type >commands for a list of all commands')
         return
 #region Generic commands
-    if re.search('^>(hello|@RuneMaster)', message.content, flags=re.IGNORECASE):
+    if re.search('^>hello', message.content, flags=re.IGNORECASE):
         await message.channel.send('Hello Summoner')
         return
     if re.search('^>commands', message.content, flags=re.IGNORECASE):
-        response = discord.Embed(
+        response = Embed(
             title =  "__Runemaster Commands__",
             description = "All commands start with a `>` and most commands will require an argument, usually this will be the name of a champion. If the champ has a space or a singlequote dont include them in the name. ex: DrMundo, Reksai",
         )
@@ -89,25 +42,19 @@ async def on_message(message):
         return       
     if re.search('^>regions', message.content, flags=re.IGNORECASE):
         desc = '\n'.join(REGIONS.values())
-        response = discord.Embed(
+        response = Embed(
             title =  "__Regions__",
             description = desc
         )
         await message.channel.send(embed=response)
         return
     if re.search('^>tierlist|^>tiers', message.content, flags=re.IGNORECASE): 
-        file = discord.File('images/tierlist.png', filename='tierlist.png')
+        file = File('images/tierlist.png', filename='tierlist.png')
         await message.channel.send(f"__Ranked Tier List__",file=file)
         return
     if re.search('^>oldtierlist|^>oldtiers', message.content, flags=re.IGNORECASE):
-        file = discord.File('images/old_tierlist.png', filename='old_tierlist.png')
+        file = File('images/old_tierlist.png', filename='old_tierlist.png')
         await message.channel.send(f"__Old Ranked Tier List__",file=file)
-        return
-    if re.search('^>reload', message.content, flags=re.IGNORECASE):
-        if(str(message.author) == "Cybergenik#0666"):
-            await message.channel.send("Reloading RuneMaster...")
-            get_driver().reset()
-            await message.channel.send("RuneMaster Ready to go!")
         return
 #endregion
     if re.search('^>', message.content):
@@ -122,7 +69,7 @@ async def on_message(message):
         if command == '>help':
             for command in COMMANDS:
                 if args.lower() == command:
-                    response = discord.Embed(
+                    response = Embed(
                         title =  f"__{command.capitalize()} Help__",
                         description = f"{COMMANDS[command]['usage']} \n {COMMANDS[command]['value']}",
                     )   
@@ -134,8 +81,8 @@ async def on_message(message):
         elif command == '>info':
             champ = real_champ(name=args)
             if champ is not None:
-                info = Champ(champ=champ, champs=CHAMPS, version=VERSION)
-                response = discord.Embed(
+                info = Champ(champ=champ)
+                response = Embed(
                     title =  f"__{info.champ} | {info.title}__",
                     description = info.desc,
                     url=info.url
@@ -149,68 +96,44 @@ async def on_message(message):
 
         elif command == '>runes':
             await message.channel.send("Fetching Rune Data...")
-            if real_champ(name=args) is not None:
-                info = Screenshot(name=args)
-                seed = info.runes()
-                file = discord.File(f'temp/{seed}.png', filename=f'{seed}.png')
+            name = real_champ(name=args)
+            if name is not None:
+                file = File(fp=await get_screenshot(name=name, action="runes"), filename=f'{name}.png')
                 await message.channel.send(f"__{args.capitalize()} Runes__",file=file)
             else:
                 await message.channel.send("That champ does not exist")
 
         elif command == '>build':
             await message.channel.send("Fetching Build Data...") 
-            if real_champ(name=args) is not None:
-                info = Screenshot(name=args)
-                seed = info.build()
-                file = discord.File(f'temp/{seed}.png', filename=f'{seed}.png')
+            name = real_champ(name=args)
+            if name is not None:
+                file = File(fp=await get_screenshot(name=name, action="build"), filename=f'{name}.png')
                 await message.channel.send(f"__{args.capitalize()} Build__",file=file)
             else:
                 await message.channel.send("That champ does not exist")
 
-        elif command == '>skills':
+        elif command == '>skills' or command == '>abilities' or command == ">spells":
             await message.channel.send("Fetching Skills Data...") 
-            if real_champ(name=args) is not None:
-                info = Screenshot(name=args)
-                seed = info.skills()
-                file = discord.File(f'temp/{seed}.png', filename=f'{seed}.png')
+            name = real_champ(name=args)
+            if name is not None:
+                file = File(fp=await get_screenshot(name=name, action="skills"), filename=f'{name}.png')
                 await message.channel.send(f"__{args.capitalize()} Skills__",file=file)
             else:
                 await message.channel.send("That champ does not exist")
 
         elif command == '>stats':
             await message.channel.send("Fetching Stats Data...") 
-            if real_champ(name=args) is not None:
-                info = Screenshot(name=args)
-                seed = info.champ_stats()
-                file = discord.File(f'temp/{seed}.png', filename=f'{seed}.png')
+            name = real_champ(name=args)
+            if name is not None:
+                file = File(fp=await get_screenshot(name=name, action="stats"), filename=f'{name}.png')
                 await message.channel.send(f"__{args.capitalize()} Stats__",file=file)
-            else:
-                await message.channel.send("That champ does not exist")
-
-        elif command == '>sums':
-            await message.channel.send("Fetching Summoner Spell data...") 
-            if real_champ(name=args) is not None:
-                info = Screenshot(name=args)
-                seed = info.sums()
-                file = discord.File(f'temp/{seed}.png', filename=f'{seed}.png')
-                await message.channel.send(f"__{args.capitalize()} Summoner Spells__",file=file)
-            else:
-                await message.channel.send("That champ does not exist")
-
-        elif command == '>matchups':
-            await message.channel.send("Fetching Matchup data...") 
-            if real_champ(name=args) is not None:
-                info = Screenshot(name=args)
-                seed = info.matchups()
-                file = discord.File(f'temp/{seed}.png', filename=f'{seed}.png')
-                await message.channel.send(f"__{args.capitalize()} Matchups__",file=file)
             else:
                 await message.channel.send("That champ does not exist")
 #endregion
         
         elif command == '>tier':
             if args in TIERS:
-                file = discord.File(TIERS[args], filename=f'args.png')
+                file = File(TIERS[args], filename=f'args.png')
                 await message.channel.send(f"__{args.capitalize()}__",file=file)
             else:
                 await message.channel.send("That ranked tier does not exist")
@@ -220,15 +143,15 @@ async def on_message(message):
             await message.channel.send("Fetching Summoner data...")
             args = args.split(" ", 1)
             if len(args) > 1:
-                prefix = real_region(region=args[0])
-                if prefix is not None:
-                    player = Summon(name=args[1], region=args[0], prefix=prefix)
+                reg = args[0].lower()
+                if real_region(region=reg):
+                    player = Summon(name=args[1], region=REGIONS[reg], prefix=reg)
                 else:
                     await message.channel.send("Region does not exist, type *>regions* for a list of regions")
             else:
                 player = Summon(name=args[0])
             if player.real_player:
-                response = discord.Embed(
+                response = Embed(
                     title =  f"__{player.name}__" , 
                     url= player.url
                     )
@@ -244,25 +167,28 @@ async def on_message(message):
             else:
                 await message.channel.send("That Summoner does not exist or is on a different region")
 
-        elif command == '>history':
-            await message.channel.send("Fetching Player History data...")
+        elif "matches" in command:
+            await message.channel.send("Fetching Player Match data...")
             args = args.split(" ", 1)
             if len(args) > 1:
-                prefix = real_region(region=args[0])
-                if prefix is not None:
-                    player = Screenshot(name=args[1], prefix=prefix)
-                else:
+                reg = args[0].lower()
+                name = args[1]
+                if not real_region(region=reg):
                     await message.channel.send("Region does not exist, type *>regions* for a list of regions")
+                    return
             else:
-                player = Screenshot(name=args[0], prefix='na')
+                reg = "na"
+                name = args[0]
+            if command == ">soloranked_matches":   action = "soloranked_matches"
+            elif command == ">flexranked_matches": action = "flexranked_matches"
+            elif command == ">matches":            action = "matches"
             try:
-                seed = player.get_matches()
-                file = discord.File(f'temp/{seed}.png', filename=f'runes{seed}.png')
-                await message.channel.send(f'__{player.name} Match History__',file=file)
+                file = File(fp=await get_screenshot(name=args[0], action=action, prefix=reg), filename=f'{args[0]}.png')
+                await message.channel.send(f'__{args[0]} Match History__',file=file)
             except Exception as e:
                 print(e)
                 await message.channel.send("That Summoner does not exist")
         else:
             await message.channel.send('Type `>commands` for a list of commands and how to use them.')
 #endregion
-client.run(os.getenv('DISCORD_TOKEN'))
+client.run(TOKEN)

@@ -1,113 +1,57 @@
-import json
-import random
-from time import sleep
-from selenium.webdriver.common.keys import Keys
-from driver import get_driver
+from io import BytesIO
+from playwright.async_api import async_playwright
 
-class Screenshot:
-    def __init__(self, name, prefix=None):
-        self.driver = get_driver().driver
-        self.name = name
-        if prefix is None:
-            self.url = f'https://www.op.gg/champion/{self.name}/statistics'
+async def startup():
+    playwright = await async_playwright().start()
+    print('Starting web drive for the first time...')
+    browser = await playwright.chromium.launch()
+    while True:
+        yield await browser.new_page()
+
+PW = startup()
+
+async def get_screenshot(name:str, action:str, prefix=None) -> BytesIO:
+    page = await PW.__anext__()
+    if prefix is None:
+        url = f'https://www.op.gg/champion/{name}/statistics'
+    else:
+        if prefix == "kr": prefix = "www"
+        url = f'https://{prefix}.op.gg/summoner/userName={name}'
+    try:
+        await page.goto(url)
+        if action == "runes":
+            await page.set_viewport_size({"width": 734, "height": 607})
+            await page.click("body > div.l-wrap.l-wrap--champion > div.l-container > div > div.tabWrap._recognized > div.l-champion-statistics-content.tabItems > div.tabItem.Content.championLayout-overview > div > div.l-champion-statistics-content__main > div > table")
+        elif action == "build":
+            await page.set_viewport_size({"width": 734, "height": 667})
+            await page.click("body > div.l-wrap.l-wrap--champion > div.l-container > div > div.tabWrap._recognized > div.l-champion-statistics-content.tabItems > div.tabItem.Content.championLayout-overview > div > div.l-champion-statistics-content__main > table:nth-child(2)")
+        elif action == "skills":
+            await page.set_viewport_size({"width": 734, "height": 340})
+            await page.click("body > div.l-wrap.l-wrap--champion > div.l-container > div > div.tabWrap._recognized > div.l-champion-statistics-content.tabItems > div.tabItem.Content.championLayout-overview > div > div.l-champion-statistics-content__main > table.champion-overview__table.champion-overview__table--summonerspell")
+        elif action == "stats":
+            await page.set_viewport_size({"width": 1200, "height": 265})
+            await page.click("body > div.l-wrap.l-wrap--champion > div.l-container > div > div.l-champion-statistics-header")
+        elif action == "matches":
+            await page.set_viewport_size({"width": 690, "height": 1250})
+            await page.click("#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.RealContent > div > div.Content")
+        elif action == "soloranked_matches":
+            await page.click("#right_gametype_soloranked > a")
+            await page.set_viewport_size({"width": 690, "height": 1250})
+            await page.click("#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.RealContent > div > div.Content")
+        elif action == "flexranked_matches":
+            await page.click("#right_gametype_flexranked > a")
+            await page.set_viewport_size({"width": 690, "height": 1250})
+            await page.click("#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.RealContent > div > div.Content")
+        elif action == "leaderboard":
+            await page.click("body > div.l-wrap.l-wrap--summoner > div.l-menu > ul > li:nth-child(6) > a")
+            await page.set_viewport_size({"width": 970, "height": 391})
+            await page.click("body > div.l-wrap.l-wrap--ranking > div.l-container > div.LadderRankingLayoutWrap > div > div > div > div.ranking-highest")
         else:
-            self.url = f'https://{prefix}.op.gg/summoner/userName={self.name}'
+            return None
+    except Exception as e:
+        raise TypeError(f'Error in Screenshot at: {url} :\n {e}')
 
-    def runes(self):
-        try:
-            self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 't')
-            self.driver.get(self.url)
-            self.driver.set_window_size(733,481)
-            seed = str(random.randint(0,99999))
-            self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/div/table/tbody[2]').screenshot(f'temp/{seed}.png')
-            self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
-            return seed
-        except Exception as e:
-            print(f'Error in Screenshot: {e}')
-
-    def build(self):
-        try:
-            self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 't')
-            self.driver.get(self.url)
-            self.driver.set_window_size(733,680)
-            seed = str(random.randint(0,99999))
-            self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[2]').screenshot(f'temp/{seed}.png')
-            self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
-            return seed
-        except Exception as e:
-            print(f'Error in Screenshot: {e}')
-
-    def skills(self):
-        try:
-            self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 't')
-            self.driver.get(self.url)
-            self.driver.set_window_size(734,150)
-            seed = str(random.randint(0,99999))
-            self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[1]/tbody[2]').screenshot(f'temp/{seed}.png')
-            self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
-            return seed
-        except Exception as e:
-            print('Error in Screenshot')
-            print(e) 
-
-    def champ_stats(self):
-        try:
-            self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 't')
-            self.driver.get(self.url)
-            self.driver.set_window_size(334,692)
-            seed = str(random.randint(0,99999))
-            self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[2]/div[1]/div[2]').screenshot(f'temp/{seed}.png')
-            self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
-            return seed
-        except Exception as e:
-            print('Error in Screenshot')
-            print(e)
-
-    def sums(self):
-        try:
-            self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 't')
-            self.driver.get(self.url)
-            self.driver.set_window_size(750,135)
-            seed = str(random.randint(0,99999))
-            self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[1]/div/div[1]/table[1]/tbody[1]').screenshot(f'temp/{seed}.png')
-            self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
-            return seed
-        except Exception as e:
-            print(f'Error in Screenshot: {e}')
-
-    def matchups(self):
-        try:
-            self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 't')
-            self.driver.get(self.url)
-            self.driver.set_window_size(342,620)
-            self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[1]/div/ul/li[6]/a').click()
-            seed = str(random.randint(0,99999))
-            sleep(.5)
-            self.driver.find_element_by_xpath('/html/body/div[2]/div[2]/div/div[2]/div[5]/div[7]/div/div[2]/div[3]').screenshot(f'temp/{seed}.png')
-            self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
-            return seed
-        except Exception as e:
-            print(f'Error in Screenshot: {e}')
-
-    def get_match_info(self):
-        try:
-            self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 't')
-            self.driver.get(self.url)
-            seed = str(random.randint(0,99999))
-            self.driver.find_element_by_xpath('//*[@id="GameAverageStatsBox-summary"]/div[1]').screenshot(f'temp/{seed}.png')
-            self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
-            return seed
-        except Exception as e:
-            print(f'Error in Screenshot: {e}')
-
-    def get_matches(self):
-        try:
-            self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 't')
-            self.driver.get(self.url)
-            seed = str(random.randint(0,99999))
-            self.driver.set_window_size(1080,1920) # May need manual adjustment
-            self.driver.find_element_by_xpath('//*[@id="SummonerLayoutContent"]/div[2]/div[2]/div').screenshot(f'temp/{seed}.png')
-            self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'w')
-            return seed
-        except Exception as e:
-            print(f'Error in Screenshot: {e}')
+    screenshot_bytes = BytesIO(await page.screenshot())
+    await page.close()
+    screenshot_bytes.seek(0)
+    return screenshot_bytes

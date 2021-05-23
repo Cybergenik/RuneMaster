@@ -1,15 +1,12 @@
-import random
-import os
-import json
 import requests
-from dotenv import load_dotenv
 from riotwatcher import LolWatcher
+from bot.utils import RIOT_API_KEY
 
-load_dotenv()
-lol_watcher = LolWatcher(os.getenv("RIOT_API_KEY"))
+lol_watcher = LolWatcher(RIOT_API_KEY)
 
 class Summon():
     def __init__(self, name, region="na1", prefix="na"):
+        if prefix == "kr": prefix = "www"
         try:
             player_info = lol_watcher.summoner.by_name(region, name)
             player_stats = lol_watcher.league.by_summoner(region, player_info['id'])
@@ -41,7 +38,7 @@ class Summon():
             else:
                 self.win = 'N/A' 
             try:
-                mastery = requests.get(f'https://{region}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{player_info["id"]}?api_key={os.getenv("RIOT_API_KEY")}').json()
+                mastery = requests.get(f'https://{region}.api.riotgames.com/lol/champion-mastery/v4/champion-masteries/by-summoner/{player_info["id"]}?api_key={RIOT_API_KEY}').json()
                 for champ in response:
                     if response[champ]['key'] == str(mastery[0]['championId']):
                         self.champ = f"{response[champ]['name']} {mastery[0]['championPoints']}"
