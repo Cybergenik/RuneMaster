@@ -11,7 +11,10 @@ async def startup():
 PW = startup()
 
 async def get_screenshot(name:str, action:str, prefix=None) -> BytesIO:
-    page = await PW.__anext__()
+    try:
+        page = await PW.__anext__()
+    except Exception as e:
+        print(f'Unable to get new page: \n {e}')
     if prefix is None:
         url = f'https://www.op.gg/champion/{name}/statistics'
     else:
