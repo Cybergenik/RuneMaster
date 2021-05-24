@@ -5,6 +5,7 @@ async def startup():
     playwright = await async_playwright().start()
     print('Starting web drive for the first time...')
     browser = await playwright.chromium.launch()
+    print("Launched browser")
     while True:
         yield await browser.new_page()
 
@@ -15,6 +16,7 @@ async def get_screenshot(name:str, action:str, prefix=None) -> BytesIO:
         page = await PW.__anext__()
     except Exception as e:
         print(f'Unable to get new page: \n {e}')
+    print("Got page")
     if prefix is None:
         url = f'https://www.op.gg/champion/{name}/statistics'
     else:
@@ -51,6 +53,7 @@ async def get_screenshot(name:str, action:str, prefix=None) -> BytesIO:
             await page.click("body > div.l-wrap.l-wrap--ranking > div.l-container > div.LadderRankingLayoutWrap > div > div > div > div.ranking-highest")
         else:
             return None
+        print("got element")
     except Exception as e:
         print(f'Error in Screenshot at: {url} :\n {e}')
 
