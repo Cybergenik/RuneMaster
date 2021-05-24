@@ -26,9 +26,7 @@ if RIOT_API_KEY is None:
 
 async def startup():
     playwright = await async_playwright().start()
-    print('Starting web drive for the first time...')
     browser = await playwright.chromium.launch()
-    print("Launched browser")
     while True:
         yield await browser.new_page()
 
