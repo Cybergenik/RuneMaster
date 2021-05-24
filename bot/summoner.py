@@ -12,8 +12,6 @@ class Summon():
             player_stats = lol_watcher.league.by_summoner(region, player_info['id'])
             self.real_player = True
         except Exception as e:
-            print(e)
-            print('bad input for summoner or region')
             self.real_player = False
         if self.real_player:
             self.name = player_info['name']
@@ -47,5 +45,4 @@ class Summon():
             except:
                 self.champ = "N/A"
                 self.champ = "./images/default.png"
-                print('Masteries were not found')
             self.url = f'https://{prefix}.op.gg/summoner/userName={name}'
