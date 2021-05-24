@@ -57,5 +57,5 @@ A Discord bot for League of Legends
 - <kbd>>info *</kbd>: Returns detailed information on a Champion, including description, stats, image
 - <kbd>>runes *</kbd>: Returns an image of the highest win-rate Runes on that champion
 - <kbd>>build *</kbd>: Returns an image of the highest win-rate Build on that champion
-- <kbd>>skills</kbd>, <kbd>>abilities</kbd>, <kbd>>spells</kbd>: Returns an iamge of Summoner Spells, Pick and Win Rate, as well as skill-up order.
+- <kbd>>skills</kbd>, <kbd>>abilities</kbd>, <kbd>>spells</kbd>: Returns an image of Summoner Spells, Pick and Win Rate, as well as skill-up order.
 - <kbd>>stats *</kbd>: Returns an image of important stats about the champion like Tier, Abilities, and Champions that counter this champion. 

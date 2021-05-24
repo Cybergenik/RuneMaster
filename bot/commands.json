@@ -11,10 +11,6 @@
         "value": "Returns a tooltip with the usage on a specific command",
         "usage": "**>help summon**"
     },
-    "reload":{
-        "value": "Reloads the RuneMaster Bot, use this command if you notice that the bot is going slow and has popups in messages.",
-        "usage": "**>reload**"
-    },
     "info":{
         "value": "Returns detailed information on a Champion, including description, stats, image ex: \n ` >info Aatrox `",
         "usage": "**>info**"
@@ -23,9 +19,33 @@
         "value": "Returns information on a Summoner like they're level, rank, player icon. Default region is NA, don't include a region if you just want NA. ex: \n `>summon hideonbush | >summon KR hideonbush`",
         "usage": "**>summon**"
     },
-    "history":{
-        "value": "Returns an image of the last 5 games in the players match history ex: \n ` >history hideonbush | >history KR hideonbush `",
-        "usage": "**>history**"
+    "matches":{
+        "value": "Returns an image of the last 5 games in the players match history ex: \n ` >matches Doublelift | >matches KR hideonbush `",
+        "usage": "**>matches**"
+    },
+    "soloranked_matches":{
+        "value": "Returns an image of the last 5 games in the players match history ex: \n ` >soloranked_matches Doublelift | >soloranked_matches KR hideonbush `",
+        "usage": "**>matches**"
+    },
+    "flexranked_matches":{
+        "value": "Returns an image of the last 5 games in the players match history ex: \n ` >flexranked_matches Doublelift | >flexranked_matches KR hideonbush `",
+        "usage": "**>matches**"
+    },
+    "runes":{
+        "value": "Returns an image of the highest win-rate Runes on that champion ex: \n ` >runes Aatrox `",
+        "usage": "**>runes**"
+    },
+    "build":{
+        "value": "Returns an image of the highest win-rate Build on that champion ex: \n ` >build Aatrox `",
+        "usage": "**>build**"
+    },
+    "skills|abilties|spells":{
+        "value": "Returns an image of Summoner Spells, Pick and Win Rate, as well as skill-up order. ex: \n ` >skills Aatrox `",
+        "usage": "**>skills**"
+    },
+    "stats":{
+        "value": "Returns an image of important stats about the champion like Tier, Abilities, and Champions that counter this champion. ex: \n ` >stats Aatrox `",
+        "usage": "**>stats**"
     },
     "regions":{
         "value": "Returns a list of all regions that you can use to look up ex: \n ` >regions `",
@@ -42,29 +62,5 @@
     "tier":{
         "value": "Returns an image of the tier rank specified: \n ` >tier Gold `",
         "usage": "**>tier**"
-    },
-    "runes":{
-        "value": "Returns an image of the highest win-rate Runes on that champion ex: \n ` >runes Aatrox `",
-        "usage": "**>runes**"
-    },
-    "build":{
-        "value": "Returns an image of the highest win-rate Build on that champion ex: \n ` >build Aatrox `",
-        "usage": "**>build**"
-    },
-    "skills":{
-        "value": "Returns an image of the highest win-rate Skill order on that champion ex: \n ` >skills Aatrox `",
-        "usage": "**>skills**"
-    },
-    "stats":{
-        "value": "Returns an image of all the stats for that champion ex: \n ` >stats Aatrox `",
-        "usage": "**>stats**"
-    },
-    "sums":{
-        "value": "Returns an image of the highest win-rate Summoner Spells on that champion ex: \n ` >sums Aatrox `",
-        "usage": "**>sums**"
-    },
-    "matchups":{
-        "value": "Returns an image of the best and worst matchups on that champion ex: \n ` >matchups Aatrox `",
-        "usage": "**>matchups**"
     }
 }
