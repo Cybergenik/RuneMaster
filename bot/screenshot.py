@@ -1,19 +1,9 @@
 from io import BytesIO
-from playwright.async_api import async_playwright
-
-async def startup():
-    playwright = await async_playwright().start()
-    print('Starting web drive for the first time...')
-    browser = await playwright.chromium.launch()
-    print("Launched browser")
-    while True:
-        yield await browser.new_page()
-
-PW = startup()
+from bot.utils import BROWSER
 
 async def get_screenshot(name:str, action:str, prefix=None) -> BytesIO:
     try:
-        page = await PW.__anext__()
+        page = await BROWSER.__anext__()
     except Exception as e:
         print(f'Unable to get new page: \n {e}')
     print("Got page")
