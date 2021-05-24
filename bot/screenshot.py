@@ -49,7 +49,7 @@ async def get_screenshot(name:str, action:str, prefix=None) -> BytesIO:
         else:
             return None
     except Exception as e:
-        raise TypeError(f'Error in Screenshot at: {url} :\n {e}')
+        print(f'Error in Screenshot at: {url} :\n {e}')
 
     screenshot_bytes = BytesIO(await page.screenshot())
     await page.close()
