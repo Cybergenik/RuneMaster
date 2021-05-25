@@ -67,15 +67,16 @@ async def on_message(message):
             args = _in[1].lower().strip()
 
         if command == '>help':
-            for command in COMMANDS:
-                if args.lower() == command:
-                    response = Embed(
-                        title =  f"__{command.capitalize()} Help__",
-                        description = f"{COMMANDS[command]['usage']} \n {COMMANDS[command]['value']}",
-                    )   
-                    await message.channel.send(embed=response)
-                    return
-            await message.channel.send("Command doesn't exist, type *>commands* for a list of commands")
+            comm = args.lower()
+            if comm in COMMANDS:
+                response = Embed(
+                    title =  f"__{comm.capitalize()} Help__",
+                    description = f"{COMMANDS[comm]['usage']} \n {COMMANDS[comm]['value']}",
+                )   
+                await message.channel.send(embed=response)
+                return
+            else:
+                await message.channel.send("Command doesn't exist, type *>commands* for a list of commands")
 
 #region Champion related commands
         elif command == '>info':
@@ -132,9 +133,10 @@ async def on_message(message):
 #endregion
         
         elif command == '>tier':
-            if args in TIERS:
-                file = File(TIERS[args], filename=f'args.png')
-                await message.channel.send(f"__{args.capitalize()}__",file=file)
+            t = args.lower()
+            if t in TIERS:
+                file = File(TIERS[t], filename=f'tier.png')
+                await message.channel.send(f"__{t.capitalize()}__",file=file)
             else:
                 await message.channel.send("That ranked tier does not exist")
 
