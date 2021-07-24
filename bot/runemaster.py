@@ -1,12 +1,12 @@
 import re
-from discord import Client, Embed, File
+from discord import AutoShardedClient, Embed, File
 from bot.screenshot import get_screenshot
 from bot.champs import Champ
 from bot.summoner import Summon
 from bot.utils import TOKEN, VERSION, COMMANDS, REGIONS, TIERS, real_champ, real_region
 
 
-client = Client()
+client = AutoShardedClient(shards=5)
 
 @client.event
 async def on_ready():
