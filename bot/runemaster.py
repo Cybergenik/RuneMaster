@@ -8,6 +8,7 @@ from bot.utils import TOKEN, VERSION, COMMANDS, REGIONS, TIERS, real_champ, real
 
 client = Client()
 
+#TODO: test something
 @client.event
 async def on_ready():
     print(f'{client.user} has connected to Discord!')
