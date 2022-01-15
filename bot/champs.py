@@ -24,7 +24,7 @@ class Champs:
         return None
 
     def get_champ(self, champ) -> Champ:
-        """Generate the Champ Model object"""
+        """Dynamically generate the Champ Model object"""
         champ_id = get_champs()[champ]['id']
         title = get_champs()[champ_id]['title']
         img = f"https://ddragon.leagueoflegends.com/cdn/{get_version()}/img/champion/{get_champs()[champ_id]['image']['full']}"

@@ -22,6 +22,7 @@ class Players():
         self.riot = LolWatcher(RIOT_API_KEY)
     
     def get_player(self, name, region="na1", prefix="na") -> Player:
+        """Dynamically generate a Player model object to """
         if prefix == "kr": prefix = "www"
         try:
             player_info = self.riot.summoner.by_name(region, name)
