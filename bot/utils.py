@@ -19,7 +19,7 @@ def get_version() -> str:
     return requests.get('https://ddragon.leagueoflegends.com/api/versions.json').json()[0]
 
 @ttl_cache(maxsize=1, ttl=86400) # 86400 : 24 hours
-def get_champs():
+def get_champs() -> list:
     return requests.get(f'https://ddragon.leagueoflegends.com/cdn/{get_version()}/data/en_US/champion.json').json()['data']
 
 TOKEN = os.getenv('DISCORD_TOKEN')

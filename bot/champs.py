@@ -15,7 +15,7 @@ class Champ:
 
 class Champs:
     """Singleton class to dynamically generates a champ upon request"""
-    def real_champ(self, name):
+    def real_champ(self, name) -> str:
         """Check if a champ is real"""
         _name = name.lower().replace(' ', '')
         for champ in get_champs():
@@ -23,7 +23,7 @@ class Champs:
                 return champ
         return None
 
-    def get_champ(self, champ):
+    def get_champ(self, champ) -> Champ:
         """Generate the Champ Model object"""
         champ_id = get_champs()[champ]['id']
         title = get_champs()[champ_id]['title']

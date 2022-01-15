@@ -4,4 +4,3 @@ riotwatcher
 playwright
 python-dotenv
 cachetools>=5.0.0
-async-cache

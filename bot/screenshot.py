@@ -24,7 +24,7 @@ class Browser:
         except Exception as e:
             print(f'Unable to get new page: \n {e}')
 
-    async def get_cached_screenshot(self, name:str, action:str):
+    async def get_cached_screenshot(self, name:str, action:str) -> BytesIO:
         if name in self.__cache:
             return copy(self.__cache[name])
         else:
