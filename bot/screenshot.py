@@ -25,11 +25,12 @@ class Browser:
             print(f'Unable to get new page: \n {e}')
 
     async def get_cached_screenshot(self, name:str, action:str) -> BytesIO:
-        if name in self.__cache:
-            return copy(self.__cache[name])
+        key = f'{action}-{name}'
+        if key in self.__cache:
+            return copy(self.__cache[key])
         else:
             img = await self.__cached_screenshot(name, action)
-            self.__cache[name] = copy(img)
+            self.__cache[key] = copy(img)
         return img
 
     async def __cached_screenshot(self, name:str, action:str) -> BytesIO:
