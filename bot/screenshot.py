@@ -50,6 +50,7 @@ class Browser:
                 await page.click("//html/body/div[1]/div[1]/div[1]")
             else:
                 return None
+            await page.mouse.move(0, 0)
         except Exception as e:
             print(f'Error in Cached Screenshot at: {url} :\n {e}')
             await page.close()
@@ -85,6 +86,7 @@ class Browser:
                 await page.click("//html/body/div[1]/div[5]/div[2]")
             else:
                 return None
+            await page.mouse.move(0, 0)
         except Exception as e:
             print(f'Error in Screenshot at: {url} :\n {e}')
             await page.close()
