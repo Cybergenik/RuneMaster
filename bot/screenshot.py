@@ -6,15 +6,14 @@ from cachetools import TTLCache
 from datetime import datetime, timedelta
 
 async def init_browser():
-    playwright = await async_playwright().start()
-    browser = await playwright.chromium.launch()
-    while True:
-        yield await browser.new_page()
+    async with async_playwright() as p:
+        browser = await p.chromium.launch()
+        return await browser.new_page()
 
 class Browser:
     """Singleton class to represent Playwright Browser for screenshots"""
     def __init__(self):
-        self.__browser = init_browser()
+        self.__browser = init_browser
         self.__cache = TTLCache(maxsize=500, ttl=timedelta(hours=6), timer=datetime.now)
     
     async def __new_page(self) -> Coroutine[Any, Any, Page]:
@@ -55,7 +54,8 @@ class Browser:
                 return None
         except Exception as e:
             print(f'Error in Cached Screenshot at: {url} :\n {e}')
-
+            await page.close()
+            return None
         screenshot_bytes = BytesIO(await page.screenshot())
         await page.close()
         screenshot_bytes.seek(0)
@@ -87,7 +87,8 @@ class Browser:
                 return None
         except Exception as e:
             print(f'Error in Screenshot at: {url} :\n {e}')
-
+            await page.close()
+            return None
         screenshot_bytes = BytesIO(await page.screenshot())
         await page.close()
         screenshot_bytes.seek(0)

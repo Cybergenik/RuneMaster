@@ -27,7 +27,7 @@ async def on_message(message):
         await message.channel.send('Ready for the Rift? type >commands for a list of all commands')
     elif re.search('^>[a-zA-Z]', message.content, flags=re.IGNORECASE):
         _in = message.content.split(' ', 1)
-        command = _in[0].lower()
+        command = _in[0].lkower()
         if len(_in) == 1:
 #region Generic commands
             if command == ">hello":
