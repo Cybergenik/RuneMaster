@@ -5,21 +5,19 @@ from playwright.async_api import async_playwright, Page
 from cachetools import TTLCache
 from datetime import datetime, timedelta
 
-async def init_browser():
-    async with async_playwright() as p:
-        browser = await p.chromium.launch()
-        return await browser.new_page()
-
 class Browser:
     """Singleton class to represent Playwright Browser for screenshots"""
     def __init__(self):
-        self.__browser = init_browser
+        self.__pw = None
         self.__cache = TTLCache(maxsize=500, ttl=timedelta(hours=6), timer=datetime.now)
     
     async def __new_page(self) -> Coroutine[Any, Any, Page]:
         """Creates and returns new page, caller assumes ownership and must close page"""
         try:
-            return await self.__browser.__anext__()
+            if not self.__pw:
+                self.__pw = await async_playwright().start()
+                self.__browser = await self.__pw.chromium.launch()
+            return await self.__browser.new_page()
         except Exception as e:
             print(f'Unable to get new page: \n {e}')
 
@@ -40,16 +38,16 @@ class Browser:
             await page.goto(url)
             if action == "runes":
                 await page.set_viewport_size({"width": 734, "height": 607})
-                await page.click("body > div.l-wrap.l-wrap--champion > div.l-container > div > div.tabWrap._recognized > div.l-champion-statistics-content.tabItems > div.tabItem.Content.championLayout-overview > div > div.l-champion-statistics-content__main > div > table")
+                await page.locator("//html/body/div[1]/div[5]/div[1]/table[3]").click()
             elif action == "build":
                 await page.set_viewport_size({"width": 734, "height": 667})
-                await page.click("body > div.l-wrap.l-wrap--champion > div.l-container > div > div.tabWrap._recognized > div.l-champion-statistics-content.tabItems > div.tabItem.Content.championLayout-overview > div > div.l-champion-statistics-content__main > table:nth-child(2)")
+                await page.locator("//html/body/div[1]/div[5]/div[1]/table[2]").click()
             elif action == "skills":
                 await page.set_viewport_size({"width": 734, "height": 340})
-                await page.click("body > div.l-wrap.l-wrap--champion > div.l-container > div > div.tabWrap._recognized > div.l-champion-statistics-content.tabItems > div.tabItem.Content.championLayout-overview > div > div.l-champion-statistics-content__main > table.champion-overview__table.champion-overview__table--summonerspell")
+                await page.locator("//html/body/div[1]/div[5]/div[1]/table[1]").click()
             elif action == "stats":
                 await page.set_viewport_size({"width": 1200, "height": 265})
-                await page.click("body > div.l-wrap.l-wrap--champion > div.l-container > div > div.l-champion-statistics-header")
+                await page.locator("//html/body/div[1]/div[1]/div[1]").click()
             else:
                 return None
         except Exception as e:
@@ -70,19 +68,19 @@ class Browser:
             await page.goto(url)
             if action == "matches":
                 await page.set_viewport_size({"width": 690, "height": 1250})
-                await page.click("#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.RealContent > div > div.Content")
+                await page.locator("/html/body/div[1]/div[5]/div[2]").click()
             elif action == "soloranked_matches":
-                await page.click("#right_gametype_soloranked > a")
+                await page.locator("/html/body/div[1]/div[5]/div[2]/div[1]/ul/li[2]/button").click()
                 await page.set_viewport_size({"width": 690, "height": 1250})
-                await page.click("#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.RealContent > div > div.Content")
+                await page.locator("/html/body/div[1]/div[5]/div[2]").click()
             elif action == "flexranked_matches":
-                await page.click("#right_gametype_flexranked > a")
+                await page.locator("/html/body/div[1]/div[5]/div[2]/div[1]/ul/li[3]/button").click()
                 await page.set_viewport_size({"width": 690, "height": 1250})
-                await page.click("#SummonerLayoutContent > div.tabItem.Content.SummonerLayoutContent.summonerLayout-summary > div.RealContent > div > div.Content")
+                await page.locator("/html/body/div[1]/div[5]/div[2]").click()
             elif action == "leaderboard":
-                await page.click("body > div.l-wrap.l-wrap--summoner > div.l-menu > ul > li:nth-child(6) > a")
+                #await page.click("body > div.l-wrap.l-wrap--summoner > div.l-menu > ul > li:nth-child(6) > a")
                 await page.set_viewport_size({"width": 970, "height": 391})
-                await page.click("body > div.l-wrap.l-wrap--ranking > div.l-container > div.LadderRankingLayoutWrap > div > div > div > div.ranking-highest")
+                await page.click("/html/body/div[1]/div[5]/div[2]")
             else:
                 return None
         except Exception as e:
@@ -93,3 +91,4 @@ class Browser:
         await page.close()
         screenshot_bytes.seek(0)
         return screenshot_bytes
+

@@ -27,7 +27,7 @@ async def on_message(message):
         await message.channel.send('Ready for the Rift? type >commands for a list of all commands')
     elif re.search('^>[a-zA-Z]', message.content, flags=re.IGNORECASE):
         _in = message.content.split(' ', 1)
-        command = _in[0].lkower()
+        command = _in[0].lower()
         if len(_in) == 1:
 #region Generic commands
             if command == ">hello":
@@ -77,9 +77,9 @@ async def on_message(message):
                 else:
                     await message.channel.send("That ranked tier does not exist, type >tiers for all the tiers.")
             elif command == '>info':
-                champ = CHAMPS.real_champ(name=args)
-                if champ is not None:
-                    info = CHAMPS.get_champ(champ=champ)
+                name = CHAMPS.real_champ(name=args)
+                if name is not None:
+                    info = CHAMPS.get_champ(champ=name)
                     response = Embed(
                         title =  f"__{info.champ} | {info.title}__",
                         description = info.desc,
@@ -94,38 +94,54 @@ async def on_message(message):
             elif command == '>runes':
                 await message.channel.send("Fetching Rune Data...")
                 name = CHAMPS.real_champ(name=args)
-                if name is not None:
-                    file = File(fp=await BROWSER.get_cached_screenshot(name=name, action="runes"), filename=f'{name}.png')
-                    await message.channel.send(f"__{args.capitalize()} Runes__",file=file)
-                else:
+                if name is None:
                     await message.channel.send("That champ does not exist")
+                    return
+                im_bytes = await BROWSER.get_cached_screenshot(name=name, action="runes")
+                if im_bytes is None:
+                    await message.channel.send("Unable to gather runes data :c")
+                    return
+                file = File(fp=im_bytes, filename=f'{name}.png')
+                await message.channel.send(f"__{args.capitalize()} Runes__",file=file)
 
             elif command == '>build':
                 await message.channel.send("Fetching Build Data...") 
                 name = CHAMPS.real_champ(name=args)
-                if name is not None:
-                    file = File(fp=await BROWSER.get_cached_screenshot(name=name, action="build"), filename=f'{name}.png')
-                    await message.channel.send(f"__{args.capitalize()} Build__",file=file)
-                else:
+                if name is None:
                     await message.channel.send("That champ does not exist")
+                    return
+                im_bytes = await BROWSER.get_cached_screenshot(name=name, action="build")
+                if im_bytes is None:
+                    await message.channel.send("Unable to gather build data :c")
+                    return
+                file = File(fp=im_bytes, filename=f'{name}.png')
+                await message.channel.send(f"__{args.capitalize()} Build__",file=file)
 
             elif command == '>skills' or command == '>abilities' or command == ">spells":
                 await message.channel.send("Fetching Skills Data...") 
                 name = CHAMPS.real_champ(name=args)
-                if name is not None:
-                    file = File(fp=await BROWSER.get_cached_screenshot(name=name, action="skills"), filename=f'{name}.png')
-                    await message.channel.send(f"__{args.capitalize()} Skills__",file=file)
-                else:
+                if name is None:
                     await message.channel.send("That champ does not exist")
+                    return
+                im_bytes = await BROWSER.get_cached_screenshot(name=name, action="skills")
+                if im_bytes is None:
+                    await message.channel.send("Unable to gather skills data :c")
+                    return
+                file = File(fp=im_bytes, filename=f'{name}.png')
+                await message.channel.send(f"__{args.capitalize()} Skills__",file=file)
 
             elif command == '>stats':
                 await message.channel.send("Fetching Stats Data...") 
                 name = CHAMPS.real_champ(name=args)
-                if name is not None:
-                    file = File(fp=await BROWSER.get_cached_screenshot(name=name, action="stats"), filename=f'{name}.png')
-                    await message.channel.send(f"__{args.capitalize()} Stats__",file=file)
-                else:
+                if name is None:
                     await message.channel.send("That champ does not exist")
+                    return
+                im_bytes = await BROWSER.get_cached_screenshot(name=name, action="stats")
+                if im_bytes is None:
+                    await message.channel.send("Unable to gather stats data :c")
+                    return
+                file = File(fp=im_bytes, filename=f'{name}.png')
+                await message.channel.send(f"__{args.capitalize()} Stats__",file=file)
             elif command == '>summon':
                 await message.channel.send("Fetching Summoner data...")
                 args = args.split(" ", 1)
