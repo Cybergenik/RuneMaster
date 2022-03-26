@@ -1,10 +1,8 @@
 Runemaster
 ====
 <a href="https://discord.com/api/oauth2/authorize?client_id=713831642061602827&permissions=523328&scope=bot" target="_blank"><img src="images/default.png" alt="Runemaster Icon" width="256" height="256"/></a>
-
-
+===
 A Discord bot for League of Legends! Runemaster is a minimal bot that gives fast and reliable Player, Champion, and Ranking data for League of Legends. It is secure, uses minimal permissions, and is automatically updated to the newest patch.
-
 ## **Commands**
 
 *All commands start with a* `>` *and most commands will require an argument, usually this will be the name of a champion. If the champ has a* **space** *or a* **singlequote** *dont include them in the name. ex: DrMundo, Reksai, Kaisa*
