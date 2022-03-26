@@ -1,10 +1,10 @@
-Runemaster
-====
-<a href="https://discord.com/api/oauth2/authorize?client_id=713831642061602827&permissions=523328&scope=bot" target="_blank"><img src="images/default.png" alt="Runemaster Icon" width="512" height="512"/></a>
-===
-A Discord bot for League of Legends! 
+<h1 align="center">Runemaster</h1>
 
-Runemaster is a minimal bot that gives fast and reliable Player, Champion, and Ranking data for League of Legends. It is secure, uses minimal permissions, and is automatically updated to the newest patch.
+<div align="center"><a href="https://discord.com/api/oauth2/authorize?client_id=713831642061602827&permissions=523328&scope=bot" target="_blank"><img src="images/default.png" align="center" alt="Runemaster Icon" width="512" height="512"/></a></div><br>
+
+<p align="center">
+Runemaster is a minimal League of Legends bot that gives fast and reliable Player, Champion, and Ranking data for League of Legends. It is secure, uses minimal permissions, and is automatically updated to the newest patch.
+</p>
 
 ## **Commands**
 
