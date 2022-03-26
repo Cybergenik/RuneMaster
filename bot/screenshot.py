@@ -38,16 +38,16 @@ class Browser:
             await page.goto(url)
             if action == "runes":
                 await page.set_viewport_size({"width": 734, "height": 607})
-                await page.locator("//html/body/div[1]/div[5]/div[1]/table[3]").click()
+                await page.click("//html/body/div[1]/div[5]/div[1]/table[3]")
             elif action == "build":
                 await page.set_viewport_size({"width": 734, "height": 667})
-                await page.locator("//html/body/div[1]/div[5]/div[1]/table[2]").click()
+                await page.click("//html/body/div[1]/div[5]/div[1]/table[2]")
             elif action == "skills":
                 await page.set_viewport_size({"width": 734, "height": 340})
-                await page.locator("//html/body/div[1]/div[5]/div[1]/table[1]").click()
+                await page.click("//html/body/div[1]/div[5]/div[1]/table[1]")
             elif action == "stats":
                 await page.set_viewport_size({"width": 1200, "height": 265})
-                await page.locator("//html/body/div[1]/div[1]/div[1]").click()
+                await page.click("//html/body/div[1]/div[1]/div[1]")
             else:
                 return None
         except Exception as e:
@@ -68,19 +68,21 @@ class Browser:
             await page.goto(url)
             if action == "matches":
                 await page.set_viewport_size({"width": 690, "height": 1250})
-                await page.locator("/html/body/div[1]/div[5]/div[2]").click()
+                await page.click("//html/body/div[1]/div[5]/div[2]")
             elif action == "soloranked_matches":
-                await page.locator("/html/body/div[1]/div[5]/div[2]/div[1]/ul/li[2]/button").click()
+                await page.click("//html/body/div[1]/div[5]/div[2]/div[1]/ul/li[2]/button")
+                await page.wait_for_selector("//html/body/div[1]/div[5]/div[2]/ul")
                 await page.set_viewport_size({"width": 690, "height": 1250})
-                await page.locator("/html/body/div[1]/div[5]/div[2]").click()
+                await page.click("//html/body/div[1]/div[5]/div[2]")
             elif action == "flexranked_matches":
-                await page.locator("/html/body/div[1]/div[5]/div[2]/div[1]/ul/li[3]/button").click()
+                await page.click("//html/body/div[1]/div[5]/div[2]/div[1]/ul/li[3]/button")
+                await page.wait_for_selector("//html/body/div[1]/div[5]/div[2]/ul")
                 await page.set_viewport_size({"width": 690, "height": 1250})
-                await page.locator("/html/body/div[1]/div[5]/div[2]").click()
+                await page.click("//html/body/div[1]/div[5]/div[2]")
             elif action == "leaderboard":
                 #await page.click("body > div.l-wrap.l-wrap--summoner > div.l-menu > ul > li:nth-child(6) > a")
                 await page.set_viewport_size({"width": 970, "height": 391})
-                await page.click("/html/body/div[1]/div[5]/div[2]")
+                await page.click("//html/body/div[1]/div[5]/div[2]")
             else:
                 return None
         except Exception as e:
